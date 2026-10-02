@@ -4,12 +4,14 @@ A searchable, static website built from the Confluence page **[Style Guide 2.0](
 
 ## Features
 
-- **Search** — live, full-text search across every page, with highlighted matches and snippet previews.
-- **Section navigation** — collapsible sidebar grouped the same way as the Confluence space, with a previous/next footer on every page.
-- **Filterable categories** — chips for each of the 7 sections plus Accessibility / Payments / Errors & Messaging, which dim non-matching pages in the sidebar.
-- **Copy-able examples** — every "do" and "don't" example line gets a small copy button.
+- **KUBRA branding** — KUBRA blue/navy palette with green and yellow accents, Montserrat headings (KUBRA's brand typeface) and Inter body text.
+- **Search** — live, full-text search across every page, with highlighted matches and snippet previews. Press `/` or `⌘K` / `Ctrl K` to jump to it.
+- **Section navigation** — collapsible sidebar grouped the same way as the Confluence space, section landing pages, breadcrumbs, and previous/next links on every page.
+- **On this page** — a sticky table of contents on wide screens that tracks your scroll position.
+- **Topic filters** — Accessibility / Payments / Errors & Messaging chips dim non-matching pages in the sidebar and narrow search results.
+- **Copy-able examples** — every "do" and "don't" example line gets a copy button on hover.
 - **Light / dark mode** — toggle in the header, remembered via `localStorage`, and respects the OS preference by default.
-- No build step, no dependencies — plain HTML/CSS/JS, so it runs the same locally and on GitHub Pages.
+- Fonts load from Google Fonts; otherwise no build step and no dependencies — plain HTML/CSS/JS, so it runs the same locally and on GitHub Pages.
 
 ## Files
 

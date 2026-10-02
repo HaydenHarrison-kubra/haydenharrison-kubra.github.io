@@ -3,9 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KUBRA Style Guide 2.0</title>
+<title>KUBRA Content Style Guide</title>
 <meta name="description" content="Interactive, searchable KUBRA content style guide — voice, tone, accessibility, forms, system messages, compliance, and reference.">
+<meta name="theme-color" content="#03587c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23037eb4'/%3E%3Ctext x='16' y='22.5' font-family='Arial,sans-serif' font-weight='700' font-size='18' fill='white' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
+<script>try{var t=localStorage.getItem("sg-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 </head>
 <body>
 
@@ -52,49 +58,67 @@
 <!--LEAF-TEMPLATES-->
 </div>
 
-<div class="app">
-  <header class="app-header">
-    <button class="icon-btn menu-toggle" id="menuToggle" title="Menu" aria-label="Toggle navigation">☰</button>
-    <div class="brand">📘 KUBRA Style Guide <span class="sub">2.0 · interactive</span></div>
-    <div class="search-wrap">
-      <span class="search-icon">🔎</span>
-      <input id="searchInput" type="text" placeholder="Search the style guide…" autocomplete="off">
-      <button class="search-clear" id="searchClear" title="Clear search">✕</button>
-    </div>
-    <div class="header-actions">
-      <a class="gh-link" href="https://kubra.jira.com/wiki/spaces/CD/pages/2016313568/Style+Guide+2.0" target="_blank" rel="noopener">View source in Confluence ↗</a>
-      <button class="icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle dark mode">☾</button>
-    </div>
-  </header>
+<header class="app-header">
+  <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false" data-icon="menu"></button>
+  <a class="brand" href="#overview" data-route="overview" aria-label="KUBRA Content Style Guide home">
+    <span class="brand-word">KUBRA</span>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-title">Content Style Guide</span>
+    <span class="brand-version">2.0</span>
+  </a>
+  <div class="search" id="search" role="search">
+    <span class="search-icon" data-icon="search"></span>
+    <input id="searchInput" type="search" placeholder="Search guidelines" autocomplete="off" aria-label="Search the style guide">
+    <kbd class="search-kbd" id="searchKbd">/</kbd>
+    <button class="search-clear" id="searchClear" type="button" aria-label="Clear search" data-icon="close"></button>
+  </div>
+  <div class="header-actions">
+    <a class="header-link" href="https://kubra.jira.com/wiki/spaces/CD/pages/2016313568/Style+Guide+2.0" target="_blank" rel="noopener" title="View source in Confluence"><span>Confluence</span><i data-icon="external"></i></a>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode"></button>
+  </div>
+</header>
 
-  <nav class="sidebar" id="sidebar">
-    <div class="tag-filters">
-      <div class="label"><span>Filter by category</span><span class="clear-link" id="clearTags">Clear</span></div>
+<div class="app">
+  <nav class="sidebar" id="sidebar" aria-label="Style guide">
+    <div class="filters">
+      <div class="filters-head"><span>Filter by topic</span><button type="button" class="clear-link" id="clearTags">Clear</button></div>
       <div class="chip-row" id="tagRow"></div>
     </div>
     <div id="sidebarNav"></div>
   </nav>
+  <div class="backdrop" id="backdrop"></div>
 
-  <main class="main">
-    <div id="content"></div>
+  <main class="main" id="main">
+    <div class="main-inner" id="content"></div>
+    <footer class="site-footer">
+      <span class="footer-brand"><b>KUBRA</b><span>Content Style Guide 2.0 · Snapshot of the Confluence Design space</span></span>
+      <a href="https://kubra.jira.com/wiki/spaces/CD/pages/2016313568/Style+Guide+2.0" target="_blank" rel="noopener">Edit source in Confluence</a>
+    </footer>
   </main>
 </div>
 
 <script>
 var SECTIONS = [
-  { slug: "content-structure", name: "Content Structure", icon: "📐",
+  { slug: "content-structure", name: "Content Structure", icon: "layout", color: "#037eb4",
+    blurb: "Titles, headings, links, and tables that make content easy to scan.",
     children: ["titles-and-headings", "hyperlinks", "tables"] },
-  { slug: "foundations", name: "Foundations", icon: "🏛️",
+  { slug: "foundations", name: "Foundations", icon: "landmark", color: "#03587c",
+    blurb: "Voice, tone, accessibility, and the core writing rules behind everything else.",
     children: ["accessibility", "accessibility-high-risk", "content-principles", "formatting", "nouns", "plurals", "special-characters", "tone", "voice"] },
-  { slug: "system-messages", name: "System Messages", icon: "🔊",
+  { slug: "system-messages", name: "System Messages", icon: "message", color: "#e0661a",
+    blurb: "Success, error, and warning messages, banners, tooltips, modals, and empty states.",
     children: ["message-types", "banners", "tooltips", "modals-and-confirmation-dialogs", "empty-states"] },
-  { slug: "controls-and-inputs", name: "Controls and Inputs", icon: "🎛️",
+  { slug: "controls-and-inputs", name: "Controls and Inputs", icon: "sliders", color: "#5e9e2a",
+    blurb: "Button, menu, and list copy that makes every action clear.",
     children: ["buttons-and-ctas", "menus", "lists"] },
-  { slug: "forms-and-flows", name: "Forms and Flows", icon: "📝",
+  { slug: "forms-and-flows", name: "Forms and Flows", icon: "clipboard", color: "#0d8cb8",
+    blurb: "Field labels, placeholders, choices, and instructional text.",
     children: ["forms", "instructional-text"] },
-  { slug: "compliance-and-legal", name: "Compliance and Legal", icon: "⚖️",
+  { slug: "compliance-and-legal", name: "Compliance and Legal", icon: "scale", color: "#546473",
+    blurb: "Consent, PCI, legal content, industry terms, and trademarks.",
     children: ["commercial-communications", "pci-compliance", "legal-content", "industry-specific-language", "copyright-and-trademarks"] },
-  { slug: "reference-and-governance", name: "Reference and Governance", icon: "📖",
+  { slug: "reference-and-governance", name: "Reference and Governance", icon: "book", color: "#b88400",
+    blurb: "Abbreviations, product names, and how to settle copy decisions.",
     children: ["abbreviations-and-acronyms", "product-naming-reference", "decision-guidelines", "writing-resources"] }
 ];
 
