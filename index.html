@@ -91,11 +91,12 @@
   <main class="main" id="main">
     <div class="main-inner" id="content"></div>
     <footer class="site-footer">
-      <span class="footer-brand"><b>KUBRA</b><span>Content Style Guide 2.0 · Snapshot of the Confluence Design space</span></span>
-      <a href="https://kubra.jira.com/wiki/spaces/CD/pages/2016313568/Style+Guide+2.0" target="_blank" rel="noopener">Edit source in Confluence</a>
+      <span class="footer-brand"><b>KUBRA</b><span>Content Style Guide 2.0 · Synced from Confluence <span id="footerSync"></span></span></span>
+      <span class="footer-links"><a href="#changelog" data-route="changelog">Changelog</a><a href="https://kubra.jira.com/wiki/spaces/CD/pages/2016313568/Style+Guide+2.0" target="_blank" rel="noopener">Edit source in Confluence</a></span>
     </footer>
   </main>
 </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 var SECTIONS = [
@@ -162,6 +163,71 @@ var META = [
   { slug: "product-naming-reference", title: "Product Naming Reference", blurb: "Approved formatting for product names.", tags: ["reference-and-governance", "Accessibility"] },
   { slug: "decision-guidelines", title: "Decision Guidelines", blurb: "A decision hierarchy for resolving copy conflicts.", tags: ["reference-and-governance", "Payments"] },
   { slug: "writing-resources", title: "Writing Resources", blurb: "Glossaries and related reference material.", tags: ["reference-and-governance"] }
+];
+
+// Newest first. "content" entries set each page's "Synced from Confluence" date;
+// list the slugs you re-pulled in `pages` (or "all"). "site" entries are site-only changes.
+var CHANGELOG = [
+  { date: "2026-10-02", type: "site", title: "Deep links, search-to-match, glossary, and changelog",
+    notes: [
+      "Every heading has a copy-link button, and links open the page scrolled to that section.",
+      "Opening a search result now jumps to the first match on the page and highlights every match.",
+      "New Glossary of approved product names, abbreviations, and preferred terms.",
+      "Pages show when they were last synced from Confluence, and this changelog tracks updates."
+    ] },
+  { date: "2026-10-02", type: "site", title: "Site redesign",
+    notes: [
+      "New layout with KUBRA branding, section landing pages, and an on-this-page table of contents.",
+      "Restyled do and don't examples, dark mode, and mobile navigation."
+    ] },
+  { date: "2026-10-01", type: "content", title: "Initial snapshot from Confluence", pages: "all",
+    notes: ["Imported Style Guide 2.0 and its 31 sub-pages from the Confluence Design space."] }
+];
+
+// kind: "Product name" | "Third-party brand" | "Abbreviation" | "Preferred term" | "Internal term"
+var GLOSSARY = [
+  { term: "Pay-by-Text", kind: "Product name", note: "SMS program name. Keep the hyphens and capitalization everywhere, including mid-sentence.", avoid: ["Pay by Text", "pay-by-text", "PAY-BY-TEXT"], source: "product-naming-reference" },
+  { term: "EZ-PAY", kind: "Product name", note: "Product name. Use as an adjective (“EZ-PAY service”), not a verb. Add ® only in legal or formal documentation.", avoid: ["EZ-Pay", "EZ PAY", "Ez Pay"], source: "product-naming-reference" },
+  { term: "Storm Center", kind: "Product name", note: "Product name. Two words, both capitalized.", avoid: ["StormCenter", "storm center"], source: "nouns" },
+  { term: "IncidentWatch", kind: "Product name", note: "Product name. One word, camel case.", avoid: ["Incident Watch"], source: "nouns" },
+  { term: "Image Library", kind: "Product name", note: "Platform tool/service name.", avoid: ["image library"], source: "product-naming-reference" },
+  { term: "Payable Types", kind: "Product name", note: "Platform tool/service name.", source: "nouns" },
+  { term: "Retail Cash Payments (RCP)", kind: "Product name", note: "Platform tool/service name. Use the full name in UI; in documentation, RCP may follow the first full mention.", avoid: ["Cash Payments", "Retail Payments"], source: "product-naming-reference" },
+  { term: "Activity Alerts", kind: "Product name", note: "SMS program name. Use lowercase (“activity alerts”) when describing the behavior rather than the program.", source: "nouns" },
+  { term: "Payment Reminders", kind: "Product name", note: "SMS program name. Use lowercase (“payment reminders”) when describing the behavior rather than the program.", source: "nouns" },
+  { term: "PayPal", kind: "Third-party brand", note: "Match the brand’s own capitalization. Attribute in legal or documentation sections, not UI.", avoid: ["Paypal", "PAYPAL"], source: "copyright-and-trademarks" },
+  { term: "Apple Pay", kind: "Third-party brand", note: "Two words.", avoid: ["ApplePay"], source: "copyright-and-trademarks" },
+
+  { term: "ACH", kind: "Abbreviation", note: "Automated Clearing House. Semi-technical; pair with plain language, e.g. “Bank account (ACH)”.", source: "industry-specific-language" },
+  { term: "a.m. / p.m.", kind: "Abbreviation", note: "Preferred time format: lowercase with periods.", source: "abbreviations-and-acronyms" },
+  { term: "CNAME", kind: "Abbreviation", note: "Always fully capitalized. Avoid in consumer UI; if necessary, define it (“System configuration (CNAME)”).", avoid: ["Cname", "cname"], source: "nouns" },
+  { term: "ET", kind: "Abbreviation", note: "Eastern Time. Preferred for general use; only specify EST or EDT when accuracy requires it.", avoid: ["Mixing EST/EDT"], source: "abbreviations-and-acronyms" },
+  { term: "PIN", kind: "Abbreviation", note: "Widely recognized; acceptable in UI when appropriate for your users.", source: "abbreviations-and-acronyms" },
+  { term: "SMS", kind: "Abbreviation", note: "Widely recognized; acceptable in UI.", source: "abbreviations-and-acronyms" },
+  { term: "SUS", kind: "Abbreviation", note: "System Usability Scale. Spell out on first use in documentation; SUS afterward.", source: "abbreviations-and-acronyms" },
+
+  { term: "PAN", kind: "Internal term", note: "Primary Account Number. Don’t use in consumer UI — say “card number”.", source: "industry-specific-language" },
+  { term: "PAN validation", kind: "Internal term", note: "Technical process; lowercase common noun. Never expose in error messages — describe the problem in plain language instead.", source: "nouns" },
+  { term: "RTN", kind: "Internal term", note: "Don’t abbreviate in UI — say “routing number”.", source: "abbreviations-and-acronyms" },
+  { term: "transaction division (TD)", kind: "Internal term", note: "Descriptor; lowercase except at the start of a sentence. Avoid in consumer UI.", avoid: ["Transaction Division", "“Enter your TD”"], source: "nouns" },
+  { term: "tokenization", kind: "Internal term", note: "Internal or technical term. Avoid in consumer UI; define on first use if required.", source: "industry-specific-language" },
+  { term: "Meter ID", kind: "Internal term", note: "Avoid unless required. Prefer user-facing terms like “account number” or “service address”.", avoid: ["service unit identifier"], source: "industry-specific-language" },
+
+  { term: "account number", kind: "Preferred term", note: "Utility-specific term users recognize.", source: "industry-specific-language" },
+  { term: "amount due", kind: "Preferred term", note: "Use “amount due” or “payment amount” for amounts.", avoid: ["Total (if unclear what it includes)", "Balance (unless defined)"], source: "industry-specific-language" },
+  { term: "autopay", kind: "Preferred term", note: "Semi-technical; use with care and add helper text if clarification is needed.", source: "industry-specific-language" },
+  { term: "billing period", kind: "Preferred term", note: "Utility-specific term users recognize.", source: "industry-specific-language" },
+  { term: "card number", kind: "Preferred term", note: "Use instead of PAN.", avoid: ["PAN"], source: "abbreviations-and-acronyms" },
+  { term: "due date", kind: "Preferred term", note: "Use specific timing terms like “due date” or “processing date”.", avoid: ["Soon", "Upcoming"], source: "industry-specific-language" },
+  { term: "late fee", kind: "Preferred term", note: "Name fees specifically.", avoid: ["Additional charges"], source: "industry-specific-language" },
+  { term: "payment amount", kind: "Preferred term", note: "User-familiar term; needs no explanation.", source: "industry-specific-language" },
+  { term: "processing date", kind: "Preferred term", note: "Specific timing term.", avoid: ["Soon", "Upcoming"], source: "industry-specific-language" },
+  { term: "recurring payment", kind: "Preferred term", note: "Semi-technical; don’t introduce multiple terms for the same concept.", source: "industry-specific-language" },
+  { term: "routing number", kind: "Preferred term", note: "Helper text: “A 9-digit number used to identify your bank.”", avoid: ["RTN"], source: "industry-specific-language" },
+  { term: "service address", kind: "Preferred term", note: "Utility-specific term users recognize.", source: "industry-specific-language" },
+  { term: "service fee", kind: "Preferred term", note: "Financial concept; lowercase common noun.", avoid: ["Additional charges", "Processing fee (unless defined and consistent)"], source: "industry-specific-language" },
+  { term: "snapshot", kind: "Preferred term", note: "General system artifact; lowercase common noun.", source: "nouns" },
+  { term: "workspace", kind: "Preferred term", note: "Generic UI concept; lowercase common noun.", source: "nouns" }
 ];
 </script>
 <script src="app.js"></script>

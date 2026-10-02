@@ -5,7 +5,10 @@ A searchable, static website built from the Confluence page **[Style Guide 2.0](
 ## Features
 
 - **KUBRA branding** — KUBRA blue/navy palette with green and yellow accents, Montserrat headings (KUBRA's brand typeface) and Inter body text.
-- **Search** — live, full-text search across every page, with highlighted matches and snippet previews. Press `/` or `⌘K` / `Ctrl K` to jump to it.
+- **Search** — live, full-text search across every page and the glossary, with highlighted snippet previews. Press `/` or `⌘K` / `Ctrl K` to jump to it, and `Enter` to open the top result. Opening a result scrolls to the first match on the page and highlights every match, with a bar to step through them.
+- **Deep links** — every heading has a copy-link button; links like `#buttons-and-ctas/avoid-the-word-click` open the page scrolled to that section.
+- **Glossary** — an A–Z, filterable list of approved product names, abbreviations, preferred terms, and internal terms to avoid, each linked back to its source page.
+- **Changelog and sync dates** — every page shows when it was last synced from Confluence, driven by the changelog page.
 - **Section navigation** — collapsible sidebar grouped the same way as the Confluence space, section landing pages, breadcrumbs, and previous/next links on every page.
 - **On this page** — a sticky table of contents on wide screens that tracks your scroll position.
 - **Topic filters** — Accessibility / Payments / Errors & Messaging chips dim non-matching pages in the sidebar and narrow search results.
@@ -15,24 +18,31 @@ A searchable, static website built from the Confluence page **[Style Guide 2.0](
 
 ## Files
 
-- `index.html` — page shell, navigation metadata (`SECTIONS` / `META`), and every page's content as `<template>` elements.
+- `index.html` — page shell; site data (`SECTIONS`, `META`, `CHANGELOG`, `GLOSSARY`); and every page's content as `<template>` elements.
 - `styles.css` — all styling, including light/dark theme tokens.
-- `app.js` — rendering, routing (hash-based), search, filters, copy buttons, and theme toggle.
+- `app.js` — rendering, routing (`#page` or `#page/section`), search, filters, glossary, changelog, copy buttons, and theme toggle.
 
-## Publishing to GitHub Pages
+## Publishing
 
-You already have the repo at **github.com/HaydenHarrison-kubra/haydenharrison-kubra.github.io** — since it's named `<username>.github.io`, GitHub serves it automatically from the `main` branch root with no extra configuration needed once these files are pushed.
+The site is live at **https://haydenharrison-kubra.github.io/**. GitHub Pages serves the `main` branch root of this repo, so publishing is just:
 
-1. Copy `index.html`, `styles.css`, and `app.js` into your local clone of the repo (root level — not a subfolder).
-2. Commit and push:
-   ```
-   git add index.html styles.css app.js README.md
-   git commit -m "Add interactive style guide site"
-   git push origin main
-   ```
-3. Give it a minute, then visit `https://haydenharrison-kubra.github.io/`.
-4. If it doesn't appear, check **Settings → Pages** in the repo and confirm the source is set to "Deploy from a branch" → `main` → `/ (root)`.
+```
+git add index.html styles.css app.js README.md
+git commit -m "Describe the change"
+git push origin main
+```
+
+The update appears a minute or two after pushing.
 
 ## Keeping it in sync with Confluence
 
-This is a snapshot of the Confluence content as of today. Confluence remains the editable source of truth — when the style guide changes there, the fastest way to update this site is to ask Claude to re-pull the updated page(s) and regenerate the matching `<template>` block(s) in `index.html`. There's no live/automatic sync between Confluence and this site.
+This is a snapshot of the Confluence content. Confluence remains the editable source of truth; there's no automatic sync. When the style guide changes there:
+
+1. Re-pull the updated page(s) and regenerate the matching `<template>` block(s) in `index.html` (asking Claude to do this is the fastest way).
+2. Add an entry to the top of `CHANGELOG` in `index.html` with `type: "content"` and the slugs you updated in `pages`, e.g.
+   ```js
+   { date: "2026-11-15", type: "content", title: "Updated button guidance", pages: ["buttons-and-ctas"],
+     notes: ["Added guidance on loading-state button labels."] },
+   ```
+   Those pages' "Synced from Confluence" dates update automatically. Use `pages: "all"` for a full re-sync.
+3. If product names, abbreviations, or preferred terms changed, update the matching entries in `GLOSSARY`.

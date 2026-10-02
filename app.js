@@ -14,6 +14,11 @@
     copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
     check: '<path d="M20 6 9 17l-5-5"/>',
     chevron: '<path d="m6 9 6 6 6-6"/>',
+    chevronUp: '<path d="m18 15-6-6-6 6"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    history: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3.5 2"/>',
+    glossary: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="m8.5 13 3.5-7 3.5 7M9.6 11h4.8"/>',
     home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
     layout: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
     landmark: '<path d="M3 21h18M5 18v-7M9.5 18v-7M14.5 18v-7M19 18v-7M12 3l9 5H3z"/>',
@@ -35,10 +40,36 @@
     "</svg>";
 
   var START_HERE = ["voice", "tone", "accessibility", "buttons-and-ctas", "message-types", "decision-guidelines"];
+  var EXTRA_ROUTES = {
+    glossary: { title: "Glossary", icon: "glossary" },
+    changelog: { title: "Changelog", icon: "history" }
+  };
+  var KIND_COLORS = {
+    "Product name": "#037eb4",
+    "Third-party brand": "#546473",
+    "Abbreviation": "#b88400",
+    "Preferred term": "#5e9e2a",
+    "Internal term": "#e0661a"
+  };
+  var CHANGE_TYPES = {
+    content: { label: "Content", color: "#5e9e2a" },
+    site: { label: "Site", color: "#037eb4" }
+  };
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  var state = { activeSlug: "overview", activeTags: [], query: "", exampleCount: 0 };
+  var state = {
+    activeSlug: "overview",
+    renderedSlug: null,
+    forceRender: false,
+    activeTags: [],
+    query: "",
+    pendingHighlight: null,
+    exampleCount: 0,
+    glossKinds: []
+  };
   var els = {};
   var tocObserver = null;
+  var toastTimer = null;
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -55,7 +86,12 @@
   }
 
   function slugify(s) {
-    return "h-" + s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  function formatDate(iso) {
+    var p = iso.split("-");
+    return MONTHS[parseInt(p[1], 10) - 1] + " " + parseInt(p[2], 10) + ", " + p[0];
   }
 
   function pageBySlug(slug) { return META.find(function (m) { return m.slug === slug; }); }
@@ -63,11 +99,13 @@
   function sectionFor(slug) {
     return SECTIONS.find(function (s) { return s.slug === slug || s.children.indexOf(slug) !== -1; });
   }
-  function isRoute(slug) { return slug === "overview" || !!sectionBySlug(slug) || !!pageBySlug(slug); }
+  function isRoute(slug) { return slug === "overview" || !!EXTRA_ROUTES[slug] || !!sectionBySlug(slug) || !!pageBySlug(slug); }
   function secStyle(sec) { return ' style="--c:' + sec.color + '"'; }
+  function colorStyle(c) { return ' style="--c:' + c + '"'; }
 
   function getTemplate(slug) { return document.querySelector('template[data-page="' + slug + '"]'); }
   function getTemplateHTML(slug) { var t = getTemplate(slug); return t ? t.innerHTML : ""; }
+
   var textCache = {};
   function getTemplateText(slug) {
     if (textCache[slug] !== undefined) return textCache[slug];
@@ -80,6 +118,25 @@
     while ((n = walker.nextNode())) parts.push(n.nodeValue);
     textCache[slug] = parts.join(" ").replace(/[✅❌]️?/g, "").replace(/\s+/g, " ").replace(/\s+([.,;:!?)])/g, "$1").trim();
     return textCache[slug];
+  }
+
+  // ---------- Changelog dates ----------
+  function lastSynced(slug) {
+    var latest = null;
+    CHANGELOG.forEach(function (e) {
+      if (e.type !== "content") return;
+      var hit = e.pages === "all" || (slug && (e.pages || []).indexOf(slug) !== -1) || !slug;
+      if (hit && (!latest || e.date > latest)) latest = e.date;
+    });
+    return latest;
+  }
+
+  function docMeta(slug) {
+    var d = lastSynced(slug);
+    if (!d) return "";
+    return '<div class="doc-meta">' + icon("clock") +
+      '<span>Synced from Confluence <time datetime="' + d + '">' + formatDate(d) + "</time></span>" +
+      '<span class="dot" aria-hidden="true">·</span><a href="#changelog" data-route="changelog">Changelog</a></div>';
   }
 
   // ---------- Theme ----------
@@ -108,11 +165,28 @@
       var t = getTemplate(m.slug);
       if (t) state.exampleCount += t.content.querySelectorAll('td[style*="e3fcef"] li, td[style*="ffebe6"] li').length;
     });
+    GLOSSARY.forEach(function (g) {
+      g.anchor = slugify(g.term);
+      g._text = [g.term, g.kind, g.note].concat(g.avoid || []).join(" ").toLowerCase();
+    });
+    GLOSSARY.sort(function (a, b) { return a.term.toLowerCase().localeCompare(b.term.toLowerCase()); });
+  }
+
+  // ---------- Toast ----------
+  function toast(msg) {
+    els.toast.textContent = msg;
+    els.toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { els.toast.classList.remove("show"); }, 1800);
   }
 
   // ---------- Sidebar ----------
+  function navTop(slug, label, ic) {
+    return '<a class="nav-top" href="#' + slug + '" data-route="' + slug + '">' + icon(ic) + "<span>" + esc(label) + "</span></a>";
+  }
+
   function renderSidebar() {
-    var html = '<a class="nav-home" href="#overview" data-route="overview">' + icon("home") + "<span>Overview</span></a>";
+    var html = navTop("overview", "Overview", "home");
     html += '<div class="nav-label">Sections</div>';
     SECTIONS.forEach(function (sec) {
       html += '<div class="nav-section" data-section="' + sec.slug + '"' + secStyle(sec) + ">";
@@ -125,6 +199,10 @@
         if (page) html += '<a class="nav-leaf" href="#' + slug + '" data-route="' + slug + '">' + esc(page.title) + "</a>";
       });
       html += "</div></div>";
+    });
+    html += '<div class="nav-label">Resources</div>';
+    Object.keys(EXTRA_ROUTES).forEach(function (slug) {
+      html += navTop(slug, EXTRA_ROUTES[slug].title, EXTRA_ROUTES[slug].icon);
     });
     els.sidebarNav.innerHTML = html;
 
@@ -217,9 +295,9 @@
     });
   }
 
-  function copyText(text, onDone) {
+  function copyText(text, onDone, onFail) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(onDone).catch(function () {});
+      navigator.clipboard.writeText(text).then(onDone).catch(function () { if (onFail) onFail(); });
       return;
     }
     try {
@@ -232,7 +310,7 @@
       document.execCommand("copy");
       document.body.removeChild(ta);
       onDone();
-    } catch (err) {}
+    } catch (err) { if (onFail) onFail(); }
   }
 
   function addCopyButtons(container) {
@@ -261,6 +339,27 @@
     });
   }
 
+  function anchorLink(slug, anchor, label) {
+    return '<a class="anchor" href="#' + slug + "/" + anchor + '" data-copy-anchor="' + anchor + '" title="Copy link to this section" aria-label="Copy link to ' + esc(label) + '">' + icon("link") + "</a>";
+  }
+
+  // Gives every h2/h3 a stable id and a copy-link button; returns the h2s for the TOC.
+  function addHeadingAnchors(container, slug) {
+    var used = {};
+    var h2s = [];
+    $all("h2, h3", container).forEach(function (h) {
+      var label = h.textContent.trim();
+      var anchor = slugify(label) || "section";
+      used[anchor] = (used[anchor] || 0) + 1;
+      if (used[anchor] > 1) anchor += "-" + used[anchor];
+      h.id = "a-" + anchor;
+      h.setAttribute("data-anchor-name", anchor);
+      h.insertAdjacentHTML("beforeend", anchorLink(slug, anchor, label));
+      if (h.tagName === "H2") h2s.push({ el: h, anchor: anchor, label: label });
+    });
+    return h2s;
+  }
+
   function enhanceContent(container) {
     wrapTables(container);
     decorateDoDont(container);
@@ -272,38 +371,118 @@
   }
 
   // ---------- Table of contents ----------
-  function buildToc(article, layout) {
+  function buildToc(layout, heads, slug) {
     var tocEl = $(".toc", layout);
-    var heads = $all(".content h2", article);
-    if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
     if (heads.length < 2) {
       tocEl.remove();
       layout.classList.add("no-toc");
       return;
     }
-    var used = {};
     var html = '<div class="toc-title">On this page</div>';
     heads.forEach(function (h) {
-      var id = slugify(h.textContent);
-      used[id] = (used[id] || 0) + 1;
-      if (used[id] > 1) id += "-" + used[id];
-      h.id = id;
-      html += '<a href="#' + state.activeSlug + '" data-toc="' + id + '">' + esc(h.textContent) + "</a>";
+      html += '<a href="#' + slug + "/" + h.anchor + '" data-anchor="' + h.anchor + '">' + esc(h.label) + "</a>";
     });
     tocEl.innerHTML = html;
 
     if (!("IntersectionObserver" in window)) return;
     tocObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) setActiveToc(en.target.id); });
+      entries.forEach(function (en) { if (en.isIntersecting) setActiveToc(en.target.getAttribute("data-anchor-name")); });
     }, { rootMargin: "-80px 0px -70% 0px" });
-    heads.forEach(function (h) { tocObserver.observe(h); });
-    setActiveToc(heads[0].id);
+    heads.forEach(function (h) { tocObserver.observe(h.el); });
+    setActiveToc(heads[0].anchor);
   }
 
-  function setActiveToc(id) {
+  function setActiveToc(anchor) {
     $all(".toc a", els.content).forEach(function (a) {
-      a.classList.toggle("active", a.getAttribute("data-toc") === id);
+      a.classList.toggle("active", a.getAttribute("data-anchor") === anchor);
     });
+  }
+
+  function scrollToAnchor(anchor, smooth) {
+    var el = document.getElementById("a-" + anchor);
+    if (!el) return false;
+    el.scrollIntoView({ behavior: smooth && !reduceMotion ? "smooth" : "auto", block: "start" });
+    el.classList.remove("flash");
+    void el.offsetWidth;
+    el.classList.add("flash");
+    return true;
+  }
+
+  // ---------- In-page match highlighting ----------
+  function highlight(container, query) {
+    var regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig");
+    var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    var nodes = [];
+    var n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function (node) {
+      regex.lastIndex = 0;
+      if (!regex.test(node.nodeValue)) return;
+      regex.lastIndex = 0;
+      var frag = document.createDocumentFragment();
+      var last = 0, m;
+      while ((m = regex.exec(node.nodeValue))) {
+        frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
+        var mark = document.createElement("mark");
+        mark.textContent = m[0];
+        frag.appendChild(mark);
+        last = m.index + m[0].length;
+      }
+      frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  var matchState = { marks: [], index: 0 };
+
+  function showMatches(query) {
+    var content = $(".doc .content", els.content);
+    if (!content) return;
+    highlight(content, query);
+    var marks = $all("mark", content);
+    if (!marks.length) return;
+    matchState = { marks: marks, index: 0 };
+
+    var bar = document.createElement("div");
+    bar.className = "match-bar";
+    bar.setAttribute("role", "region");
+    bar.setAttribute("aria-label", "Search matches");
+    bar.innerHTML = icon("search") +
+      '<span class="mb-text"><b class="mb-pos"></b> for “' + esc(query) + "”</span>" +
+      '<button type="button" class="mb-btn" data-match="prev" aria-label="Previous match">' + icon("chevronUp") + "</button>" +
+      '<button type="button" class="mb-btn" data-match="next" aria-label="Next match">' + icon("chevron") + "</button>" +
+      '<button type="button" class="mb-btn" data-match="clear" aria-label="Clear highlights">' + icon("close") + "</button>";
+    content.parentNode.insertBefore(bar, content);
+    bar.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-match]");
+      if (!b) return;
+      var action = b.getAttribute("data-match");
+      if (action === "clear") clearMatches();
+      else goToMatch(matchState.index + (action === "next" ? 1 : -1), true);
+    });
+    goToMatch(0, false);
+  }
+
+  function goToMatch(i, smooth) {
+    var marks = matchState.marks;
+    if (!marks.length) return;
+    matchState.index = (i + marks.length) % marks.length;
+    marks.forEach(function (m, j) { m.classList.toggle("current", j === matchState.index); });
+    var target = marks[matchState.index];
+    var top = target.getBoundingClientRect().top + window.pageYOffset - window.innerHeight / 3;
+    window.scrollTo({ top: Math.max(0, top), behavior: smooth && !reduceMotion ? "smooth" : "auto" });
+    var pos = $(".match-bar .mb-pos", els.content);
+    if (pos) pos.textContent = (matchState.index + 1) + " of " + marks.length + " match" + (marks.length === 1 ? "" : "es");
+  }
+
+  function clearMatches() {
+    var content = $(".doc .content", els.content);
+    if (!content) return;
+    $all("mark", content).forEach(function (m) { m.replaceWith(document.createTextNode(m.textContent)); });
+    content.normalize();
+    var bar = $(".match-bar", els.content);
+    if (bar) bar.remove();
+    matchState = { marks: [], index: 0 };
   }
 
   // ---------- Pages ----------
@@ -330,6 +509,7 @@
       stat(SECTIONS.length, "Sections") +
       stat(META.length, "Guideline pages") +
       stat(state.exampleCount, "Do & don’t examples") +
+      stat(GLOSSARY.length, "Glossary terms") +
       "</dl></section>";
 
     html += '<section class="home-block"><div class="block-head"><h2>Browse by section</h2><p>Organized the same way as the Confluence space</p></div><div class="section-grid">';
@@ -347,13 +527,23 @@
       var page = pageBySlug(slug);
       var sec = sectionFor(slug);
       if (!page || !sec) return;
-      html += '<a class="quick-link" href="#' + slug + '" data-route="' + slug + '"' + secStyle(sec) + ">" +
-        '<span><span class="eyebrow">' + esc(sec.name) + '</span><span class="ql-title">' + esc(page.title) + "</span></span>" +
-        icon("arrowRight") + "</a>";
+      html += quickLink(slug, sec.name, page.title, sec.color);
     });
     html += "</div></section>";
 
+    var synced = lastSynced();
+    html += '<section class="home-block"><div class="block-head"><h2>Resources</h2></div><div class="quick-grid">';
+    html += quickLink("glossary", GLOSSARY.length + " terms", "Glossary", "#b88400");
+    html += quickLink("changelog", synced ? "Synced " + formatDate(synced) : "Updates", "Changelog", "#5e9e2a");
+    html += "</div></section>";
+
     els.content.innerHTML = html;
+  }
+
+  function quickLink(slug, eyebrow, title, color) {
+    return '<a class="quick-link" href="#' + slug + '" data-route="' + slug + '"' + colorStyle(color) + ">" +
+      '<span><span class="eyebrow">' + esc(eyebrow) + '</span><span class="ql-title">' + esc(title) + "</span></span>" +
+      icon("arrowRight") + "</a>";
   }
 
   function renderSectionLanding(sec) {
@@ -372,6 +562,7 @@
     });
     html += "</div>";
     els.content.innerHTML = html;
+    enhanceContent(els.content);
   }
 
   function renderLeafPage(page, sec) {
@@ -388,6 +579,7 @@
     if (topics.length) {
       html += '<div class="page-tags">' + topics.map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") + "</div>";
     }
+    html += docMeta(page.slug);
     html += "</header>";
     html += '<div class="content">' + getTemplateHTML(page.slug) + "</div>";
 
@@ -401,63 +593,214 @@
 
     els.content.innerHTML = html;
     var layout = $(".doc-layout", els.content);
-    enhanceContent($(".content", layout));
-    buildToc($(".doc", layout), layout);
+    var content = $(".content", layout);
+    enhanceContent(content);
+    buildToc(layout, addHeadingAnchors(content, page.slug), page.slug);
   }
 
+  // ---------- Glossary ----------
+  function renderGlossary() {
+    var sources = {};
+    GLOSSARY.forEach(function (g) { sources[g.source] = true; });
+    var kinds = Object.keys(KIND_COLORS);
+    state.glossKinds = [];
+
+    var html = breadcrumb([crumbLink("overview", "Style Guide"), "<span>Glossary</span>"]);
+    html += '<header class="doc-head"><div class="eyebrow">Resources</div><h1 class="page-title">Glossary</h1>';
+    html += '<p class="page-lead">Approved product names, abbreviations, and preferred terms, compiled from ' + Object.keys(sources).length + " reference pages in this guide.</p>";
+    html += docMeta() + "</header>";
+    html += '<div class="gloss-tools">' +
+      '<label class="gloss-search">' + icon("search") + '<input id="glossFilter" type="search" placeholder="Filter ' + GLOSSARY.length + ' terms" autocomplete="off" aria-label="Filter glossary terms"></label>' +
+      '<div class="chip-row" id="glossKinds">' + kinds.map(function (k) {
+        return '<button type="button" class="chip kind-chip" data-kind="' + esc(k) + '" aria-pressed="' + (state.glossKinds.indexOf(k) !== -1) + '"' + colorStyle(KIND_COLORS[k]) + '><span class="kind-dot"></span>' + esc(k) + "</button>";
+      }).join("") + "</div></div>";
+    html += '<nav class="az-bar" id="azBar" aria-label="Jump to letter"></nav><div id="glossList"></div>';
+    els.content.innerHTML = html;
+
+    var input = $("#glossFilter", els.content);
+    input.addEventListener("input", drawGlossary);
+    $all("[data-kind]", els.content).forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var k = chip.getAttribute("data-kind");
+        var i = state.glossKinds.indexOf(k);
+        if (i === -1) state.glossKinds.push(k); else state.glossKinds.splice(i, 1);
+        chip.setAttribute("aria-pressed", String(i === -1));
+        drawGlossary();
+      });
+    });
+    drawGlossary();
+  }
+
+  function drawGlossary() {
+    var q = ($("#glossFilter", els.content).value || "").trim().toLowerCase();
+    var items = GLOSSARY.filter(function (g) {
+      return (!q || g._text.indexOf(q) !== -1) && (!state.glossKinds.length || state.glossKinds.indexOf(g.kind) !== -1);
+    });
+
+    var groups = {};
+    items.forEach(function (g) {
+      var letter = g.term.charAt(0).toUpperCase();
+      if (!/[A-Z]/.test(letter)) letter = "#";
+      (groups[letter] = groups[letter] || []).push(g);
+    });
+
+    var az = "";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(function (L) {
+      az += groups[L]
+        ? '<a href="#glossary/letter-' + L.toLowerCase() + '" data-anchor="letter-' + L.toLowerCase() + '">' + L + "</a>"
+        : '<span aria-hidden="true">' + L + "</span>";
+    });
+    $("#azBar", els.content).innerHTML = az;
+
+    var list = $("#glossList", els.content);
+    if (!items.length) {
+      list.innerHTML = '<div class="empty"><strong>No matching terms</strong>Try a different word or clear the type filters.</div>';
+      return;
+    }
+    var html = "";
+    Object.keys(groups).sort().forEach(function (L) {
+      html += '<section class="gloss-group"><h2 class="gloss-letter" id="a-letter-' + L.toLowerCase() + '">' + L + '</h2><div class="gloss-list">';
+      groups[L].forEach(function (g) {
+        var src = pageBySlug(g.source);
+        html += '<article class="gloss-item" id="a-' + g.anchor + '"' + colorStyle(KIND_COLORS[g.kind]) + ">" +
+          '<div class="gi-head"><h3 class="gi-term">' + esc(g.term) + "</h3>" + anchorLink("glossary", g.anchor, g.term) +
+          '<span class="kind">' + esc(g.kind) + "</span></div>" +
+          '<p class="gi-note">' + esc(g.note) + "</p>";
+        if (g.avoid && g.avoid.length) {
+          html += '<div class="gi-avoid"><span class="gi-label">Not</span>' + g.avoid.map(function (a) { return "<s>" + esc(a) + "</s>"; }).join("") + "</div>";
+        }
+        if (src) html += '<a class="gi-source" href="#' + src.slug + '" data-route="' + src.slug + '">' + esc(src.title) + icon("arrowRight") + "</a>";
+        html += "</article>";
+      });
+      html += "</div></section>";
+    });
+    list.innerHTML = html;
+    if (q) $all(".gi-term, .gi-note, .gi-avoid s", list).forEach(function (el) { highlight(el, q); });
+  }
+
+  // ---------- Changelog ----------
+  function renderChangelog() {
+    var html = breadcrumb([crumbLink("overview", "Style Guide"), "<span>Changelog</span>"]);
+    html += '<header class="doc-head"><div class="eyebrow">Resources</div><h1 class="page-title">Changelog</h1>';
+    html += '<p class="page-lead">Content synced from Confluence and changes to this site, newest first. Confluence remains the source of truth.</p></header>';
+    html += '<ol class="timeline">';
+    CHANGELOG.forEach(function (e) {
+      var t = CHANGE_TYPES[e.type] || CHANGE_TYPES.site;
+      html += '<li class="tl-entry"' + colorStyle(t.color) + ">" +
+        '<time class="tl-date" datetime="' + e.date + '">' + formatDate(e.date) + "</time>" +
+        '<div class="tl-card"><div class="tl-top"><span class="kind">' + t.label + "</span><h2>" + esc(e.title) + "</h2></div>";
+      if (e.notes && e.notes.length) html += "<ul>" + e.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
+      if (e.pages === "all") {
+        html += '<div class="tl-pages"><span class="tag">All ' + META.length + " pages</span></div>";
+      } else if (e.pages && e.pages.length) {
+        html += '<div class="tl-pages">' + e.pages.map(function (slug) {
+          var p = pageBySlug(slug);
+          return p ? '<a class="tag" href="#' + slug + '" data-route="' + slug + '">' + esc(p.title) + "</a>" : "";
+        }).join("") + "</div>";
+      }
+      html += "</div></li>";
+    });
+    html += "</ol>";
+    els.content.innerHTML = html;
+  }
+
+  // ---------- Render ----------
   function renderActivePage() {
     var slug = state.activeSlug;
     syncSidebar();
     if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
+    matchState = { marks: [], index: 0 };
 
     var sec = sectionBySlug(slug);
     var page = pageBySlug(slug);
     var parent = sectionFor(slug);
-    if (sec) {
-      renderSectionLanding(sec);
-      enhanceContent(els.content);
-    } else if (page && parent) {
-      renderLeafPage(page, parent);
-    } else {
-      renderOverview();
-    }
+    if (slug === "glossary") renderGlossary();
+    else if (slug === "changelog") renderChangelog();
+    else if (sec) renderSectionLanding(sec);
+    else if (page && parent) renderLeafPage(page, parent);
+    else renderOverview();
 
-    var title = page ? page.title : sec ? sec.name : null;
+    state.renderedSlug = slug;
+    var title = page ? page.title : sec ? sec.name : EXTRA_ROUTES[slug] ? EXTRA_ROUTES[slug].title : null;
     document.title = (title ? title + " · " : "") + "KUBRA Content Style Guide";
     window.scrollTo(0, 0);
+
+    if (state.pendingHighlight) {
+      var q = state.pendingHighlight;
+      state.pendingHighlight = null;
+      showMatches(q);
+    }
   }
 
   // ---------- Routing ----------
-  function go(slug) {
+  function parseHash() {
+    var raw = window.location.hash.replace(/^#/, "");
+    var i = raw.indexOf("/");
+    var slug = (i === -1 ? raw : raw.slice(0, i)) || "overview";
+    var anchor = i === -1 ? "" : decodeURIComponent(raw.slice(i + 1));
+    if (!isRoute(slug)) return { slug: "overview", anchor: "" };
+    return { slug: slug, anchor: anchor };
+  }
+
+  function go(route) {
     resetSearch();
     closeMobileSidebar();
-    if (window.location.hash.replace("#", "") === slug) renderActivePage();
-    else window.location.hash = slug;
+    state.forceRender = true;
+    if (window.location.hash.replace(/^#/, "") === route) onHashChange();
+    else window.location.hash = route;
   }
 
   function onHashChange() {
-    var slug = window.location.hash.replace("#", "") || "overview";
-    state.activeSlug = isRoute(slug) ? slug : "overview";
-    resetSearch();
-    renderActivePage();
+    var r = parseHash();
+    if (state.query) resetSearch();
+    if (r.slug !== state.renderedSlug || state.forceRender) {
+      state.forceRender = false;
+      state.activeSlug = r.slug;
+      renderActivePage();
+    } else if (!r.anchor) {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    }
+    if (r.anchor) scrollToAnchor(r.anchor, false);
+  }
+
+  function setAnchorInUrl(anchor) {
+    var url = "#" + state.activeSlug + "/" + anchor;
+    if (window.history && history.replaceState) history.replaceState(null, "", url);
+    return window.location.href.split("#")[0] + url;
   }
 
   function onDocClick(e) {
     if (!e.target.closest) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+
+    var copyAnchor = e.target.closest("a[data-copy-anchor]");
+    if (copyAnchor) {
+      e.preventDefault();
+      var a = copyAnchor.getAttribute("data-copy-anchor");
+      var url = setAnchorInUrl(a);
+      scrollToAnchor(a, true);
+      copyText(url, function () { toast("Link copied"); }, function () { toast("Link is in the address bar"); });
+      return;
+    }
+
     var route = e.target.closest("a[data-route]");
     if (route) {
       e.preventDefault();
+      var q = route.getAttribute("data-highlight");
+      state.pendingHighlight = q || null;
       go(route.getAttribute("data-route"));
       return;
     }
-    var toc = e.target.closest("a[data-toc]");
-    if (toc) {
+
+    var inPage = e.target.closest("a[data-anchor]");
+    if (inPage) {
       e.preventDefault();
-      var target = document.getElementById(toc.getAttribute("data-toc"));
-      if (target) target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      var anchor = inPage.getAttribute("data-anchor");
+      setAnchorInUrl(anchor);
+      scrollToAnchor(anchor, true);
       return;
     }
+
     if (e.target.closest('[data-action="search"]')) {
       e.preventDefault();
       focusSearch();
@@ -473,30 +816,6 @@
     return (start > 0 ? "…" : "") + text.slice(start, end) + (end < text.length ? "…" : "");
   }
 
-  function highlight(container, query) {
-    var regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig");
-    var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
-    var nodes = [];
-    var n;
-    while ((n = walker.nextNode())) nodes.push(n);
-    nodes.forEach(function (node) {
-      regex.lastIndex = 0;
-      if (!regex.test(node.nodeValue)) return;
-      regex.lastIndex = 0;
-      var frag = document.createDocumentFragment();
-      var last = 0, m;
-      while ((m = regex.exec(node.nodeValue))) {
-        frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
-        var mark = document.createElement("mark");
-        mark.textContent = m[0];
-        frag.appendChild(mark);
-        last = m.index + m[0].length;
-      }
-      frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
-      node.parentNode.replaceChild(frag, node);
-    });
-  }
-
   function runSearch(q) {
     state.query = q;
     els.search.classList.toggle("has-value", q.length > 0);
@@ -506,6 +825,7 @@
       return;
     }
     if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
+    state.renderedSlug = null;
     var lower = q.trim().toLowerCase();
     var matches = META.filter(function (m) {
       return m._text.indexOf(lower) !== -1 && (state.activeTags.length === 0 || pageMatchesTags(m));
@@ -513,18 +833,30 @@
     matches.sort(function (a, b) {
       return (a.title.toLowerCase().indexOf(lower) !== -1 ? 0 : 1) - (b.title.toLowerCase().indexOf(lower) !== -1 ? 0 : 1);
     });
+    var terms = state.activeTags.length ? [] : GLOSSARY.filter(function (g) { return g._text.indexOf(lower) !== -1; }).slice(0, 6);
 
     var html = '<header class="results-head"><div class="eyebrow">Search</div>';
-    html += '<h1 class="page-title">' + matches.length + " result" + (matches.length === 1 ? "" : "s") + "</h1>";
-    html += "<p>for “" + esc(q.trim()) + "”" + (state.activeTags.length ? " in " + esc(state.activeTags.join(", ")) : "") + "</p></header>";
+    html += '<h1 class="page-title">' + matches.length + " page" + (matches.length === 1 ? "" : "s") + "</h1>";
+    html += "<p>match “" + esc(q.trim()) + "”" + (state.activeTags.length ? " in " + esc(state.activeTags.join(", ")) : "") + "</p></header>";
+
+    if (terms.length) {
+      html += '<div class="results-group"><div class="results-label">' + icon("glossary") + "Glossary</div><div class=\"term-results\">";
+      terms.forEach(function (g) {
+        html += '<a class="term-result" href="#glossary/' + g.anchor + '" data-route="glossary/' + g.anchor + '"' + colorStyle(KIND_COLORS[g.kind]) + ">" +
+          '<span class="tr-term">' + esc(g.term) + '</span><span class="kind">' + esc(g.kind) + "</span>" +
+          '<span class="tr-note">' + esc(g.note) + "</span></a>";
+      });
+      html += "</div></div>";
+    }
 
     if (matches.length === 0) {
       html += '<div class="empty"><strong>No matching pages</strong>Try a different term' + (state.activeTags.length ? ", or clear the topic filters" : "") + ".</div>";
     } else {
+      if (terms.length) html += '<div class="results-label">' + icon("book") + "Pages</div>";
       html += '<div class="results">';
       matches.forEach(function (m) {
         var sec = sectionFor(m.slug);
-        html += '<a class="result" href="#' + m.slug + '" data-route="' + m.slug + '"' + (sec ? secStyle(sec) : "") + ">" +
+        html += '<a class="result" href="#' + m.slug + '" data-route="' + m.slug + '" data-highlight="' + esc(q.trim()) + '"' + (sec ? secStyle(sec) : "") + ">" +
           '<div class="eyebrow">' + (sec ? esc(sec.name) : "") + "</div>" +
           '<div class="result-title">' + esc(m.title) + "</div>" +
           '<div class="result-snippet">' + esc(snippet(getTemplateText(m.slug), lower)) + "</div></a>";
@@ -532,7 +864,7 @@
       html += "</div>";
     }
     els.content.innerHTML = html;
-    $all(".result-title, .result-snippet", els.content).forEach(function (el) { highlight(el, lower); });
+    $all(".result-title, .result-snippet, .tr-term, .tr-note", els.content).forEach(function (el) { highlight(el, lower); });
     window.scrollTo(0, 0);
   }
 
@@ -570,10 +902,13 @@
     els.searchClear = $("#searchClear");
     els.themeBtn = $("#themeToggle");
     els.menuBtn = $("#menuToggle");
+    els.toast = $("#toast");
 
     $all("[data-icon]").forEach(function (el) { el.innerHTML = icon(el.getAttribute("data-icon")); });
     var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
     $("#searchKbd").textContent = isMac ? "⌘K" : "Ctrl K";
+    var synced = lastSynced();
+    if (synced) $("#footerSync").textContent = formatDate(synced);
 
     updateThemeIcon();
     buildIndex();
@@ -593,6 +928,11 @@
       els.search.classList.toggle("has-value", val.length > 0);
       debounce = setTimeout(function () { runSearch(val); }, 120);
     });
+    els.searchInput.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      var first = $(".result, .term-result", els.content);
+      if (first) first.click();
+    });
     els.searchClear.addEventListener("click", function () {
       resetSearch();
       renderActivePage();
@@ -609,8 +949,13 @@
         if (e.target === els.searchInput && els.searchInput.value) {
           resetSearch();
           renderActivePage();
+        } else if (matchState.marks.length) {
+          clearMatches();
         }
         closeMobileSidebar();
+      } else if (e.key === "Enter" && e.target === document.body && matchState.marks.length) {
+        e.preventDefault();
+        goToMatch(matchState.index + (e.shiftKey ? -1 : 1), true);
       }
     });
 
