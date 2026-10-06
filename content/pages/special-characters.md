@@ -57,7 +57,7 @@ Avoid quotation marks in UI copy. Quotation marks can confuse screen readers and
 
 :::
 
-**Approved use:** system-required copy (e.g., Apple Face ID permission modals), referring to external or legal entity names when required.
+**Approved use:** system-required copy (e.g., Apple Face ID permission modals), referring to external or legal entity names when required, and SMS keywords in SMS compliance language (e.g., Reply “STOP” to opt out or “HELP” for help). Use curly quotes.
 
 ## Hyphens and Dashes
 

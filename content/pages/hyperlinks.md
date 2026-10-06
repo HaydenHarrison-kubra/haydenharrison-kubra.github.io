@@ -11,6 +11,7 @@ Hyperlinks connect users to relevant internal or external resources.
 - Link meaningful, descriptive text, not generic phrases
 - Ensure users understand where the link will take them
 - Only link to trusted and relevant resources
+- Always link legal document names, like Terms of Use, Terms and Conditions, and Privacy Policy (see [Legal Content](#legal-content/linking-legal-documents))
 
 ## Link Text
 

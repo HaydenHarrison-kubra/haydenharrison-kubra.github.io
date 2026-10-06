@@ -89,6 +89,24 @@ Use ET unless specifying daylight or standard time is necessary.
 
 :::
 
+## Phone Numbers
+
+Format phone numbers as (xxx) xxx-xxxx: the area code in parentheses, a space, then the number with a hyphen. Country codes are approved. When you include one, use +1 (xxx) xxx-xxxx.
+
+::: do
+
+- *(480) 111-1111*
+- *+1 (480) 111-1111*
+
+:::
+
+::: dont
+
+- *480-111-1111 · 480.111.1111 · 480 111 1111 · (480)111-1111 · 4801111111*
+- *1-480-111-1111 · +1 480-111-1111 · +1-480-111-1111 · 1 (480) 111-1111*
+
+:::
+
 ## Avoid in Consumer UI
 
 ::: dont

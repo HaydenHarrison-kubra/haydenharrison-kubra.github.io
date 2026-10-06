@@ -49,6 +49,7 @@
   var KIND_COLORS = {
     "Product name": "#037eb4",
     "Third-party brand": "#546473",
+    "Legal document": "#03587c",
     "Abbreviation": "#b88400",
     "Preferred term": "#5e9e2a",
     "Internal term": "#e0661a"

@@ -108,10 +108,25 @@ Must be visible when relevant, accessible before user action, and not hidden beh
 
 ## Linking Legal Documents
 
+Legal document names are proper nouns. Use the official name, capitalized as shown below, and link it to the document every time it appears, including in consent language, disclosures, and SMS opt-in copy.
+
+- Terms of Use
+- Terms and Conditions
+- Privacy Policy
+
 ::: do
 
 - *Read the Terms and Conditions*
 - *View Privacy Policy*
+- *See ABC Company’s Terms of Use (as a link)*
+
+:::
+
+::: dont
+
+- *Read the terms and conditions*
+- *Terms & Conditions · T&Cs*
+- *Privacy Policy (as plain, unlinked text)*
 
 :::
 

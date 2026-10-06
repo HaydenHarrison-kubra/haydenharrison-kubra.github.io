@@ -30,13 +30,19 @@ Buttons should describe what will happen when selected, not what the user is doi
 
 ## Keep Button Text Concise
 
-Aim for 1–2 words, maximum 3 when necessary for clarity; avoid punctuation unless required.
+How long a label can be depends on the button style. Avoid punctuation unless required.
+
+| Button style | Label length |
+|---|---|
+| Buttons with a container (filled or outlined) | Aim for 1–2 words, 3 at most when needed for clarity |
+| Text-only buttons (no background or border, like tertiary or link-style buttons) | Up to 5 words when needed for clarity |
 
 ::: do
 
 - *Cancel payment*
 - *Add payment method*
 - *View details*
+- *View full payment history (text-only button)*
 
 :::
 
@@ -44,6 +50,7 @@ Aim for 1–2 words, maximum 3 when necessary for clarity; avoid punctuation unl
 
 - *Click here to continue*
 - *Proceed to the next step*
+- *Review and confirm your scheduled payment (too long for any button)*
 
 :::
 
@@ -97,7 +104,7 @@ Buttons must be keyboard accessible, have clear accessible names, and make sense
 ::: do
 
 - *View transaction details*
-- *Read terms and conditions*
+- *Read Terms and Conditions*
 
 :::
 
