@@ -1,0 +1,17 @@
+{
+  "name": "KUBRA Copy Audit",
+  "id": "kubra-copy-audit-dev",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": [
+    "figma"
+  ],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://haydenharrison-kubra.github.io"
+    ],
+    "reasoning": "Downloads the latest rules from the KUBRA Content Style Guide."
+  }
+}

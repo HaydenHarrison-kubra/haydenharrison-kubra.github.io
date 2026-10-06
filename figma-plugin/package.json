@@ -1,0 +1,9 @@
+{
+  "name": "kubra-copy-audit",
+  "private": true,
+  "description": "Figma plugin that audits copy against the KUBRA Content Style Guide.",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node build.mjs && node --test test/*.test.mjs"
+  }
+}

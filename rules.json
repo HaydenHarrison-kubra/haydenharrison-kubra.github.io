@@ -1,0 +1,2412 @@
+{
+ "schema": 1,
+ "version": "0c25a505",
+ "updated": "2026-10-06",
+ "siteUrl": "https://haydenharrison-kubra.github.io/",
+ "rules": [
+  {
+   "category": "style",
+   "id": "button-click",
+   "severity": "error",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "\\bclick(?:s|ed|ing)?\\b",
+    "flags": "gi"
+   },
+   "message": "Don’t use “click” in buttons",
+   "detail": "Users may be on mobile or assistive tech, and the button already implies the interaction.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/avoid-the-word-click",
+    "label": "Buttons and CTAs › Avoid the Word \"Click\""
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-generic",
+   "severity": "warning",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Submit|Continue|OK|Okay|Done|Proceed|Go|Confirm)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Generic button label",
+   "detail": "Name the action and its object, like “Pay bill” or “Save changes.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/use-clear-action-oriented-language",
+    "label": "Buttons and CTAs › Use Clear, Action-Oriented Language"
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-yes-no",
+   "severity": "warning",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Yes|No)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Avoid “Yes” and “No” buttons",
+   "detail": "They’re ambiguous out of context. Use explicit labels like “Confirm payment” and “Cancel payment.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/avoid-yes-and-no-buttons",
+    "label": "Buttons and CTAs › Avoid \"Yes\" and \"No\" Buttons"
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-missing-object",
+   "severity": "warning",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Delete|Remove|Disable|Deactivate)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Say what will be deleted or removed",
+   "detail": "Destructive buttons must include the object, like “Delete payment method.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/destructive-or-irreversible-actions",
+    "label": "Buttons and CTAs › Destructive or Irreversible Actions"
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-length",
+   "type": "word-count",
+   "max": 3,
+   "severity": "warning",
+   "contexts": [
+    "button"
+   ],
+   "exceptContexts": [
+    "text-button"
+   ],
+   "message": "Button label is longer than 3 words",
+   "detail": "Buttons with a background or border: aim for 1–2 words, 3 at most. Text-only buttons can use up to 5.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/keep-button-text-concise",
+    "label": "Buttons and CTAs › Keep Button Text Concise"
+   }
+  },
+  {
+   "category": "style",
+   "id": "text-button-length",
+   "type": "word-count",
+   "max": 5,
+   "severity": "warning",
+   "contexts": [
+    "text-button"
+   ],
+   "message": "Text-only button label is longer than 5 words",
+   "detail": "Text-only buttons can use up to 5 words when needed for clarity.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/keep-button-text-concise",
+    "label": "Buttons and CTAs › Keep Button Text Concise"
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-punctuation",
+   "severity": "warning",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "[.!:;]+(?=\\s*$)",
+    "flags": "g"
+   },
+   "fix": "",
+   "safeFix": true,
+   "message": "Remove punctuation from button labels",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/keep-button-text-concise",
+    "label": "Buttons and CTAs › Keep Button Text Concise"
+   }
+  },
+  {
+   "category": "style",
+   "id": "empty-state-cta",
+   "severity": "warning",
+   "contexts": [
+    "button",
+    "link"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Get started now!?|Learn more)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Vague call to action",
+   "detail": "Use a short, action-driven label that says what happens next.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#empty-states/ctas-in-empty-states",
+    "label": "Empty States › CTAs in Empty States"
+   }
+  },
+  {
+   "category": "style",
+   "id": "sentence-case",
+   "type": "sentence-case",
+   "severity": "warning",
+   "contexts": [
+    "button",
+    "heading",
+    "label",
+    "menu",
+    "toggle",
+    "checkbox",
+    "tab"
+   ],
+   "message": "Use sentence case",
+   "detail": "Capitalize only the first word and proper nouns. Check that any product names or proper nouns in the suggestion are still capitalized.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#titles-and-headings/capitalization",
+    "label": "Titles and Headings › Capitalization"
+   },
+   "guideByContext": {
+    "button": {
+     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/use-sentence-case",
+     "label": "Buttons and CTAs › Use Sentence Case"
+    },
+    "label": {
+     "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
+     "label": "Forms › Field Labels"
+    },
+    "menu": {
+     "url": "https://haydenharrison-kubra.github.io/#menus/field-label",
+     "label": "Menus › Field Label"
+    }
+   }
+  },
+  {
+   "category": "style",
+   "id": "all-caps",
+   "type": "all-caps",
+   "severity": "warning",
+   "message": "Don’t use all caps",
+   "detail": "All caps reads as shouting and is announced awkwardly by screen readers. Acronyms are fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#formatting/all-caps",
+    "label": "Formatting › All Caps"
+   }
+  },
+  {
+   "category": "style",
+   "id": "text-case-upper",
+   "type": "format",
+   "check": "upper",
+   "severity": "warning",
+   "message": "Text is set to uppercase in Figma",
+   "detail": "The text style or Type settings use the Uppercase (or small caps) option. Use normal capitalization instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#formatting/all-caps",
+    "label": "Formatting › All Caps"
+   }
+  },
+  {
+   "category": "style",
+   "id": "text-case-title",
+   "type": "format",
+   "check": "titleCase",
+   "severity": "warning",
+   "contexts": [
+    "button",
+    "heading",
+    "label",
+    "menu",
+    "toggle",
+    "checkbox",
+    "tab"
+   ],
+   "message": "Text is set to Title Case in Figma",
+   "detail": "The text style or Type settings use the Title Case option. Turn it off and write in sentence case.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#titles-and-headings/capitalization",
+    "label": "Titles and Headings › Capitalization"
+   }
+  },
+  {
+   "category": "style",
+   "id": "heading-punctuation",
+   "severity": "warning",
+   "contexts": [
+    "heading"
+   ],
+   "pattern": {
+    "source": "[.!:;]+(?=\\s*$)",
+    "flags": "g"
+   },
+   "fix": "",
+   "safeFix": true,
+   "message": "Don’t end headings with punctuation",
+   "detail": "Question marks are the only exception.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#titles-and-headings/punctuation",
+    "label": "Titles and Headings › Punctuation"
+   }
+  },
+  {
+   "category": "style",
+   "id": "link-vague",
+   "type": "link-text",
+   "check": "vague",
+   "severity": "warning",
+   "phrases": [
+    "click here",
+    "here",
+    "click",
+    "learn more",
+    "read more",
+    "more",
+    "this link",
+    "link",
+    "details",
+    "more info",
+    "more information"
+   ],
+   "message": "Link text doesn’t describe the destination",
+   "detail": "Avoid “click here,” “learn more,” and “here.” Say where the link goes, like “View payment history.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#hyperlinks/link-text",
+    "label": "Hyperlinks › Link Text"
+   }
+  },
+  {
+   "category": "style",
+   "id": "link-article",
+   "type": "link-text",
+   "check": "article",
+   "severity": "suggestion",
+   "message": "Don’t start link text with “a,” “an,” “the,” or “our”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#hyperlinks/articles-and-formatting",
+    "label": "Hyperlinks › Articles and Formatting"
+   }
+  },
+  {
+   "category": "style",
+   "id": "link-punctuation",
+   "type": "link-text",
+   "check": "punctuation",
+   "severity": "suggestion",
+   "message": "Keep punctuation out of link text",
+   "detail": "Unless it’s part of an official title.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#hyperlinks/articles-and-formatting",
+    "label": "Hyperlinks › Articles and Formatting"
+   }
+  },
+  {
+   "category": "style",
+   "id": "click-here",
+   "severity": "warning",
+   "exceptContexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "\\bclick here\\b",
+    "flags": "gi"
+   },
+   "message": "Avoid “click here”",
+   "detail": "It’s meaningless out of context. Describe the destination or action instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#hyperlinks/link-text",
+    "label": "Hyperlinks › Link Text"
+   }
+  },
+  {
+   "category": "style",
+   "id": "underline-not-link",
+   "type": "format",
+   "check": "underlineNotLink",
+   "severity": "warning",
+   "message": "Underline is only for links",
+   "detail": "Underlined text that isn’t a link looks broken. Use bold for emphasis instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#formatting/underline",
+    "label": "Formatting › Underline"
+   }
+  },
+  {
+   "category": "style",
+   "id": "italic-in-error",
+   "type": "format",
+   "check": "italic",
+   "severity": "warning",
+   "contexts": [
+    "error",
+    "banner"
+   ],
+   "message": "Don’t use italics in error messages",
+   "detail": "Italics reduce readability and aren’t used in error, legal, or PCI content.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#formatting/italics",
+    "label": "Formatting › Italics"
+   }
+  },
+  {
+   "category": "style",
+   "id": "slash",
+   "severity": "warning",
+   "pattern": {
+    "source": "[A-Za-z]\\s?\\/\\s?[A-Za-z]",
+    "flags": "g"
+   },
+   "skipInToken": {
+    "source": "(?:https?:|www\\.|\\.[a-z]{2,}\\/)|^\\(?[MDY]{1,4}(?:\\/[MDY]{1,4})+",
+    "flags": "i"
+   },
+   "message": "Avoid slashes",
+   "detail": "Slashes are hard for screen readers. Use “or” or “and” instead, like “Enable or disable.” Dates are fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/slashes",
+    "label": "Special Characters › Slashes ( / )"
+   }
+  },
+  {
+   "category": "style",
+   "id": "ampersand",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\s&\\s",
+    "flags": "g"
+   },
+   "fix": " and ",
+   "safeFix": true,
+   "message": "Use “and” instead of “&”",
+   "detail": "Ampersands are only for official names, like OG&E.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/ampersands-and",
+    "label": "Special Characters › Ampersands ( & )"
+   }
+  },
+  {
+   "category": "style",
+   "id": "quotation-marks",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "[\"“](?!(?:STOP|HELP|START|UNSTOP|CANCEL|END|QUIT|UNSUBSCRIBE|STOPALL|INFO|YES)[\"”])[^\"“”\\n]+[\"”]",
+    "flags": "g"
+   },
+   "message": "Avoid quotation marks in UI copy",
+   "detail": "They can confuse screen readers. If a quote is required, use curly quotes. Approved copy and quoted SMS keywords, like “STOP” and “HELP,” are fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/quotation-marks",
+    "label": "Special Characters › Quotation Marks ( \" \" )"
+   }
+  },
+  {
+   "category": "style",
+   "id": "em-dash",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\s?—\\s?|\\s–\\s",
+    "flags": "g"
+   },
+   "message": "Avoid dashes in UI copy",
+   "detail": "Use a period or comma instead. En dashes in number ranges, like “1–2,” are fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/hyphens-and-dashes",
+    "label": "Special Characters › Hyphens and Dashes"
+   }
+  },
+  {
+   "category": "style",
+   "id": "label-parentheses",
+   "severity": "suggestion",
+   "contexts": [
+    "label",
+    "menu",
+    "toggle",
+    "checkbox"
+   ],
+   "pattern": {
+    "source": "\\((?!(?:s|es)\\))(?!\\d{3}\\) \\d{3}-\\d{4})[^)]*\\)",
+    "flags": "g"
+   },
+   "message": "Avoid parentheses in UI labels",
+   "detail": "Phone area codes, like (480) 111-1111, are fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/parentheses",
+    "label": "Special Characters › Parentheses ( )"
+   }
+  },
+  {
+   "category": "style",
+   "id": "parenthetical-plural",
+   "severity": "warning",
+   "contexts": [
+    "heading",
+    "menu",
+    "button",
+    "table-header",
+    "error",
+    "success",
+    "banner",
+    "tab",
+    "modal",
+    "tooltip"
+   ],
+   "pattern": {
+    "source": "\\b([A-Za-z]+)\\((s|es)\\)",
+    "flags": "g"
+   },
+   "fix": "$1$2",
+   "safeFix": true,
+   "message": "Use the plural form instead of “(s)”",
+   "detail": "Parenthetical plurals are only for input instructions, like “Upload file(s).”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#plurals/parenthetical-plurals-limited-intentional-use",
+    "label": "Plurals › Parenthetical Plurals (Limited, Intentional Use)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "trademark-symbol",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "[™®℠]",
+    "flags": "g"
+   },
+   "fix": "",
+   "message": "Leave trademark symbols out of UI copy",
+   "detail": "Use them only in legal or formal documentation, and only when required.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#copyright-and-trademarks/trademark-symbols-and",
+    "label": "Copyright and Trademarks › Trademark Symbols (™ and ®)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "oops",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(?:oops|whoops|uh[- ]?oh|yikes)\\b",
+    "flags": "gi"
+   },
+   "message": "Avoid “Oops,” “Uh-oh,” and similar",
+   "detail": "Keep a calm, factual tone, especially in financial flows.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/language-to-avoid-in-high-risk-flows",
+    "label": "Accessibility: High Risk › Language to Avoid in High-Risk Flows"
+   }
+  },
+  {
+   "category": "style",
+   "id": "emoji",
+   "severity": "warning",
+   "pattern": {
+    "source": "(?![©®™])\\p{Extended_Pictographic}",
+    "flags": "gu"
+   },
+   "message": "Avoid emoji",
+   "detail": "Payment and billing experiences aren’t the place for emoji or celebratory language.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#content-principles/prefer-facts-over-emotion-in-transactional-moments",
+    "label": "Content Principles › Prefer Facts Over Emotion in Transactional Moments"
+   }
+  },
+  {
+   "category": "style",
+   "id": "exclamation",
+   "severity": "warning",
+   "pattern": {
+    "source": "!+",
+    "flags": "g"
+   },
+   "message": "Avoid exclamation points",
+   "detail": "Keep messages calm and factual.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#content-principles/prefer-facts-over-emotion-in-transactional-moments",
+    "label": "Content Principles › Prefer Facts Over Emotion in Transactional Moments"
+   },
+   "guideByContext": {
+    "tooltip": {
+     "url": "https://haydenharrison-kubra.github.io/#tooltips/structure-length-and-punctuation",
+     "label": "Tooltips › Structure, Length, and Punctuation"
+    }
+   }
+  },
+  {
+   "category": "style",
+   "id": "apology",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:sorry|we apologi[sz]e|apologies)\\b",
+    "flags": "gi"
+   },
+   "message": "Acknowledge the issue without apologizing",
+   "detail": "It’s fine to recognize inconvenience, but skip apologies and emotional language.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#tone/empathy-without-apology",
+    "label": "Tone › Empathy Without Apology"
+   }
+  },
+  {
+   "category": "style",
+   "id": "dont-worry",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(?:don['’]t worry|no worries)\\b",
+    "flags": "gi"
+   },
+   "message": "Avoid vague reassurance",
+   "detail": "State what happened, why (when known), and what happens next.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#voice/trustworthy",
+    "label": "Voice › Trustworthy"
+   }
+  },
+  {
+   "category": "style",
+   "id": "minimizing",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:just|simply)\\b",
+    "flags": "gi"
+   },
+   "message": "Avoid minimizing words like “just” and “simply”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/language-to-avoid-in-high-risk-flows",
+    "label": "Accessibility: High Risk › Language to Avoid in High-Risk Flows"
+   }
+  },
+  {
+   "category": "style",
+   "id": "vague-timing",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:soon|shortly|upcoming)\\b",
+    "flags": "gi"
+   },
+   "message": "Say exactly when",
+   "detail": "Avoid relative timing like “soon” or “shortly.” Give a date or time frame.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#legal-content/timing",
+    "label": "Legal Content › Timing"
+   }
+  },
+  {
+   "category": "style",
+   "id": "urgency",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(?:act now|don['’]t miss out|limited time(?: only)?|last chance|hurry)\\b",
+    "flags": "gi"
+   },
+   "message": "Avoid urgency and pressure tactics",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#commercial-communications/tone-and-voice",
+    "label": "Commercial Communications › Tone and Voice"
+   }
+  },
+  {
+   "category": "style",
+   "id": "you-must",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\byou must\\b",
+    "flags": "gi"
+   },
+   "message": "Guide, don’t lecture",
+   "detail": "Phrase it as an instruction, like “Select a payment method.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#content-principles/guide-don-t-lecture",
+    "label": "Content Principles › Guide, Don't Lecture"
+   }
+  },
+  {
+   "category": "style",
+   "id": "are-you-sure",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\bare you sure\\b",
+    "flags": "gi"
+   },
+   "message": "Don’t ask “Are you sure?”",
+   "detail": "State the action and its consequence instead, like “Delete payment method?”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#modals-and-confirmation-dialogs/title",
+    "label": "Modals and Confirmation Dialogs › Title"
+   }
+  },
+  {
+   "category": "style",
+   "id": "contractions-mixed",
+   "type": "contractions-mixed",
+   "severity": "suggestion",
+   "message": "Don’t mix contracted and full forms",
+   "detail": "Pick one style per surface. Avoid contractions in legal, compliance, and PCI content.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#tone/contractions",
+    "label": "Tone › Contractions"
+   }
+  },
+  {
+   "category": "style",
+   "id": "blame",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\byou (?:entered|provided|typed|selected|chose) (?:an? )?(?:incorrect|invalid|wrong|bad)\\b",
+    "flags": "gi"
+   },
+   "message": "Don’t blame the user",
+   "detail": "Say what needs to be corrected, like “Enter a 9-digit routing number.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#message-types/error-severity-types",
+    "label": "Message Types › Error Severity Types"
+   }
+  },
+  {
+   "category": "style",
+   "id": "invalid",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\binvalid (?:input|entry|code|data|information|value|request)\\b",
+    "flags": "gi"
+   },
+   "message": "Say what’s wrong and how to fix it",
+   "detail": "“Invalid input” doesn’t tell users what to change.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility/3-error-messages-must-identify-the-error-and-help-users-fix-it",
+    "label": "Accessibility › 3. Error messages must identify the error and help users fix it"
+   }
+  },
+  {
+   "category": "style",
+   "id": "error-code-only",
+   "severity": "warning",
+   "pattern": {
+    "source": "^\\s*error(?: code)?:?\\s*\\d+\\s*$",
+    "flags": "gi"
+   },
+   "message": "An error code alone doesn’t help users",
+   "detail": "Explain what happened and what to do next.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility/3-error-messages-must-identify-the-error-and-help-users-fix-it",
+    "label": "Accessibility › 3. Error messages must identify the error and help users fix it"
+   }
+  },
+  {
+   "category": "style",
+   "id": "single-sentence-period",
+   "type": "single-sentence-period",
+   "severity": "suggestion",
+   "contexts": [
+    "success",
+    "banner",
+    "tooltip"
+   ],
+   "fix": "",
+   "safeFix": true,
+   "message": "Drop the period on single-sentence messages",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#message-types/structure-length-and-punctuation",
+    "label": "Message Types › Structure, Length, and Punctuation"
+   },
+   "guideByContext": {
+    "banner": {
+     "url": "https://haydenharrison-kubra.github.io/#banners/punctuation",
+     "label": "Banners › Punctuation"
+    },
+    "tooltip": {
+     "url": "https://haydenharrison-kubra.github.io/#tooltips/structure-length-and-punctuation",
+     "label": "Tooltips › Structure, Length, and Punctuation"
+    }
+   }
+  },
+  {
+   "category": "style",
+   "id": "vague-fees",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(?:additional|extra|small|other) (?:fees?|charges?)\\b",
+    "flags": "gi"
+   },
+   "message": "Name the fee and the amount",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/4-fees-penalties-and-charges",
+    "label": "Accessibility: High Risk › 4. Fees, Penalties, and Charges"
+   }
+  },
+  {
+   "category": "style",
+   "id": "suspicious-activity",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\bsuspicious activity\\b",
+    "flags": "gi"
+   },
+   "message": "Don’t imply wrongdoing",
+   "detail": "Be calm and factual, and explain the next steps.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/6-account-lockouts-and-security-holds",
+    "label": "Accessibility: High Risk › 6. Account Lockouts and Security Holds"
+   }
+  },
+  {
+   "category": "style",
+   "id": "otp",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\bOTP\\b",
+    "flags": "g"
+   },
+   "fix": "verification code",
+   "message": "Avoid “OTP”",
+   "detail": "Say “verification code” unless the term is defined for that audience.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/1-authentication-and-verification-mfa-otp-identity-checks",
+    "label": "Accessibility: High Risk › 1. Authentication and Verification (MFA, OTP, Identity Checks)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "label-colon",
+   "severity": "warning",
+   "contexts": [
+    "label"
+   ],
+   "pattern": {
+    "source": ":(?=\\s*$)",
+    "flags": "g"
+   },
+   "fix": "",
+   "safeFix": true,
+   "message": "Remove the colon from field labels",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
+    "label": "Forms › Field Labels"
+   }
+  },
+  {
+   "category": "style",
+   "id": "label-verb",
+   "severity": "suggestion",
+   "contexts": [
+    "label"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Enter|Select|Choose|Type|Provide|Input)\\b",
+    "flags": "g"
+   },
+   "message": "Use a noun for field labels",
+   "detail": "Labels name the data, like “Billing address,” not the action.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
+    "label": "Forms › Field Labels"
+   }
+  },
+  {
+   "category": "style",
+   "id": "label-article",
+   "severity": "suggestion",
+   "contexts": [
+    "label"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:The|A|An|Your)\\s",
+    "flags": "g"
+   },
+   "message": "Leave articles and “your” out of field labels",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
+    "label": "Forms › Field Labels"
+   }
+  },
+  {
+   "category": "style",
+   "id": "label-required",
+   "severity": "suggestion",
+   "contexts": [
+    "label"
+   ],
+   "pattern": {
+    "source": "\\s*\\(required\\)|^\\s*\\*|\\*(?=\\s*$)",
+    "flags": "gi"
+   },
+   "message": "Don’t mark every field as required",
+   "detail": "Mark optional fields instead, and note required selections at the form level.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#forms/required-vs-optional-fields",
+    "label": "Forms › Required vs. Optional Fields"
+   }
+  },
+  {
+   "category": "style",
+   "id": "vague-placeholder",
+   "severity": "warning",
+   "pattern": {
+    "source": "^\\s*(?:choose one|select one|please select|select an option|type here|enter (?:a )?date|enter text|enter value)\\s*\\.?\\s*$",
+    "flags": "gi"
+   },
+   "message": "Vague placeholder",
+   "detail": "Show the expected format or a valid example instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#menus/placeholder-text",
+    "label": "Menus › Placeholder Text"
+   }
+  },
+  {
+   "category": "style",
+   "id": "toggle-action",
+   "severity": "suggestion",
+   "contexts": [
+    "toggle"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:turn (?:on|off)|enable|disable|activate|deactivate)\\b",
+    "flags": "gi"
+   },
+   "message": "Label the setting, not the action",
+   "detail": "Toggle labels name the state being enabled, like “Autopay.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#forms/label-the-state-being-enabled-not-the-action",
+    "label": "Forms › Label the State Being Enabled, Not the Action"
+   }
+  },
+  {
+   "category": "style",
+   "id": "checkbox-vague",
+   "severity": "warning",
+   "contexts": [
+    "checkbox"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:I agree|I accept|Agree|Accept|Yes)\\s*\\.?\\s*$",
+    "flags": "gi"
+   },
+   "message": "Say what the user is agreeing to",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#legal-content/checkbox-pattern-required",
+    "label": "Legal Content › Checkbox Pattern (Required)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "consent-vague",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "^\\s*(?:stay informed|receive updates|get updates)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Consent language must say what users will receive",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#commercial-communications/consent-language",
+    "label": "Commercial Communications › Consent Language"
+   }
+  },
+  {
+   "category": "style",
+   "id": "instruction-filler",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:let['’]s get started|just follow these steps|please go ahead and)\\b|^\\s*please (?:enter|select|choose|provide)\\b",
+    "flags": "gi"
+   },
+   "message": "Cut conversational filler",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#instructional-text/voice-and-tone",
+    "label": "Instructional Text › Voice and Tone"
+   }
+  },
+  {
+   "category": "style",
+   "id": "positional",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:(?:button|field|link|option|section|form|box) (?:above|below)|(?:see|listed|shown) (?:above|below)|on the (?:left|right)|to the (?:left|right)|in (?:red|green))\\b",
+    "flags": "gi"
+   },
+   "message": "Avoid directions that rely on layout or color",
+   "detail": "Refer to the label or component name instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#accessibility/don-t-rely-on-formatting-position-or-color-to-convey-meaning",
+    "label": "Accessibility › Don't rely on formatting, position, or color to convey meaning"
+   }
+  },
+  {
+   "category": "style",
+   "id": "following-table",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\bthe following table\\b",
+    "flags": "gi"
+   },
+   "message": "Don’t introduce tables with “the following table”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#tables/introducing-tables",
+    "label": "Tables › Introducing Tables"
+   }
+  },
+  {
+   "category": "style",
+   "id": "time-format",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(\\d{1,2}(?::\\d{2})?)\\s?([AaPp])\\.?\\s?[Mm]\\.?(?![\\w])",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "time-ampm"
+   },
+   "safeFix": true,
+   "message": "Write times as “a.m.” and “p.m.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/time",
+    "label": "Abbreviations and Acronyms › Time"
+   }
+  },
+  {
+   "category": "style",
+   "id": "time-zone",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:EST|EDT)\\b",
+    "flags": "g"
+   },
+   "fix": "ET",
+   "message": "Use “ET”",
+   "detail": "Only specify standard or daylight time when accuracy requires it.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/time",
+    "label": "Abbreviations and Acronyms › Time"
+   }
+  },
+  {
+   "category": "style",
+   "id": "phone-format",
+   "type": "phone",
+   "severity": "warning",
+   "safeFix": true,
+   "message": "Format phone numbers as (xxx) xxx-xxxx",
+   "detail": "With a country code, use +1 (xxx) xxx-xxxx.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/phone-numbers",
+    "label": "Abbreviations and Acronyms › Phone Numbers"
+   }
+  },
+  {
+   "category": "compliance",
+   "id": "card-number",
+   "type": "card-number",
+   "severity": "error",
+   "message": "Don’t show full card or account numbers",
+   "detail": "Mask them, like “•••• 1234.” This includes real-looking placeholder examples.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#pci-compliance/sensitive-data-do-not-expose",
+    "label": "PCI Compliance › Sensitive Data (Do Not Expose)"
+   }
+  },
+  {
+   "category": "compliance",
+   "id": "ssn",
+   "severity": "error",
+   "pattern": {
+    "source": "\\b\\d{3}-\\d{2}-\\d{4}\\b",
+    "flags": "g"
+   },
+   "message": "Don’t show full Social Security numbers",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#pci-compliance/sensitive-data-do-not-expose",
+    "label": "PCI Compliance › Sensitive Data (Do Not Expose)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "legal-link",
+   "type": "must-link",
+   "severity": "warning",
+   "standalone": true,
+   "exemptApproved": false,
+   "exceptContexts": [
+    "button",
+    "link",
+    "menu",
+    "tab",
+    "heading",
+    "table-header"
+   ],
+   "message": "Link this legal document",
+   "detail": "Terms of Use, Terms and Conditions, and Privacy Policy must always link to the document. Text counts as linked if it’s blue, has a Figma link, uses a link text style or color, or is underlined.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#legal-content/linking-legal-documents",
+    "label": "Legal Content › Linking Legal Documents"
+   }
+  },
+  {
+   "category": "style",
+   "id": "kubra-name",
+   "type": "term",
+   "terms": [
+    "KUBRA"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "KUBRA",
+   "safeFix": true,
+   "severity": "warning",
+   "skipInToken": {
+    "source": "\\.[a-z]|@|\\/",
+    "flags": "i"
+   },
+   "message": "Write “KUBRA” in all caps",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#copyright-and-trademarks/always-use-official-names",
+    "label": "Copyright and Trademarks › Always Use Official Names"
+   }
+  },
+  {
+   "category": "grammar",
+   "id": "misspelling",
+   "type": "word-map",
+   "severity": "warning",
+   "safeFix": true,
+   "message": "Possible misspelling"
+  },
+  {
+   "category": "grammar",
+   "id": "repeated-word",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(\\w+)\\s+\\1\\b",
+    "flags": "gi"
+   },
+   "fix": "$1",
+   "safeFix": true,
+   "message": "Repeated word"
+  },
+  {
+   "category": "grammar",
+   "id": "a-an",
+   "type": "a-an",
+   "severity": "warning",
+   "message": "Check “a” vs. “an”"
+  },
+  {
+   "category": "grammar",
+   "id": "sentence-start",
+   "type": "sentence-start",
+   "severity": "warning",
+   "safeFix": true,
+   "message": "Capitalize the first word of a sentence"
+  },
+  {
+   "category": "grammar",
+   "id": "double-space",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "(\\S)( {2,})(?=\\S)",
+    "flags": "g"
+   },
+   "fix": "$1 ",
+   "safeFix": true,
+   "message": "Extra space"
+  },
+  {
+   "category": "grammar",
+   "id": "space-before-punctuation",
+   "severity": "warning",
+   "pattern": {
+    "source": "(\\w)\\s+([,;:!?]|\\.(?!\\d))(?=\\s|$)",
+    "flags": "g"
+   },
+   "fix": "$1$2",
+   "safeFix": true,
+   "message": "Remove the space before punctuation"
+  },
+  {
+   "category": "grammar",
+   "id": "missing-space-comma",
+   "severity": "warning",
+   "pattern": {
+    "source": "([A-Za-z])([,;])([A-Za-z])",
+    "flags": "g"
+   },
+   "fix": "$1$2 $3",
+   "safeFix": true,
+   "message": "Add a space after punctuation"
+  },
+  {
+   "category": "grammar",
+   "id": "missing-space-sentence",
+   "severity": "warning",
+   "pattern": {
+    "source": "([a-z]{2})([.!?])([A-Z][a-z])",
+    "flags": "g"
+   },
+   "fix": "$1$2 $3",
+   "safeFix": true,
+   "message": "Add a space between sentences"
+  },
+  {
+   "category": "grammar",
+   "id": "doubled-punctuation",
+   "severity": "warning",
+   "pattern": {
+    "source": "([!?,;:])\\1+",
+    "flags": "g"
+   },
+   "fix": "$1",
+   "safeFix": true,
+   "message": "Doubled punctuation"
+  },
+  {
+   "category": "grammar",
+   "id": "double-period",
+   "severity": "warning",
+   "pattern": {
+    "source": "(^|[^.])\\.\\.(?!\\.)",
+    "flags": "g"
+   },
+   "fix": "$1.",
+   "safeFix": true,
+   "message": "Doubled period"
+  },
+  {
+   "category": "grammar",
+   "id": "lowercase-i",
+   "severity": "warning",
+   "pattern": {
+    "source": "(^|[\\s(“\"‘'])i(?=[\\s,!?;:’']|$)",
+    "flags": "g"
+   },
+   "fix": "$1I",
+   "safeFix": true,
+   "message": "Capitalize “I”"
+  },
+  {
+   "category": "grammar",
+   "id": "unbalanced",
+   "type": "balance",
+   "severity": "suggestion",
+   "message": "Unmatched parenthesis or quotation mark"
+  },
+  {
+   "category": "grammar",
+   "id": "curly-quotes",
+   "type": "curly-quotes",
+   "severity": "suggestion",
+   "safeFix": true,
+   "message": "Use curly quotes and apostrophes",
+   "detail": "Chicago style uses curly (“smart”) quotes and apostrophes, not straight ones. The style guide also says to avoid quotation marks in UI copy where you can."
+  },
+  {
+   "category": "grammar",
+   "id": "could-of",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(could|should|would|must|might) of\\b",
+    "flags": "gi"
+   },
+   "fix": "$1 have",
+   "safeFix": true,
+   "message": "Use “have,” not “of”"
+  },
+  {
+   "category": "grammar",
+   "id": "its-own",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\bit['’]s own\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "match-case",
+    "value": "its own"
+   },
+   "safeFix": true,
+   "message": "Use “its” (possessive)"
+  },
+  {
+   "category": "grammar",
+   "id": "its-contraction",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(its) (a|an|the|not|been|going|time|important|easy|ready|now|possible|available)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "it-is"
+   },
+   "message": "Use “it’s” (it is)"
+  },
+  {
+   "category": "grammar",
+   "id": "your-youre",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(your) (welcome|going|not|being|doing|all set)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "you-are"
+   },
+   "message": "Use “you’re” (you are)"
+  },
+  {
+   "category": "grammar",
+   "id": "then-than",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(more|less|better|greater|fewer|rather|other|higher|lower|larger|smaller|earlier|later|older|newer|faster|slower|sooner|easier|quicker|cheaper|bigger) then\\b",
+    "flags": "gi"
+   },
+   "fix": "$1 than",
+   "safeFix": true,
+   "message": "Use “than” for comparisons"
+  },
+  {
+   "category": "grammar",
+   "id": "lose-loose",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(loose) (your|my|access|data|money|progress|changes)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "lose"
+   },
+   "message": "Use “lose” (to misplace)"
+  },
+  {
+   "category": "grammar",
+   "id": "split-verb",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(to|will|can|please|must|you can|you['’]ll|easily|quickly) (setup|login|logout|signup|signin|checkout|backup|lookup)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "split-verb"
+   },
+   "safeFix": true,
+   "message": "Use two words for the verb",
+   "detail": "“Set up your account” (verb) vs. “the setup” (noun)."
+  },
+  {
+   "category": "grammar",
+   "id": "login-to",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\blogin to\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "match-case",
+    "value": "log in to"
+   },
+   "safeFix": true,
+   "message": "Use “log in” as a verb"
+  },
+  {
+   "category": "grammar",
+   "id": "e-mail",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\be-mail(?:s|ed|ing)?\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "remove-hyphen"
+   },
+   "safeFix": true,
+   "message": "Write “email” without a hyphen"
+  },
+  {
+   "category": "style",
+   "id": "glossary-pay-by-text",
+   "type": "term",
+   "terms": [
+    "Pay by Text",
+    "pay-by-text",
+    "PAY-BY-TEXT"
+   ],
+   "caseSensitive": true,
+   "fix": "Pay-by-Text",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Pay-by-Text”",
+   "detail": "SMS program name. Keep the hyphens and capitalization everywhere, including mid-sentence.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/pay-by-text",
+    "label": "Glossary › Pay-by-Text"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-pay-by-text-case",
+   "type": "term",
+   "terms": [
+    "Pay-by-Text"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Pay-by-Text",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Pay-by-Text” exactly",
+   "detail": "SMS program name. Keep the hyphens and capitalization everywhere, including mid-sentence.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/pay-by-text",
+    "label": "Glossary › Pay-by-Text"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-ez-pay",
+   "type": "term",
+   "terms": [
+    "EZ-Pay",
+    "EZ PAY",
+    "Ez Pay"
+   ],
+   "caseSensitive": true,
+   "fix": "EZ-PAY",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “EZ-PAY”",
+   "detail": "Product name. Use as an adjective (“EZ-PAY service”), not a verb. Add ® only in legal or formal documentation.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/ez-pay",
+    "label": "Glossary › EZ-PAY"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-ez-pay-case",
+   "type": "term",
+   "terms": [
+    "EZ-PAY"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "EZ-PAY",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “EZ-PAY” exactly",
+   "detail": "Product name. Use as an adjective (“EZ-PAY service”), not a verb. Add ® only in legal or formal documentation.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/ez-pay",
+    "label": "Glossary › EZ-PAY"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-storm-center",
+   "type": "term",
+   "terms": [
+    "StormCenter",
+    "storm center"
+   ],
+   "caseSensitive": true,
+   "fix": "Storm Center",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Storm Center”",
+   "detail": "Product name. Two words, both capitalized.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/storm-center",
+    "label": "Glossary › Storm Center"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-storm-center-case",
+   "type": "term",
+   "terms": [
+    "Storm Center"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Storm Center",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Storm Center” exactly",
+   "detail": "Product name. Two words, both capitalized.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/storm-center",
+    "label": "Glossary › Storm Center"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-incidentwatch",
+   "type": "term",
+   "terms": [
+    "Incident Watch"
+   ],
+   "caseSensitive": true,
+   "fix": "IncidentWatch",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “IncidentWatch”",
+   "detail": "Product name. One word, camel case.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/incidentwatch",
+    "label": "Glossary › IncidentWatch"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-incidentwatch-case",
+   "type": "term",
+   "terms": [
+    "IncidentWatch"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "IncidentWatch",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “IncidentWatch” exactly",
+   "detail": "Product name. One word, camel case.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/incidentwatch",
+    "label": "Glossary › IncidentWatch"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-image-library",
+   "type": "term",
+   "terms": [
+    "image library"
+   ],
+   "caseSensitive": true,
+   "fix": "Image Library",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Image Library”",
+   "detail": "Platform tool/service name.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/image-library",
+    "label": "Glossary › Image Library"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-image-library-case",
+   "type": "term",
+   "terms": [
+    "Image Library"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Image Library",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Image Library” exactly",
+   "detail": "Platform tool/service name.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/image-library",
+    "label": "Glossary › Image Library"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-payable-types-case",
+   "type": "term",
+   "terms": [
+    "Payable Types"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Payable Types",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Payable Types” exactly",
+   "detail": "Platform tool/service name.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/payable-types",
+    "label": "Glossary › Payable Types"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-terms-of-use",
+   "type": "term",
+   "terms": [
+    "terms of use",
+    "Terms Of Use",
+    "Terms of use"
+   ],
+   "caseSensitive": true,
+   "fix": "Terms of Use",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Terms of Use”",
+   "detail": "Official legal document name. Capitalize it and always link it to the document.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/terms-of-use",
+    "label": "Glossary › Terms of Use"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-terms-of-use-case",
+   "type": "term",
+   "terms": [
+    "Terms of Use"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Terms of Use",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Terms of Use” exactly",
+   "detail": "Official legal document name. Capitalize it and always link it to the document.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/terms-of-use",
+    "label": "Glossary › Terms of Use"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-terms-and-conditions",
+   "type": "term",
+   "terms": [
+    "terms and conditions",
+    "Terms & Conditions",
+    "T&Cs",
+    "T&C",
+    "Terms and conditions"
+   ],
+   "caseSensitive": true,
+   "fix": "Terms and Conditions",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Terms and Conditions”",
+   "detail": "Official legal document name. Capitalize it and always link it to the document.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/terms-and-conditions",
+    "label": "Glossary › Terms and Conditions"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-terms-and-conditions-case",
+   "type": "term",
+   "terms": [
+    "Terms and Conditions"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Terms and Conditions",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Terms and Conditions” exactly",
+   "detail": "Official legal document name. Capitalize it and always link it to the document.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/terms-and-conditions",
+    "label": "Glossary › Terms and Conditions"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-privacy-policy",
+   "type": "term",
+   "terms": [
+    "privacy policy",
+    "Privacy policy"
+   ],
+   "caseSensitive": true,
+   "fix": "Privacy Policy",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Privacy Policy”",
+   "detail": "Official legal document name. Capitalize it and always link it to the document.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/privacy-policy",
+    "label": "Glossary › Privacy Policy"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-privacy-policy-case",
+   "type": "term",
+   "terms": [
+    "Privacy Policy"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Privacy Policy",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Privacy Policy” exactly",
+   "detail": "Official legal document name. Capitalize it and always link it to the document.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/privacy-policy",
+    "label": "Glossary › Privacy Policy"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-retail-cash-payments-rcp",
+   "type": "term",
+   "terms": [
+    "Cash Payments",
+    "Retail Payments"
+   ],
+   "caseSensitive": true,
+   "fix": "Retail Cash Payments",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Retail Cash Payments”",
+   "detail": "Platform tool/service name. Use the full name in UI; in documentation, RCP may follow the first full mention.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/retail-cash-payments-rcp",
+    "label": "Glossary › Retail Cash Payments (RCP)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-retail-cash-payments-rcp-case",
+   "type": "term",
+   "terms": [
+    "Retail Cash Payments"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Retail Cash Payments",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Retail Cash Payments” exactly",
+   "detail": "Platform tool/service name. Use the full name in UI; in documentation, RCP may follow the first full mention.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/retail-cash-payments-rcp",
+    "label": "Glossary › Retail Cash Payments (RCP)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-paypal",
+   "type": "term",
+   "terms": [
+    "Paypal",
+    "PAYPAL"
+   ],
+   "caseSensitive": true,
+   "fix": "PayPal",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “PayPal”",
+   "detail": "Match the brand’s own capitalization. Attribute in legal or documentation sections, not UI.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/paypal",
+    "label": "Glossary › PayPal"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-paypal-case",
+   "type": "term",
+   "terms": [
+    "PayPal"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "PayPal",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “PayPal” exactly",
+   "detail": "Match the brand’s own capitalization. Attribute in legal or documentation sections, not UI.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/paypal",
+    "label": "Glossary › PayPal"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-apple-pay",
+   "type": "term",
+   "terms": [
+    "ApplePay"
+   ],
+   "caseSensitive": true,
+   "fix": "Apple Pay",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “Apple Pay”",
+   "detail": "Two words.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/apple-pay",
+    "label": "Glossary › Apple Pay"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-apple-pay-case",
+   "type": "term",
+   "terms": [
+    "Apple Pay"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "Apple Pay",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “Apple Pay” exactly",
+   "detail": "Two words.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/apple-pay",
+    "label": "Glossary › Apple Pay"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-cname",
+   "type": "term",
+   "terms": [
+    "Cname",
+    "cname"
+   ],
+   "caseSensitive": true,
+   "fix": "CNAME",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “CNAME”",
+   "detail": "Always fully capitalized. Avoid in consumer UI; if necessary, define it (“System configuration (CNAME)”).",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/cname",
+    "label": "Glossary › CNAME"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-pan",
+   "type": "term",
+   "terms": [
+    "PAN"
+   ],
+   "caseSensitive": true,
+   "fix": "card number",
+   "severity": "warning",
+   "message": "Avoid “PAN” in consumer UI",
+   "detail": "Primary Account Number. Don’t use in consumer UI — say “card number”.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/pan",
+    "label": "Glossary › PAN"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-pan-validation",
+   "type": "term",
+   "terms": [
+    "PAN validation"
+   ],
+   "caseSensitive": true,
+   "severity": "warning",
+   "message": "Avoid “PAN validation” in consumer UI",
+   "detail": "Technical process; lowercase common noun. Never expose in error messages — describe the problem in plain language instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/pan-validation",
+    "label": "Glossary › PAN validation"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-rtn",
+   "type": "term",
+   "terms": [
+    "RTN"
+   ],
+   "caseSensitive": true,
+   "fix": "routing number",
+   "severity": "warning",
+   "message": "Avoid “RTN” in consumer UI",
+   "detail": "Don’t abbreviate in UI — say “routing number”.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/rtn",
+    "label": "Glossary › RTN"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-transaction-division-td-variants",
+   "type": "term",
+   "terms": [
+    "Transaction Division"
+   ],
+   "caseSensitive": false,
+   "severity": "warning",
+   "message": "Avoid this term in consumer UI",
+   "detail": "Descriptor; lowercase except at the start of a sentence. Avoid in consumer UI.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/transaction-division-td",
+    "label": "Glossary › transaction division (TD)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-transaction-division-td",
+   "type": "term",
+   "terms": [
+    "TD"
+   ],
+   "caseSensitive": true,
+   "severity": "warning",
+   "message": "Avoid “TD” in consumer UI",
+   "detail": "Descriptor; lowercase except at the start of a sentence. Avoid in consumer UI.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/transaction-division-td",
+    "label": "Glossary › transaction division (TD)"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-tokenization",
+   "type": "term",
+   "terms": [
+    "tokenization"
+   ],
+   "caseSensitive": false,
+   "severity": "warning",
+   "message": "Avoid “tokenization” in consumer UI",
+   "detail": "Internal or technical term. Avoid in consumer UI; define on first use if required.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/tokenization",
+    "label": "Glossary › tokenization"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-meter-id-variants",
+   "type": "term",
+   "terms": [
+    "service unit identifier"
+   ],
+   "caseSensitive": false,
+   "severity": "warning",
+   "message": "Avoid this term in consumer UI",
+   "detail": "Avoid unless required. Prefer user-facing terms like “account number” or “service address”.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/meter-id",
+    "label": "Glossary › Meter ID"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-meter-id",
+   "type": "term",
+   "terms": [
+    "Meter ID"
+   ],
+   "caseSensitive": true,
+   "severity": "warning",
+   "message": "Avoid “Meter ID” in consumer UI",
+   "detail": "Avoid unless required. Prefer user-facing terms like “account number” or “service address”.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/meter-id",
+    "label": "Glossary › Meter ID"
+   }
+  }
+ ],
+ "data": {
+  "properNouns": [
+   "KUBRA",
+   "MyHQ+",
+   "MyHQ",
+   "BizHQ+",
+   "BizHQ",
+   "Visa",
+   "Mastercard",
+   "American Express",
+   "Discover",
+   "Google Pay",
+   "Venmo",
+   "Zelle",
+   "Android",
+   "iOS",
+   "iPhone",
+   "Wi-Fi",
+   "Monday",
+   "Tuesday",
+   "Wednesday",
+   "Thursday",
+   "Friday",
+   "Saturday",
+   "Sunday",
+   "January",
+   "February",
+   "March",
+   "April",
+   "May",
+   "June",
+   "July",
+   "August",
+   "September",
+   "October",
+   "November",
+   "December",
+   "Mon",
+   "Tue",
+   "Wed",
+   "Thu",
+   "Fri",
+   "Sat",
+   "Sun",
+   "Jan",
+   "Feb",
+   "Mar",
+   "Apr",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Sept",
+   "Oct",
+   "Nov",
+   "Dec",
+   "Pay-by-Text",
+   "EZ-PAY",
+   "Storm Center",
+   "IncidentWatch",
+   "Image Library",
+   "Payable Types",
+   "Terms of Use",
+   "Terms and Conditions",
+   "Privacy Policy",
+   "Retail Cash Payments",
+   "RCP",
+   "Activity Alerts",
+   "Payment Reminders",
+   "PayPal",
+   "Apple Pay"
+  ],
+  "acronyms": [
+   "ACH",
+   "AI",
+   "AM",
+   "API",
+   "ATM",
+   "CAD",
+   "CNAME",
+   "CSV",
+   "CTA",
+   "CVV",
+   "EDT",
+   "EST",
+   "ET",
+   "EZ-PAY",
+   "FAQ",
+   "GST",
+   "HELP",
+   "HQ",
+   "HST",
+   "ID",
+   "IRS",
+   "IVR",
+   "KUBRA",
+   "MFA",
+   "OG&E",
+   "AT&T",
+   "OK",
+   "OTP",
+   "PAN",
+   "PDF",
+   "PIN",
+   "PM",
+   "PST",
+   "QR",
+   "RCP",
+   "RTN",
+   "SMS",
+   "SSN",
+   "SSO",
+   "STOP",
+   "START",
+   "UNSTOP",
+   "UNSUBSCRIBE",
+   "STOPALL",
+   "QUIT",
+   "CANCEL",
+   "END",
+   "INFO",
+   "SUS",
+   "TD",
+   "UI",
+   "URL",
+   "US",
+   "USA",
+   "USD",
+   "UX",
+   "VAT",
+   "ZIP",
+   "MM",
+   "DD",
+   "YY",
+   "YYYY",
+   "HH"
+  ],
+  "abbreviations": [
+   "e.g",
+   "i.e",
+   "etc",
+   "vs",
+   "approx",
+   "incl",
+   "no",
+   "a.m",
+   "p.m",
+   "mr",
+   "mrs",
+   "ms",
+   "dr",
+   "st",
+   "jr",
+   "sr",
+   "inc",
+   "ltd",
+   "co",
+   "dept",
+   "est",
+   "min",
+   "max",
+   "sec",
+   "hr",
+   "hrs",
+   "ft",
+   "oz",
+   "lb",
+   "lbs",
+   "u.s",
+   "acct"
+  ],
+  "anPrefixes": [
+   "hour",
+   "honest",
+   "honor",
+   "honour",
+   "heir"
+  ],
+  "aPrefixes": [
+   "one",
+   "once",
+   "uni",
+   "use",
+   "usa",
+   "usu",
+   "eu",
+   "ubi",
+   "uti"
+  ],
+  "misspellings": {
+   "acces": "access",
+   "acess": "access",
+   "accomodate": "accommodate",
+   "accomodation": "accommodation",
+   "acount": "account",
+   "accout": "account",
+   "adress": "address",
+   "adresses": "addresses",
+   "agian": "again",
+   "alot": "a lot",
+   "amout": "amount",
+   "ammount": "amount",
+   "apparantly": "apparently",
+   "authentification": "authentication",
+   "availible": "available",
+   "avaiable": "available",
+   "avalable": "available",
+   "balence": "balance",
+   "begining": "beginning",
+   "beleive": "believe",
+   "billng": "billing",
+   "buisness": "business",
+   "calender": "calendar",
+   "cancelation": "cancellation",
+   "cancle": "cancel",
+   "comming": "coming",
+   "commited": "committed",
+   "completly": "completely",
+   "confirmaton": "confirmation",
+   "confrim": "confirm",
+   "convinience": "convenience",
+   "curent": "current",
+   "definately": "definitely",
+   "definitly": "definitely",
+   "diffrent": "different",
+   "emial": "email",
+   "enviroment": "environment",
+   "finaly": "finally",
+   "foward": "forward",
+   "garantee": "guarantee",
+   "gaurantee": "guarantee",
+   "goverment": "government",
+   "happend": "happened",
+   "immediatly": "immediately",
+   "independant": "independent",
+   "infomation": "information",
+   "informaton": "information",
+   "insted": "instead",
+   "knowlege": "knowledge",
+   "maintainance": "maintenance",
+   "neccessary": "necessary",
+   "necesary": "necessary",
+   "noticable": "noticeable",
+   "notifcation": "notification",
+   "notificaiton": "notification",
+   "occured": "occurred",
+   "occuring": "occurring",
+   "occurence": "occurrence",
+   "ocurred": "occurred",
+   "pasword": "password",
+   "passowrd": "password",
+   "payement": "payment",
+   "paymet": "payment",
+   "paymnet": "payment",
+   "posible": "possible",
+   "prefered": "preferred",
+   "preffered": "preferred",
+   "privelege": "privilege",
+   "proccess": "process",
+   "proccessed": "processed",
+   "proccessing": "processing",
+   "publically": "publicly",
+   "reccomend": "recommend",
+   "recieve": "receive",
+   "recieved": "received",
+   "recieving": "receiving",
+   "reciept": "receipt",
+   "recomend": "recommend",
+   "recurrance": "recurrence",
+   "refered": "referred",
+   "relevent": "relevant",
+   "responce": "response",
+   "schedual": "schedule",
+   "scheudle": "schedule",
+   "seperate": "separate",
+   "seperately": "separately",
+   "shedule": "schedule",
+   "sincerly": "sincerely",
+   "submited": "submitted",
+   "submiting": "submitting",
+   "succesful": "successful",
+   "succesfully": "successfully",
+   "successfull": "successful",
+   "sucess": "success",
+   "sucessful": "successful",
+   "sucessfully": "successfully",
+   "sumbit": "submit",
+   "teh": "the",
+   "thier": "their",
+   "tomorow": "tomorrow",
+   "tommorow": "tomorrow",
+   "transaciton": "transaction",
+   "transcation": "transaction",
+   "transfered": "transferred",
+   "trasaction": "transaction",
+   "truely": "truly",
+   "untill": "until",
+   "usernmae": "username",
+   "verfication": "verification",
+   "verifcation": "verification",
+   "wich": "which",
+   "wierd": "weird",
+   "withdrawl": "withdrawal"
+  },
+  "splitVerbs": {
+   "setup": "set up",
+   "login": "log in",
+   "logout": "log out",
+   "signup": "sign up",
+   "signin": "sign in",
+   "checkout": "check out",
+   "backup": "back up",
+   "lookup": "look up"
+  },
+  "contractions": [
+   [
+    "can't",
+    "cannot"
+   ],
+   [
+    "can't",
+    "can not"
+   ],
+   [
+    "don't",
+    "do not"
+   ],
+   [
+    "doesn't",
+    "does not"
+   ],
+   [
+    "didn't",
+    "did not"
+   ],
+   [
+    "won't",
+    "will not"
+   ],
+   [
+    "isn't",
+    "is not"
+   ],
+   [
+    "aren't",
+    "are not"
+   ],
+   [
+    "wasn't",
+    "was not"
+   ],
+   [
+    "weren't",
+    "were not"
+   ],
+   [
+    "haven't",
+    "have not"
+   ],
+   [
+    "hasn't",
+    "has not"
+   ],
+   [
+    "couldn't",
+    "could not"
+   ],
+   [
+    "shouldn't",
+    "should not"
+   ],
+   [
+    "wouldn't",
+    "would not"
+   ],
+   [
+    "you'll",
+    "you will"
+   ],
+   [
+    "you're",
+    "you are"
+   ],
+   [
+    "we're",
+    "we are"
+   ],
+   [
+    "we'll",
+    "we will"
+   ],
+   [
+    "it's",
+    "it is"
+   ],
+   [
+    "that's",
+    "that is"
+   ],
+   [
+    "there's",
+    "there is"
+   ]
+  ],
+  "legalDocuments": [
+   "Terms of Use",
+   "Terms and Conditions",
+   "Privacy Policy"
+  ],
+  "standardCopy": [
+   {
+    "id": "standard-error",
+    "title": "Standard system error",
+    "category": "error-messages",
+    "text": "Something went wrong due to a system error. Please try again later.",
+    "placeholders": {},
+    "guide": {
+     "url": "https://haydenharrison-kubra.github.io/#standard-copy/standard-error",
+     "label": "Standard Copy › Standard system error"
+    }
+   },
+   {
+    "id": "myhq-consumer",
+    "title": "MyHQ+ Activity Alerts opt-in",
+    "category": "sms-compliance",
+    "text": "Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By providing your mobile number, you agree to receive automated text messages from ABC Company via KUBRA. See ABC Company’s Terms of Use and KUBRA’s Terms and Conditions and Privacy Policy.",
+    "placeholders": {
+     "ABC Company": "Client name"
+    },
+    "guide": {
+     "url": "https://haydenharrison-kubra.github.io/#standard-copy/myhq-consumer",
+     "label": "Standard Copy › MyHQ+ Activity Alerts opt-in"
+    }
+   },
+   {
+    "id": "myhq-non-consumer",
+    "title": "MyHQ+ two-factor opt-in",
+    "category": "sms-compliance",
+    "text": "Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By turning on KUBRA two-factor authentication, you accept KUBRA’s Terms and Conditions and Privacy Policy.",
+    "placeholders": {},
+    "guide": {
+     "url": "https://haydenharrison-kubra.github.io/#standard-copy/myhq-non-consumer",
+     "label": "Standard Copy › MyHQ+ two-factor opt-in"
+    }
+   },
+   {
+    "id": "bizhq-consumer",
+    "title": "BizHQ+ Activity Alerts opt-in",
+    "category": "sms-compliance",
+    "text": "Do you, Joe Smith, agree to receive automated text messages to (480) 111-1111 from KUBRA’s Activity Alerts program? Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By agreeing, you accept ABC Company’s Terms of Use and KUBRA’s Terms and Conditions and Privacy Policy.",
+    "placeholders": {
+     "Joe Smith": "Recipient’s name",
+     "(480) 111-1111": "Recipient’s mobile number",
+     "ABC Company": "Client name"
+    },
+    "guide": {
+     "url": "https://haydenharrison-kubra.github.io/#standard-copy/bizhq-consumer",
+     "label": "Standard Copy › BizHQ+ Activity Alerts opt-in"
+    }
+   }
+  ],
+  "standardCopyCategories": {
+   "error-messages": {
+    "name": "Error messages",
+    "guide": {
+     "url": "https://haydenharrison-kubra.github.io/#standard-copy/error-messages",
+     "label": "Standard Copy › Error messages"
+    }
+   },
+   "sms-compliance": {
+    "name": "SMS compliance",
+    "guide": {
+     "url": "https://haydenharrison-kubra.github.io/#standard-copy/sms-compliance",
+     "label": "Standard Copy › SMS compliance"
+    }
+   }
+  },
+  "standardCopyChecks": {
+   "sms-compliance": {
+    "severity": "error",
+    "autoFix": false,
+    "message": "SMS disclosure doesn’t match approved copy",
+    "anchors": [
+     "message and data rates",
+     "msg & data rates",
+     "msg and data rates",
+     "message frequency varies",
+     "msg frequency varies"
+    ]
+   },
+   "error-messages": {
+    "severity": "suggestion",
+    "message": "Consider the standard system error message",
+    "detail": "If this is a general system error, use the approved message word for word. Specific errors should say what happened and what to do next.",
+    "anchors": [
+     "something went wrong"
+    ]
+   }
+  }
+ }
+}

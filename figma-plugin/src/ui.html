@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KUBRA Copy Audit</title>
+<style>
+  :root {
+    --bg: var(--figma-color-bg, #ffffff);
+    --bg-2: var(--figma-color-bg-secondary, #f5f5f5);
+    --bg-hover: var(--figma-color-bg-hover, #f0f0f0);
+    --text: var(--figma-color-text, #1e1e1e);
+    --muted: var(--figma-color-text-secondary, #6b6b6b);
+    --faint: var(--figma-color-text-tertiary, #9a9a9a);
+    --border: var(--figma-color-border, #e6e6e6);
+    --brand: #037eb4;
+    --brand-ink: #03587c;
+    --on-brand: #ffffff;
+    --error: #c9302c;
+    --warning: #b45d00;
+    --suggestion: #037eb4;
+    --mark: rgba(255, 198, 39, .38);
+    --ins: rgba(94, 158, 42, .16);
+    --ins-ink: #2f6410;
+    --focus: 0 0 0 2px rgba(3, 126, 180, .45);
+  }
+  .figma-dark {
+    --brand: #3aaadd;
+    --brand-ink: #8fd0ef;
+    --on-brand: #03202e;
+    --error: #ff7b72;
+    --warning: #f0a35a;
+    --suggestion: #62bfe8;
+    --mark: rgba(255, 198, 39, .28);
+    --ins: rgba(125, 189, 65, .18);
+    --ins-ink: #a3d97f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    display: flex; flex-direction: column;
+    background: var(--bg); color: var(--text);
+    font: 12px/1.45 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 6px; }
+  svg { width: 14px; height: 14px; flex: none; }
+
+  .top { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .brand { font-weight: 600; font-size: 13px; }
+  .brand b { font-weight: 800; letter-spacing: .12em; color: var(--brand-ink); margin-right: 4px; }
+  .rules-status { margin-left: auto; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 190px; }
+  .rules-status .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; background: var(--faint); }
+  .rules-status.live .dot { background: #5e9e2a; }
+  .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); }
+  .icon-btn:hover, .icon-btn[aria-expanded="true"] { background: var(--bg-hover); color: var(--text); }
+
+  .scanbar { display: flex; gap: 8px; padding: 10px 12px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); font-weight: 500; white-space: nowrap; }
+  .btn:hover:not(:disabled) { background: var(--bg-hover); }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  .btn.primary:hover:not(:disabled) { background: var(--brand-ink); border-color: var(--brand-ink); }
+  .scanbar .btn { flex: 1; }
+
+  .settings { margin: 0 12px 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-2); display: grid; gap: 6px; }
+  .settings h3 { margin: 4px 0 0; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .settings h3:first-child { margin-top: 0; }
+  .settings label { display: flex; align-items: center; gap: 8px; }
+
+  .summary { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 0 12px 10px; border-bottom: 1px solid var(--border); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); font-size: 11px; font-weight: 500; }
+  .chip .sev { width: 7px; height: 7px; border-radius: 50%; }
+  .chip[aria-pressed="false"] { opacity: .45; }
+  .chip:hover { background: var(--bg-hover); }
+  .summary .spacer { flex: 1; }
+  .btn.small { height: 24px; padding: 0 9px; font-size: 11px; }
+
+  .sev-error { background: var(--error); }
+  .sev-warning { background: var(--warning); }
+  .sev-suggestion { background: var(--suggestion); }
+
+  main { flex: 1; overflow-y: auto; padding: 4px 0 16px; }
+  .empty { padding: 32px 24px; text-align: center; color: var(--muted); }
+  .empty strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 13px; }
+  .progress { padding: 32px 24px; text-align: center; color: var(--muted); }
+  .bar { height: 4px; margin: 10px auto 0; max-width: 220px; border-radius: 2px; background: var(--bg-2); overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 0; background: var(--brand); transition: width .2s; }
+
+  .frame-head { position: sticky; top: 0; z-index: 1; margin: 0; padding: 8px 12px 6px; background: var(--bg); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .layer { margin: 0 8px 8px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .layer-head { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; border: 0; background: var(--bg-2); text-align: left; }
+  .layer-head:hover { background: var(--bg-hover); }
+  .layer-name { flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ctx { flex: none; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--muted); font-size: 10px; font-weight: 500; }
+  .locate { color: var(--faint); }
+  .layer-head:hover .locate { color: var(--text); }
+
+  .issue { padding: 10px 10px 10px 12px; border-top: 1px solid var(--border); }
+  .issue.is-ignored { opacity: .55; }
+  .issue-top { display: flex; align-items: flex-start; gap: 8px; }
+  .issue-top .sev { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex: none; }
+  .msg { font-weight: 600; }
+  .sev-label { font-weight: 500; color: var(--muted); }
+  .snippet { margin: 6px 0 0 16px; padding: 6px 8px; border-radius: 6px; background: var(--bg-2); white-space: pre-wrap; word-break: break-word; }
+  .snippet mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1px; }
+  .fix-preview { margin: 4px 0 0 16px; color: var(--muted); white-space: pre-wrap; word-break: break-word; }
+  .fix-preview ins { text-decoration: none; background: var(--ins); color: var(--ins-ink); border-radius: 2px; padding: 0 2px; }
+  .detail { margin: 6px 0 0 16px; color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0 16px; }
+  .link-btn { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 6px; border: 0; background: transparent; color: var(--brand-ink); font-size: 11px; font-weight: 500; border-radius: 6px; }
+  .link-btn:hover { background: var(--bg-hover); }
+
+  footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); }
+  footer .link-btn { padding: 0 4px; }
+  .toast { position: fixed; left: 50%; bottom: 44px; transform: translate(-50%, 8px); padding: 7px 12px; border-radius: 6px; background: var(--text); color: var(--bg); font-size: 11px; opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; max-width: 90%; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b>KUBRA</b>Copy Audit</div>
+  <span class="rules-status" id="rulesStatus"><span class="dot"></span>Loading rules…</span>
+  <button class="icon-btn" id="settingsBtn" type="button" aria-label="Settings" aria-expanded="false" aria-controls="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+  </button>
+</header>
+
+<div class="scanbar">
+  <button class="btn primary" id="scanSelection" type="button" disabled>Scan selection</button>
+  <button class="btn" id="scanPage" type="button">Scan page</button>
+</div>
+
+<div class="settings" id="settings" hidden>
+  <h3>Checks</h3>
+  <label><input type="checkbox" data-cat="style" checked> Style guide rules</label>
+  <label><input type="checkbox" data-cat="compliance" checked> Compliance (SMS, standard copy, PCI)</label>
+  <label><input type="checkbox" data-cat="grammar" checked> Grammar, spelling, and punctuation</label>
+  <h3>Scanning</h3>
+  <label><input type="checkbox" id="includeHidden"> Include hidden layers</label>
+  <label><input type="checkbox" id="showIgnored"> Show ignored issues</label>
+</div>
+
+<div class="summary" id="summary" hidden></div>
+
+<main id="results" aria-live="polite"></main>
+
+<footer>
+  <span id="scanInfo"></span>
+  <button class="link-btn" id="openGuide" type="button">Open style guide
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+  </button>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>/*__ENGINE__*/</script>
+<script>
+(function () {
+  "use strict";
+  var BUNDLED_RULES = /*__RULES__*/null;
+  var RULES_URL = "__RULES_URL__";
+  var SITE_URL = "__SITE_URL__";
+  var SEVERITIES = ["error", "warning", "suggestion"];
+  var SEV_LABEL = { error: "Error", warning: "Warning", suggestion: "Suggestion" };
+  var ICON_LOCATE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>';
+  var ICON_EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+
+  var state = {
+    compiled: null, rulesInfo: null, liveError: null,
+    items: new Map(), order: [], issues: new Map(),
+    sev: { error: true, warning: true, suggestion: true },
+    cats: { style: true, grammar: true, compliance: true },
+    showIgnored: false, includeHidden: false,
+    selection: 0, scanned: false, scanning: false, scanMeta: null
+  };
+  var $ = function (id) { return document.getElementById(id); };
+  var post = function (msg) { parent.postMessage({ pluginMessage: msg }, "*"); };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; });
+  }
+  // Show spaces as dots only when whitespace is what's wrong (double spaces, leading/trailing spaces).
+  function visibleWs(s) { return /\s{2,}|^\s|\s$/.test(s) ? s.replace(/ /g, "·").replace(/\n/g, "↵") : s; }
+  function formatDate(iso) {
+    if (!iso) return "";
+    var p = iso.split("-");
+    return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][+p[1] - 1] + " " + +p[2] + ", " + p[0];
+  }
+  var toastTimer;
+  function toast(text) {
+    var t = $("toast");
+    t.textContent = text;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2200);
+  }
+  function copyText(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+    toast(ok ? "Approved text copied" : "Couldn’t copy. Open the guide link to copy it there.");
+  }
+
+  // ---------- rules ----------
+  function useRules(json, source) {
+    try {
+      state.compiled = CopyAudit.compile(json);
+      state.rulesInfo = { source: source, updated: json.updated, version: json.version };
+      renderRulesStatus();
+      recheckAll();
+      render();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  function fetchLive() {
+    var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 6000);
+    fetch(RULES_URL, { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function (json) {
+        clearTimeout(timer);
+        if (useRules(json, "live")) post({ type: "cache-rules", rules: json });
+        else { state.liveError = "The live rules need a newer plugin version."; renderRulesStatus(); }
+      })
+      .catch(function (e) {
+        clearTimeout(timer);
+        state.liveError = "Couldn’t reach the style guide (" + (e && e.message ? e.message : "offline") + ").";
+        renderRulesStatus();
+      });
+  }
+  function renderRulesStatus() {
+    var el = $("rulesStatus");
+    var info = state.rulesInfo;
+    if (!info) { el.innerHTML = '<span class="dot"></span>Loading rules…'; return; }
+    var src = info.source === "live" ? "Live rules" : info.source === "cached" ? "Saved rules" : "Built-in rules";
+    el.className = "rules-status" + (info.source === "live" ? " live" : "");
+    el.innerHTML = '<span class="dot"></span>' + esc(src + " · " + formatDate(info.updated));
+    el.title = (info.source === "live" ? "Up to date with the style guide." : (state.liveError || "Checking the style guide for updates…")) + " Version " + info.version + ".";
+  }
+
+  // ---------- checking ----------
+  function recheck(id) {
+    var item = state.items.get(id);
+    if (!item || !state.compiled) return;
+    state.issues.set(id, CopyAudit.check(state.compiled, item, { categories: state.cats }));
+  }
+  function recheckAll() { state.order.forEach(recheck); }
+
+  function visibleIssues(id) {
+    return (state.issues.get(id) || []).filter(function (i) {
+      return state.sev[i.severity] && (state.showIgnored || !i.ignored);
+    });
+  }
+
+  // ---------- rendering ----------
+  function snippetHtml(text, start, end) {
+    var pad = 50;
+    var s = Math.max(0, start - pad), e = Math.min(text.length, end + pad);
+    if (end - start > 180) e = Math.min(text.length, start + 180);
+    var match = text.slice(start, Math.min(end, e));
+    return (s > 0 ? "…" : "") + esc(text.slice(s, start)) + "<mark>" + esc(visibleWs(match)) + "</mark>" + esc(text.slice(Math.min(end, e), e)) + (e < text.length ? "…" : "");
+  }
+  function fixHtml(issue) {
+    if (issue.replacement == null) return "";
+    if (issue.replacement === "") return '<div class="fix-preview">Fix: remove <ins>' + esc(visibleWs(issue.match)) + "</ins></div>";
+    var r = issue.replacement.length > 220 ? issue.replacement.slice(0, 220) + "…" : issue.replacement;
+    return '<div class="fix-preview">Fix: <ins>' + esc(visibleWs(r)) + "</ins></div>";
+  }
+
+  function render() {
+    var results = $("results");
+    if (state.scanning) return;
+    if (!state.scanned) {
+      $("summary").hidden = true;
+      results.innerHTML = '<div class="empty"><strong>Check copy against the style guide</strong>Select frames or layers and choose Scan selection, or scan the whole page.</div>';
+      $("scanInfo").textContent = "";
+      return;
+    }
+
+    var counts = { error: 0, warning: 0, suggestion: 0 }, safe = [];
+    state.order.forEach(function (id) {
+      (state.issues.get(id) || []).forEach(function (i) {
+        if (i.ignored) return;
+        counts[i.severity]++;
+        if (i.safeFix && state.sev[i.severity]) safe.push({ id: id, issue: i });
+      });
+    });
+    var safeFixes = pickNonOverlapping(safe);
+    var summary = $("summary");
+    summary.hidden = false;
+    summary.innerHTML = SEVERITIES.map(function (s) {
+      return '<button type="button" class="chip" data-sev="' + s + '" aria-pressed="' + state.sev[s] + '"><span class="sev sev-' + s + '"></span>' + counts[s] + " " + SEV_LABEL[s].toLowerCase() + (counts[s] === 1 ? "" : "s") + "</button>";
+    }).join("") + '<span class="spacer"></span>' +
+      (safeFixes.length ? '<button type="button" class="btn small" id="fixAllSafe" title="Applies fixes that are safe to make in bulk. Undo with Cmd/Ctrl+Z.">Fix ' + safeFixes.length + " safe</button>" : "");
+    state.safeFixes = safeFixes;
+
+    var meta = state.scanMeta || {};
+    $("scanInfo").textContent = state.order.length + " text layer" + (state.order.length === 1 ? "" : "s") + " scanned" +
+      (meta.truncated ? " (first " + meta.limit + ")" : "") + (meta.hiddenSkipped ? " · " + meta.hiddenSkipped + " hidden skipped" : "") +
+      (meta.iconsSkipped ? " · " + meta.iconsSkipped + " icon" + (meta.iconsSkipped === 1 ? "" : "s") + " skipped" : "");
+
+    var html = "", lastFrame = null, shown = 0;
+    state.order.forEach(function (id) {
+      var item = state.items.get(id);
+      var list = visibleIssues(id);
+      if (!list.length) return;
+      shown += list.length;
+      var frame = item.frame || "";
+      if (frame !== lastFrame) { html += '<h2 class="frame-head" title="' + esc(frame) + '">' + esc(frame || "Page") + "</h2>"; lastFrame = frame; }
+      html += '<section class="layer"><button type="button" class="layer-head" data-select="' + esc(id) + '" title="Select this layer in Figma (' + esc(item.contextLabel + ", from " + item.contextSource) + ')">' +
+        '<span class="layer-name">' + esc(item.name) + '</span><span class="ctx">' + esc(item.contextLabel) + '</span><span class="locate">' + ICON_LOCATE + "</span></button>";
+      list.forEach(function (i, n) {
+        html += '<div class="issue' + (i.ignored ? " is-ignored" : "") + '">' +
+          '<div class="issue-top"><span class="sev sev-' + i.severity + '" aria-hidden="true"></span><div><span class="msg">' + esc(i.message) + '</span> <span class="sev-label">· ' + SEV_LABEL[i.severity] + "</span></div></div>" +
+          '<div class="snippet">' + snippetHtml(item.text, i.start, i.end) + "</div>" + fixHtml(i) +
+          (i.detail ? '<p class="detail">' + esc(i.detail) + "</p>" : "") +
+          '<div class="actions">' +
+          (i.replacement != null && !i.ignored ? '<button type="button" class="btn small primary" data-fix="' + esc(id) + '" data-n="' + n + '">Fix</button>' : "") +
+          (i.approvedText ? '<button type="button" class="btn small" data-copy="' + esc(id) + '" data-n="' + n + '">Copy approved text</button>' : "") +
+          '<button type="button" class="btn small" data-ignore="' + esc(id) + '" data-n="' + n + '">' + (i.ignored ? "Restore" : "Ignore") + "</button>" +
+          (i.guide ? '<button type="button" class="link-btn" data-url="' + esc(i.guide.url) + '" title="' + esc(i.guide.label) + '">Guide' + ICON_EXT + "</button>" : "") +
+          "</div></div>";
+      });
+      html += "</section>";
+    });
+    if (!shown) {
+      var hiddenByFilter = counts.error + counts.warning + counts.suggestion > 0;
+      html = '<div class="empty"><strong>' + (hiddenByFilter ? "No issues match the filters" : "No issues found") + "</strong>" +
+        (hiddenByFilter ? "Turn a severity back on to see them." : "Checked " + state.order.length + " text layer" + (state.order.length === 1 ? "" : "s") + ".") + "</div>";
+    }
+    results.innerHTML = html;
+  }
+
+  function pickNonOverlapping(list) {
+    var byNode = {}, out = [];
+    list.forEach(function (x) { (byNode[x.id] = byNode[x.id] || []).push(x); });
+    Object.keys(byNode).forEach(function (id) {
+      var taken = [];
+      byNode[id].forEach(function (x) {
+        if (taken.some(function (t) { return x.issue.start < t.end && x.issue.end > t.start; })) return;
+        taken.push(x.issue);
+        out.push(x);
+      });
+    });
+    return out;
+  }
+
+  function fixMessage(id, issue) {
+    return { nodeId: id, start: issue.start, end: issue.end, expected: issue.match, replacement: issue.replacement };
+  }
+
+  // ---------- events ----------
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("button");
+    if (!t) return;
+    var id, list;
+    if (t.dataset.select) { post({ type: "select", nodeId: t.dataset.select }); return; }
+    if (t.dataset.url) { post({ type: "open-url", url: t.dataset.url }); return; }
+    if (t.dataset.sev) { state.sev[t.dataset.sev] = !state.sev[t.dataset.sev]; render(); return; }
+    if (t.id === "fixAllSafe") {
+      post({ type: "apply-fixes", fixes: state.safeFixes.map(function (x) { return fixMessage(x.id, x.issue); }) });
+      return;
+    }
+    if (t.dataset.fix || t.dataset.ignore || t.dataset.copy) {
+      id = t.dataset.fix || t.dataset.ignore || t.dataset.copy;
+      list = visibleIssues(id);
+      var issue = list[+t.dataset.n];
+      if (!issue) return;
+      if (t.dataset.fix) post({ type: "apply-fixes", fixes: [fixMessage(id, issue)] });
+      else if (t.dataset.copy) copyText(issue.approvedText);
+      else post({ type: "ignore", nodeId: id, key: issue.key, ignored: !issue.ignored });
+    }
+  });
+
+  $("scanSelection").addEventListener("click", function () { startScan("selection"); });
+  $("scanPage").addEventListener("click", function () { startScan("page"); });
+  $("openGuide").addEventListener("click", function () { post({ type: "open-url", url: SITE_URL }); });
+  $("settingsBtn").addEventListener("click", function () {
+    var open = $("settings").hidden;
+    $("settings").hidden = !open;
+    $("settingsBtn").setAttribute("aria-expanded", String(open));
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-cat]"), function (cb) {
+    cb.addEventListener("change", function () { state.cats[cb.dataset.cat] = cb.checked; recheckAll(); render(); });
+  });
+  $("includeHidden").addEventListener("change", function (e) { state.includeHidden = e.target.checked; });
+  $("showIgnored").addEventListener("change", function (e) { state.showIgnored = e.target.checked; render(); });
+
+  function startScan(scope) {
+    state.scanning = true;
+    $("scanSelection").disabled = true;
+    $("scanPage").disabled = true;
+    $("summary").hidden = true;
+    $("results").innerHTML = '<div class="progress">Scanning text layers…<div class="bar"><span id="bar"></span></div></div>';
+    post({ type: "scan", scope: scope, includeHidden: state.includeHidden });
+  }
+  function renderScanbar() {
+    var n = state.selection;
+    var btn = $("scanSelection");
+    btn.disabled = state.scanning || n === 0;
+    btn.textContent = n ? "Scan selection (" + n + ")" : "Scan selection";
+    $("scanPage").disabled = state.scanning;
+  }
+
+  var handlers = {
+    init: function (msg) {
+      state.selection = msg.selection || 0;
+      renderScanbar();
+      if (!(msg.cachedRules && useRules(msg.cachedRules, "cached"))) useRules(BUNDLED_RULES, "built-in");
+      fetchLive();
+    },
+    selection: function (msg) { state.selection = msg.count; renderScanbar(); },
+    "page-changed": function (msg) {
+      state.selection = msg.selection || 0;
+      state.scanned = false;
+      state.items = new Map(); state.order = []; state.issues = new Map();
+      renderScanbar();
+      render();
+    },
+    "scan-progress": function (msg) {
+      var bar = $("bar");
+      if (bar) bar.style.width = Math.round((msg.done / msg.total) * 100) + "%";
+    },
+    "scan-result": function (msg) {
+      state.scanning = false;
+      state.scanned = true;
+      state.scanMeta = msg;
+      state.items = new Map(msg.items.map(function (i) { return [i.id, i]; }));
+      state.order = msg.items.map(function (i) { return i.id; });
+      state.issues = new Map();
+      recheckAll();
+      renderScanbar();
+      render();
+    },
+    "nodes-updated": function (msg) {
+      msg.items.forEach(function (item) { state.items.set(item.id, item); recheck(item.id); });
+      render();
+    },
+    "fix-result": function (msg) {
+      var text = msg.applied ? "Applied " + msg.applied + " fix" + (msg.applied === 1 ? "" : "es") + ". Undo with Cmd/Ctrl+Z." : "";
+      if (msg.failed.length) text += (text ? " " : "") + msg.failed[0].reason + (msg.failed.length > 1 ? " (" + msg.failed.length + " not applied)" : "");
+      toast(text || "Nothing to fix.");
+    },
+    error: function (msg) {
+      state.scanning = false;
+      renderScanbar();
+      toast("Something went wrong in the plugin: " + msg.message);
+      render();
+    }
+  };
+  window.addEventListener("message", function (e) {
+    var msg = e.data && e.data.pluginMessage;
+    if (msg && handlers[msg.type]) handlers[msg.type](msg);
+  });
+
+  render();
+  post({ type: "ready" });
+})();
+</script>
+</body>
+</html>

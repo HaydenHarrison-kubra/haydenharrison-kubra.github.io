@@ -1,0 +1,50 @@
+{
+  "_help": [
+    "Tells the plugin what kind of text a layer is, so the right rules apply (for example, button rules only run on buttons).",
+    "Each pattern is a case-insensitive regular expression matched against: the text layer's own name (if it was renamed), its text style name, and the names and variant values of the components it sits inside.",
+    "Order matters: when several contexts match, the one listed first wins.",
+    "\"strong\" contexts are controls. If a text layer sits inside one (for example, a Button component), that wins over anything else.",
+    "\"parent\" means a context also gets every rule for its parent (a text-only button follows all button rules, except the length limit).",
+    "Text that matches nothing is treated as body text. After editing, run: node figma-plugin/build.mjs",
+    "\"ignore\" lists fonts and text styles that draw icons from words (like \"chevron-up\" or \"wallet\"). Text in them is skipped. Patterns are case-insensitive regular expressions matched against the font family and the text style name."
+  ],
+  "ignore": {
+    "fontFamilies": ["icon", "font ?awesome", "material symbols", "phosphor", "glyph"],
+    "textStyles": ["\\bicons?\\b"]
+  },
+  "links": {
+    "_help": [
+      "What counts as a link, besides a real Figma hyperlink or an underline.",
+      "textStyles: text style names. colorNames: color style or color variable names applied to the text.",
+      "blueText: treat any blue text color as a link. colors: exact link colors (hex) to also accept."
+    ],
+    "textStyles": ["\\blinks?\\b", "\\bhyperlink\\b"],
+    "colorNames": ["\\blinks?\\b", "\\bhyperlink\\b", "\\bblue\\b"],
+    "blueText": true,
+    "colors": ["#037EB4"]
+  },
+  "textOnlyButtons": {
+    "_help": "How the plugin tells text-only buttons (up to 5 words) from buttons with a container (3 words). A button counts as text-only if one of its variant values matches these patterns, or if the button has no visible background or border.",
+    "variantValues": ["^text( only)?$", "text[- ]only", "^tertiary$", "^ghost$", "^link$", "^plain$", "^borderless$"],
+    "checkBackground": true
+  },
+  "contexts": [
+    { "id": "text-button", "label": "Text-only button", "parent": "button", "strong": true, "patterns": ["\\btext[- ]?(only )?button\\b", "\\btertiary button\\b", "\\bghost button\\b", "\\blink button\\b", "\\bplain button\\b"] },
+    { "id": "button", "label": "Button", "strong": true, "patterns": ["\\bbutton\\b", "\\bbtn\\b", "\\bcta\\b"] },
+    { "id": "link", "label": "Link", "strong": true, "patterns": ["\\blink\\b", "\\bhyperlink\\b"] },
+    { "id": "toggle", "label": "Toggle", "strong": true, "patterns": ["\\btoggle\\b", "\\bswitch\\b"] },
+    { "id": "checkbox", "label": "Checkbox or radio", "strong": true, "patterns": ["\\bcheck ?box\\b", "\\bradio\\b"] },
+    { "id": "tab", "label": "Tab", "strong": true, "patterns": ["\\btabs?\\b"] },
+    { "id": "menu", "label": "Menu or dropdown", "strong": true, "patterns": ["\\bmenu\\b", "\\bdropdown\\b", "\\bselect\\b", "\\bnav(igation)?\\b", "\\boption\\b"] },
+    { "id": "placeholder", "label": "Placeholder", "strong": true, "patterns": ["\\bplaceholder\\b"] },
+    { "id": "tooltip", "label": "Tooltip", "strong": true, "patterns": ["\\btooltip\\b", "\\bpopover\\b"] },
+    { "id": "table-header", "label": "Table header", "strong": true, "patterns": ["\\btable ?header\\b", "\\bcolumn ?header\\b", "\\bheader ?cell\\b"] },
+    { "id": "error", "label": "Error message", "patterns": ["\\berror\\b", "\\bdanger\\b", "\\bcritical\\b", "\\bvalidation\\b", "\\bdestructive\\b"] },
+    { "id": "success", "label": "Success message", "patterns": ["\\bsuccess\\b", "\\btoast\\b", "\\bsnackbar\\b"] },
+    { "id": "banner", "label": "Banner or alert", "patterns": ["\\bbanner\\b", "\\balert\\b", "\\bwarning\\b", "\\bnotification\\b", "\\bnotice\\b", "\\bcallout\\b", "\\binline message\\b"] },
+    { "id": "heading", "label": "Heading", "patterns": ["\\bheading\\b", "\\bheadline\\b", "\\btitle\\b", "\\bh[1-6]\\b", "\\bdisplay\\b"] },
+    { "id": "label", "label": "Field label", "patterns": ["\\blabel\\b", "\\binput\\b", "\\btext ?field\\b", "\\bform ?field\\b"] },
+    { "id": "helper", "label": "Helper text", "patterns": ["\\bhelper\\b", "\\bhint\\b", "\\bhelp ?text\\b", "\\bdescription\\b", "\\bcaption\\b"] },
+    { "id": "modal", "label": "Modal or dialog", "patterns": ["\\bmodal\\b", "\\bdialog\\b"] }
+  ]
+}
