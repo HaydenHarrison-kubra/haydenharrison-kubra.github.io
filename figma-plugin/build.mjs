@@ -1,13 +1,13 @@
 // Builds the Figma plugin and the published rules file. No dependencies; run with: node figma-plugin/build.mjs
 //
-// Inputs:  ../index.html (GLOSSARY, STANDARD_COPY, CHANGELOG), ../content/pages/*.md (headings for guide links),
+// Inputs:  ../content/sections.json, glossary.json, standard-copy.json, ../content/pages/*.md (headings for guide links),
 //          rules/*.mjs, config/*.json, src/*
 // Outputs: ../rules.json (fetched live by the plugin), manifest.json, dist/code.js, dist/ui.html
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
-import vm from "node:vm";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -26,12 +26,10 @@ const engine = createRequire(import.meta.url)("./src/engine.js");
 const siteUrl = plugin.siteUrl.replace(/\/?$/, "/");
 
 // ---------- site data ----------
-const html = read(path.join(site, "index.html"));
-const dataScript = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((s) => s.includes("var STANDARD_COPY"));
-if (!dataScript) fail("couldn't find the site data script in index.html");
-const sandbox = {};
-vm.runInNewContext(dataScript, sandbox);
-const { SECTIONS, GLOSSARY, STANDARD_COPY, CHANGELOG } = sandbox;
+const readJson = (p) => JSON.parse(read(path.join(site, p)));
+const SECTIONS = readJson("content/sections.json").sections;
+const GLOSSARY = readJson("content/glossary.json");
+const STANDARD_COPY = readJson("content/standard-copy.json");
 
 // Same as slugify() in app.js, so links land on the right heading.
 const slugify = (s) => s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -198,7 +196,12 @@ const payload = {
   }
 };
 const version = createHash("sha1").update(JSON.stringify(payload)).digest("hex").slice(0, 8);
-const updated = CHANGELOG.map((e) => e.date).sort().pop();
+// When the rule inputs last changed (from git), shown in the plugin's header.
+let updated;
+try {
+  updated = execFileSync("git", ["log", "-1", "--format=%cs", "--", "content", "figma-plugin/rules", "figma-plugin/config"], { cwd: site, encoding: "utf8" }).trim();
+} catch (e) {}
+if (!updated) updated = new Date().toISOString().slice(0, 10);
 const rulesJson = { schema: engine.SCHEMA, version, updated, siteUrl, ...payload };
 engine.compile(rulesJson); // fails loudly if the engine can't read what we built
 

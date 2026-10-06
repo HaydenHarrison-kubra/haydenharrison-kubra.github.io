@@ -1,0 +1,67 @@
+[
+  {
+    "id": "error-messages",
+    "name": "Error messages",
+    "related": [
+      "message-types"
+    ],
+    "items": [
+      {
+        "id": "standard-error",
+        "title": "Standard system error",
+        "tags": [
+          "All products"
+        ],
+        "context": "Use when a request fails because of a system error and there’s nothing the user can do to fix it.",
+        "text": "Something went wrong due to a system error. Please try again later."
+      }
+    ]
+  },
+  {
+    "id": "sms-compliance",
+    "name": "SMS compliance",
+    "related": [
+      "commercial-communications",
+      "legal-content"
+    ],
+    "intro": "Required disclosure language for SMS enrollment. Use the version that matches the product and program type, and don’t paraphrase it.",
+    "items": [
+      {
+        "id": "myhq-consumer",
+        "title": "MyHQ+ Activity Alerts opt-in",
+        "tags": [
+          "MyHQ+",
+          "Consumer"
+        ],
+        "text": "Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By providing your mobile number, you agree to receive automated text messages from ABC Company via KUBRA. See ABC Company’s Terms of Use and KUBRA’s Terms and Conditions and Privacy Policy.",
+        "placeholders": {
+          "ABC Company": "Client name"
+        }
+      },
+      {
+        "id": "myhq-non-consumer",
+        "title": "MyHQ+ two-factor opt-in",
+        "tags": [
+          "MyHQ+",
+          "Non-consumer"
+        ],
+        "context": "Includes KUBRA two-factor authentication.",
+        "text": "Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By turning on KUBRA two-factor authentication, you accept KUBRA’s Terms and Conditions and Privacy Policy."
+      },
+      {
+        "id": "bizhq-consumer",
+        "title": "BizHQ+ Activity Alerts opt-in",
+        "tags": [
+          "BizHQ+",
+          "Consumer"
+        ],
+        "text": "Do you, Joe Smith, agree to receive automated text messages to (480) 111-1111 from KUBRA’s Activity Alerts program? Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By agreeing, you accept ABC Company’s Terms of Use and KUBRA’s Terms and Conditions and Privacy Policy.",
+        "placeholders": {
+          "Joe Smith": "Recipient’s name",
+          "(480) 111-1111": "Recipient’s mobile number",
+          "ABC Company": "Client name"
+        }
+      }
+    ]
+  }
+]

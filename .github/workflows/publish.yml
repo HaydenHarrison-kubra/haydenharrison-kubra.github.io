@@ -1,0 +1,60 @@
+# Publishes the style guide on every push to main:
+# rebuilds the Figma plugin rules, tags a new version if guide content or plugin rules changed,
+# regenerates the changelog, and deploys to GitHub Pages.
+# Requires Settings → Pages → Source: "GitHub Actions".
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # push version tags
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history and tags, for the changelog
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build plugin rules
+        run: node figma-plugin/build.mjs
+
+      - name: Test plugin rules
+        run: node --test figma-plugin/test/*.test.mjs
+
+      - name: Tag a new version if guide content changed
+        id: version
+        run: node scripts/changelog.mjs --tag
+
+      - name: Push the version tag
+        if: steps.version.outputs.tag != ''
+        run: git push origin "refs/tags/${{ steps.version.outputs.tag }}"
+
+      - name: Generate changelog
+        run: node scripts/changelog.mjs
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

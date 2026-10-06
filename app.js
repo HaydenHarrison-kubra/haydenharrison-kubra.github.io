@@ -54,10 +54,6 @@
     "Preferred term": "#5e9e2a",
     "Internal term": "#e0661a"
   };
-  var CHANGE_TYPES = {
-    content: { label: "Content", color: "#5e9e2a" },
-    site: { label: "Site", color: "#037eb4" }
-  };
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   var state = {
@@ -71,6 +67,8 @@
     glossKinds: []
   };
   var META = [];
+  // Loaded from content/*.json and the generated changelog.json (see loadContent).
+  var SECTIONS = [], EXTRA_TAGS = [], GLOSSARY = [], STANDARD_COPY = [], CHANGELOG = null;
   var els = {};
   var tocObserver = null;
   var toastTimer = null;
@@ -177,9 +175,35 @@
     return "<table><thead><tr>" + head + "</tr></thead><tbody><tr>" + cells + "</tr></tbody></table>";
   }
 
+  function fetchJson(path, optional) {
+    return fetch(path, { cache: "no-cache" }).then(function (r) {
+      if (!r.ok) throw new Error(path + " (" + r.status + ")");
+      return r.json();
+    }).catch(function (e) {
+      if (optional) return null;
+      throw e;
+    });
+  }
+
   function loadContent() {
     // No bare-URL/email autolinking: examples like name@example.com must stay plain text.
     marked.use({ tokenizer: { url: function () { return undefined; } } });
+    return Promise.all([
+      fetchJson("content/sections.json"),
+      fetchJson("content/glossary.json"),
+      fetchJson("content/standard-copy.json"),
+      fetchJson("changelog.json", true) // generated on publish; the site works without it
+    ]).then(function (r) {
+      SECTIONS = r[0].sections;
+      EXTRA_TAGS = r[0].topics || [];
+      GLOSSARY = r[1];
+      STANDARD_COPY = r[2];
+      CHANGELOG = r[3];
+      return loadPages();
+    });
+  }
+
+  function loadPages() {
     var jobs = [{ slug: "overview", path: "content/overview.md" }];
     SECTIONS.forEach(function (sec) {
       jobs.push({ slug: sec.slug, path: "content/sections/" + sec.slug + ".md" });
@@ -225,23 +249,23 @@
     return textCache[slug];
   }
 
-  // ---------- Changelog dates ----------
-  function lastSynced(slug) {
-    var latest = null;
-    CHANGELOG.forEach(function (e) {
-      if (e.type !== "content") return;
-      var hit = e.pages === "all" || (slug && (e.pages || []).indexOf(slug) !== -1) || !slug;
-      if (hit && (!latest || e.date > latest)) latest = e.date;
-    });
-    return latest;
+  // ---------- Versions and update dates (from the generated changelog.json) ----------
+  function pageUpdated(slug) {
+    if (!CHANGELOG) return null;
+    if (slug && CHANGELOG.pages && CHANGELOG.pages[slug]) return CHANGELOG.pages[slug];
+    return slug ? null : { date: CHANGELOG.updated, version: CHANGELOG.version };
   }
+  function versionAnchor(version) { return slugify(/^\d/.test(version) ? "v" + version : version); }
 
   function docMeta(slug) {
-    var d = lastSynced(slug);
-    if (!d) return "";
+    var u = pageUpdated(slug);
+    if (!u || !u.date) return "";
+    var dot = '<span class="dot" aria-hidden="true">·</span>';
     return '<div class="doc-meta">' + icon("clock") +
-      '<span>Synced from Confluence <time datetime="' + d + '">' + formatDate(d) + "</time></span>" +
-      '<span class="dot" aria-hidden="true">·</span><a href="#changelog" data-route="changelog">Changelog</a></div>';
+      '<span>Updated <time datetime="' + u.date + '">' + formatDate(u.date) + "</time></span>" + dot +
+      (u.version
+        ? '<a href="#changelog/' + versionAnchor(u.version) + '" data-route="changelog/' + versionAnchor(u.version) + '">Version ' + esc(u.version) + "</a>"
+        : '<a href="#changelog" data-route="changelog">Changelog</a>') + "</div>";
   }
 
   // ---------- Theme ----------
@@ -616,7 +640,7 @@
 
   function renderOverview() {
     var html = '<section class="hero">' + HERO_ART +
-      '<div class="eyebrow">KUBRA · Version 2.0</div>' +
+      '<div class="eyebrow">KUBRA · Version ' + esc(CHANGELOG ? CHANGELOG.version : "2.0") + "</div>" +
       "<h1>Content Style Guide</h1>" +
       '<p class="hero-lead">' + esc(getTemplateText("overview")) + "</p>" +
       '<div class="hero-actions">' +
@@ -649,11 +673,11 @@
     });
     html += "</div></section>";
 
-    var synced = lastSynced();
+    var latest = pageUpdated();
     html += '<section class="home-block"><div class="block-head"><h2>Resources</h2></div><div class="quick-grid">';
     html += quickLink("standard-copy", allSnippets().length + " ready-to-paste messages", "Standard Copy", "#037eb4");
     html += quickLink("glossary", GLOSSARY.length + " terms", "Glossary", "#b88400");
-    html += quickLink("changelog", synced ? "Synced " + formatDate(synced) : "Updates", "Changelog", "#5e9e2a");
+    html += quickLink("changelog", latest ? "Version " + latest.version + " · " + formatDate(latest.date) : "Updates", "Changelog", "#5e9e2a");
     html += "</div></section>";
 
     els.content.innerHTML = html;
@@ -727,7 +751,7 @@
     var html = breadcrumb([crumbLink("overview", "Style Guide"), "<span>Glossary</span>"]);
     html += '<header class="doc-head"><div class="eyebrow">Resources</div><h1 class="page-title">Glossary</h1>';
     html += '<p class="page-lead">Approved product names, abbreviations, and preferred terms, compiled from ' + Object.keys(sources).length + " reference pages in this guide.</p>";
-    html += docMeta() + "</header>";
+    html += docMeta("glossary") + "</header>";
     html += '<div class="gloss-tools">' +
       '<label class="gloss-search">' + icon("search") + '<input id="glossFilter" type="search" placeholder="Filter ' + GLOSSARY.length + ' terms" autocomplete="off" aria-label="Filter glossary terms"></label>' +
       '<div class="chip-row" id="glossKinds">' + kinds.map(function (k) {
@@ -811,7 +835,7 @@
   function renderStandardCopy() {
     var html = breadcrumb([crumbLink("overview", "Style Guide"), "<span>Standard Copy</span>"]);
     html += '<header class="doc-head"><div class="eyebrow">Resources</div><h1 class="page-title">Standard Copy</h1>';
-    html += '<p class="page-lead">Approved, ready-to-paste copy for common messages. Use it word for word and replace only the <span class="ph">highlighted</span> placeholders.</p></header>';
+    html += '<p class="page-lead">Approved, ready-to-paste copy for common messages. Use it word for word and replace only the <span class="ph">highlighted</span> placeholders.</p>' + docMeta("standard-copy") + "</header>";
 
     STANDARD_COPY.forEach(function (cat) {
       html += '<section class="copy-cat">';
@@ -834,15 +858,10 @@
         }
         if (item.context) html += '<p class="ci-context">' + esc(item.context) + "</p>";
         html += '<blockquote class="ci-text">' + snippetHTML(item) + "</blockquote>";
-        if (keys.length || item.updated) {
-          html += '<div class="ci-foot">';
-          if (keys.length) {
-            html += '<div class="ci-replace"><span class="gi-label">Replace</span>' + keys.map(function (k) {
-              return '<span class="ci-ph"><span class="ph">' + esc(k) + "</span>" + esc(item.placeholders[k]) + "</span>";
-            }).join("") + "</div>";
-          }
-          if (item.updated) html += '<span class="ci-updated">' + icon("clock") + "Updated " + formatDate(item.updated) + "</span>";
-          html += "</div>";
+        if (keys.length) {
+          html += '<div class="ci-foot"><div class="ci-replace"><span class="gi-label">Replace</span>' + keys.map(function (k) {
+            return '<span class="ci-ph"><span class="ph">' + esc(k) + "</span>" + esc(item.placeholders[k]) + "</span>";
+          }).join("") + "</div></div>";
         }
         html += "</article>";
       });
@@ -869,20 +888,27 @@
   function renderChangelog() {
     var html = breadcrumb([crumbLink("overview", "Style Guide"), "<span>Changelog</span>"]);
     html += '<header class="doc-head"><div class="eyebrow">Resources</div><h1 class="page-title">Changelog</h1>';
-    html += '<p class="page-lead">Content synced from Confluence and changes to this site, newest first. Confluence remains the source of truth.</p></header>';
+    html += '<p class="page-lead">Every published change to the guide\u2019s content and the Figma plugin\u2019s rules, newest first. Each update gets a version number automatically when it\u2019s published.</p></header>';
+    var versions = (CHANGELOG && CHANGELOG.versions) || [];
+    if (!versions.length) {
+      els.content.innerHTML = html + '<div class="empty"><strong>No changelog yet</strong>It\u2019s generated when the site is published.</div>';
+      return;
+    }
     html += '<ol class="timeline">';
-    CHANGELOG.forEach(function (e) {
-      var t = CHANGE_TYPES[e.type] || CHANGE_TYPES.site;
-      html += '<li class="tl-entry"' + colorStyle(t.color) + ">" +
-        '<time class="tl-date" datetime="' + e.date + '">' + formatDate(e.date) + "</time>" +
-        '<div class="tl-card"><div class="tl-top"><span class="kind">' + t.label + "</span><h2>" + esc(e.title) + "</h2></div>";
-      if (e.notes && e.notes.length) html += "<ul>" + e.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
-      if (e.pages === "all") {
+    versions.forEach(function (v) {
+      var label = /^\d/.test(v.version) ? "Version " + v.version : v.version;
+      html += '<li class="tl-entry" id="a-' + versionAnchor(v.version) + '"' + colorStyle(v.released ? "#5e9e2a" : "#b88400") + ">" +
+        (v.date ? '<time class="tl-date" datetime="' + v.date + '">' + formatDate(v.date) + "</time>" : '<span class="tl-date">Not published</span>') +
+        '<div class="tl-card"><div class="tl-top"><h2>' + esc(label) + "</h2>" +
+        (v.plugin ? '<span class="kind"' + colorStyle("#037eb4") + ">Figma plugin</span>" : "") + "</div>";
+      html += "<ul>" + v.changes.map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("") + "</ul>";
+      if (v.pages === "all") {
         html += '<div class="tl-pages"><span class="tag">All ' + META.length + " pages</span></div>";
-      } else if (e.pages && e.pages.length) {
-        html += '<div class="tl-pages">' + e.pages.map(function (slug) {
-          var p = pageBySlug(slug);
-          return p ? '<a class="tag" href="#' + slug + '" data-route="' + slug + '">' + esc(p.title) + "</a>" : "";
+      } else if (v.pages && v.pages.length) {
+        html += '<div class="tl-pages">' + v.pages.map(function (slug) {
+          var p = pageBySlug(slug) || sectionBySlug(slug);
+          var title = p ? (p.title || p.name) : EXTRA_ROUTES[slug] ? EXTRA_ROUTES[slug].title : slug === "overview" ? "Overview" : null;
+          return title ? '<a class="tag" href="#' + slug + '" data-route="' + slug + '">' + esc(title) + "</a>" : "";
         }).join("") + "</div>";
       }
       html += "</div></li>";
@@ -1112,8 +1138,6 @@
     $all("[data-icon]").forEach(function (el) { el.innerHTML = icon(el.getAttribute("data-icon")); });
     var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
     $("#searchKbd").textContent = isMac ? "⌘K" : "Ctrl K";
-    var synced = lastSynced();
-    if (synced) $("#footerSync").textContent = formatDate(synced);
 
     updateThemeIcon();
     els.themeBtn.addEventListener("click", toggleTheme);
@@ -1125,6 +1149,8 @@
   }
 
   function start() {
+    var latest = pageUpdated();
+    if (latest) $("#footerSync").textContent = "Version " + latest.version + " · Updated " + formatDate(latest.date);
     buildIndex();
     renderSidebar();
     renderTagFilters();

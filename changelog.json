@@ -1,0 +1,239 @@
+{
+ "version": "2.0.4",
+ "updated": "2026-10-06",
+ "versions": [
+  {
+   "version": "2.0.4",
+   "date": "2026-10-06",
+   "released": true,
+   "changes": [
+    "Legal document names (Terms of Use, Terms and Conditions, Privacy Policy) are capitalized as proper nouns and must always be linked. Added them to the Glossary as a new Legal document type.",
+    "Button label length now depends on the button style: 3 words at most for buttons with a container, up to 5 for text-only buttons.",
+    "Phone numbers use (xxx) xxx-xxxx, or +1 (xxx) xxx-xxxx with a country code.",
+    "Quoted SMS keywords, like Reply “STOP” to opt out, are an approved use of quotation marks.",
+    "Launched the KUBRA Copy Audit Figma plugin, which checks Figma text against this guide."
+   ],
+   "pages": [
+    "legal-content",
+    "hyperlinks",
+    "buttons-and-ctas",
+    "abbreviations-and-acronyms",
+    "special-characters",
+    "glossary"
+   ],
+   "plugin": true
+  },
+  {
+   "version": "2.0.3",
+   "date": "2026-10-06",
+   "released": true,
+   "changes": [
+    "Renamed the SMS compliance messages by program: MyHQ+ Activity Alerts opt-in, MyHQ+ two-factor opt-in, and BizHQ+ Activity Alerts opt-in."
+   ],
+   "pages": [
+    "standard-copy"
+   ],
+   "plugin": false
+  },
+  {
+   "version": "2.0.2",
+   "date": "2026-10-06",
+   "released": true,
+   "changes": [
+    "Added Standard Copy with the standard system error message and approved SMS compliance language."
+   ],
+   "pages": [
+    "standard-copy"
+   ],
+   "plugin": false
+  },
+  {
+   "version": "2.0.1",
+   "date": "2026-10-02",
+   "released": true,
+   "changes": [
+    "Added the Glossary of approved product names, abbreviations, and preferred terms, compiled from the guide’s reference pages."
+   ],
+   "pages": [
+    "glossary"
+   ],
+   "plugin": false
+  },
+  {
+   "version": "2.0.0",
+   "date": "2026-10-01",
+   "released": true,
+   "changes": [
+    "Initial snapshot of Style Guide 2.0 and its 31 sub-pages from the Confluence Design space."
+   ],
+   "pages": "all",
+   "plugin": false
+  }
+ ],
+ "pages": {
+  "overview": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "glossary": {
+   "date": "2026-10-06",
+   "version": "2.0.4"
+  },
+  "standard-copy": {
+   "date": "2026-10-06",
+   "version": "2.0.3"
+  },
+  "content-structure": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "titles-and-headings": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "hyperlinks": {
+   "date": "2026-10-06",
+   "version": "2.0.4"
+  },
+  "tables": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "foundations": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "accessibility": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "accessibility-high-risk": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "content-principles": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "formatting": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "nouns": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "plurals": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "special-characters": {
+   "date": "2026-10-06",
+   "version": "2.0.4"
+  },
+  "tone": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "voice": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "system-messages": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "message-types": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "banners": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "tooltips": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "modals-and-confirmation-dialogs": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "empty-states": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "controls-and-inputs": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "buttons-and-ctas": {
+   "date": "2026-10-06",
+   "version": "2.0.4"
+  },
+  "menus": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "lists": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "forms-and-flows": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "forms": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "instructional-text": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "compliance-and-legal": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "commercial-communications": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "pci-compliance": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "legal-content": {
+   "date": "2026-10-06",
+   "version": "2.0.4"
+  },
+  "industry-specific-language": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "copyright-and-trademarks": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "reference-and-governance": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "abbreviations-and-acronyms": {
+   "date": "2026-10-06",
+   "version": "2.0.4"
+  },
+  "product-naming-reference": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "decision-guidelines": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  },
+  "writing-resources": {
+   "date": "2026-10-01",
+   "version": "2.0.0"
+  }
+ }
+}

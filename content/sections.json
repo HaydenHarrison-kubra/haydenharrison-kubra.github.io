@@ -1,0 +1,103 @@
+{
+  "topics": [
+    "Accessibility",
+    "Payments",
+    "Errors & Messaging"
+  ],
+  "sections": [
+    {
+      "slug": "content-structure",
+      "name": "Content Structure",
+      "icon": "layout",
+      "color": "#037eb4",
+      "blurb": "Titles, headings, links, and tables that make content easy to scan.",
+      "children": [
+        "titles-and-headings",
+        "hyperlinks",
+        "tables"
+      ]
+    },
+    {
+      "slug": "foundations",
+      "name": "Foundations",
+      "icon": "landmark",
+      "color": "#03587c",
+      "blurb": "Voice, tone, accessibility, and the core writing rules behind everything else.",
+      "children": [
+        "accessibility",
+        "accessibility-high-risk",
+        "content-principles",
+        "formatting",
+        "nouns",
+        "plurals",
+        "special-characters",
+        "tone",
+        "voice"
+      ]
+    },
+    {
+      "slug": "system-messages",
+      "name": "System Messages",
+      "icon": "message",
+      "color": "#e0661a",
+      "blurb": "Success, error, and warning messages, banners, tooltips, modals, and empty states.",
+      "children": [
+        "message-types",
+        "banners",
+        "tooltips",
+        "modals-and-confirmation-dialogs",
+        "empty-states"
+      ]
+    },
+    {
+      "slug": "controls-and-inputs",
+      "name": "Controls and Inputs",
+      "icon": "sliders",
+      "color": "#5e9e2a",
+      "blurb": "Button, menu, and list copy that makes every action clear.",
+      "children": [
+        "buttons-and-ctas",
+        "menus",
+        "lists"
+      ]
+    },
+    {
+      "slug": "forms-and-flows",
+      "name": "Forms and Flows",
+      "icon": "clipboard",
+      "color": "#0d8cb8",
+      "blurb": "Field labels, placeholders, choices, and instructional text.",
+      "children": [
+        "forms",
+        "instructional-text"
+      ]
+    },
+    {
+      "slug": "compliance-and-legal",
+      "name": "Compliance and Legal",
+      "icon": "scale",
+      "color": "#546473",
+      "blurb": "Consent, PCI, legal content, industry terms, and trademarks.",
+      "children": [
+        "commercial-communications",
+        "pci-compliance",
+        "legal-content",
+        "industry-specific-language",
+        "copyright-and-trademarks"
+      ]
+    },
+    {
+      "slug": "reference-and-governance",
+      "name": "Reference and Governance",
+      "icon": "book",
+      "color": "#b88400",
+      "blurb": "Abbreviations, product names, and how to settle copy decisions.",
+      "children": [
+        "abbreviations-and-acronyms",
+        "product-naming-reference",
+        "decision-guidelines",
+        "writing-resources"
+      ]
+    }
+  ]
+}

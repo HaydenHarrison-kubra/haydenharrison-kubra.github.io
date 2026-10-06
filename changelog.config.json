@@ -1,0 +1,45 @@
+{
+  "_help": [
+    "The changelog is generated from git history by scripts/changelog.mjs every time the site is published. Don't edit changelog.json by hand.",
+    "version: the major.minor version. Each publish that changes guide content or plugin rules adds the next patch number (2.0.1, 2.0.2, …). Change this to \"2.1\" or \"3.0\" for a bigger release; numbering restarts at .0.",
+    "Each change in a version is the commit's summary line, so write clear commit messages. Generic messages like \"Update forms.md\" become \"Updated Forms\". Put [skip changelog] in a commit message to leave it out.",
+    "ignoreCommits: commits that moved files around without changing content, so they don't reset page update dates.",
+    "history: hand-written notes for versions published before the changelog was automated.",
+    "lastUpdated: update dates for content whose earlier history happened before it moved into its own file."
+  ],
+  "version": "2.0",
+  "ignoreCommits": ["59ae112"],
+  "history": {
+    "2.0.0": {
+      "changes": ["Initial snapshot of Style Guide 2.0 and its 31 sub-pages from the Confluence Design space."],
+      "pages": "all"
+    },
+    "2.0.1": {
+      "changes": ["Added the Glossary of approved product names, abbreviations, and preferred terms, compiled from the guide’s reference pages."],
+      "pages": ["glossary"]
+    },
+    "2.0.2": {
+      "changes": ["Added Standard Copy with the standard system error message and approved SMS compliance language."],
+      "pages": ["standard-copy"]
+    },
+    "2.0.3": {
+      "changes": ["Renamed the SMS compliance messages by program: MyHQ+ Activity Alerts opt-in, MyHQ+ two-factor opt-in, and BizHQ+ Activity Alerts opt-in."],
+      "pages": ["standard-copy"]
+    },
+    "2.0.4": {
+      "changes": [
+        "Legal document names (Terms of Use, Terms and Conditions, Privacy Policy) are capitalized as proper nouns and must always be linked. Added them to the Glossary as a new Legal document type.",
+        "Button label length now depends on the button style: 3 words at most for buttons with a container, up to 5 for text-only buttons.",
+        "Phone numbers use (xxx) xxx-xxxx, or +1 (xxx) xxx-xxxx with a country code.",
+        "Quoted SMS keywords, like Reply “STOP” to opt out, are an approved use of quotation marks.",
+        "Launched the KUBRA Copy Audit Figma plugin, which checks Figma text against this guide."
+      ],
+      "pages": ["legal-content", "hyperlinks", "buttons-and-ctas", "abbreviations-and-acronyms", "special-characters", "glossary"],
+      "plugin": true
+    }
+  },
+  "lastUpdated": {
+    "glossary": "2.0.4",
+    "standard-copy": "2.0.3"
+  }
+}
