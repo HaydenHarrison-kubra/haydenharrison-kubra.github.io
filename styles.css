@@ -1061,6 +1061,8 @@ mark.current{background:var(--kubra-orange);color:#fff;box-shadow:0 0 0 2px var(
 
 .tr-note{flex-basis:100%;font-size:13px;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 
+.loading{color:var(--muted);font-size:15px;}
+
 .backdrop{display:none;}
 
 /* ---------- Responsive ---------- */

@@ -15,20 +15,66 @@ A searchable, static website built from the Confluence page **[Style Guide 2.0](
 - **Topic filters** — Accessibility / Payments / Errors & Messaging chips dim non-matching pages in the sidebar and narrow search results.
 - **Copy-able examples** — every "do" and "don't" example line gets a copy button on hover.
 - **Light / dark mode** — toggle in the header, remembered via `localStorage`, and respects the OS preference by default.
-- Fonts load from Google Fonts; otherwise no build step and no dependencies — plain HTML/CSS/JS, so it runs the same locally and on GitHub Pages.
+- Fonts load from Google Fonts; otherwise no build step — plain HTML/CSS/JS plus Markdown, so it runs the same locally and on GitHub Pages.
 
 ## Files
 
-- `index.html` — page shell; site data (`SECTIONS`, `META`, `CHANGELOG`, `GLOSSARY`); and every page's content as `<template>` elements.
+- `content/pages/<slug>.md` — one Markdown file per guideline page (31).
+- `content/sections/<slug>.md` — the intro shown on each section's landing page (7).
+- `content/overview.md` — the intro shown on the home page.
+- `index.html` — page shell and site data: `SECTIONS` (sidebar sections and page order), `CHANGELOG`, `GLOSSARY`, `STANDARD_COPY`.
 - `styles.css` — all styling, including light/dark theme tokens.
-- `app.js` — rendering, routing (`#page` or `#page/section`), search, filters, glossary, changelog, copy buttons, and theme toggle.
+- `app.js` — loads and renders the Markdown, plus routing (`#page` or `#page/section`), search, filters, glossary, changelog, copy buttons, and theme toggle.
+- `vendor/marked.umd.js` — the Markdown renderer ([marked](https://github.com/markedjs/marked) v18.1.0, MIT), kept in the repo so the site doesn't depend on a CDN.
+- `.nojekyll` — tells GitHub Pages to serve the `.md` files as-is instead of converting them.
+
+## Editing page content
+
+Each page file starts with a short header, then standard Markdown:
+
+```md
+---
+title: "Buttons and CTAs"
+blurb: "Action-oriented, accessible button copy."
+topics: ["Accessibility", "Payments"]
+---
+
+Buttons initiate actions. ...
+
+## Use clear, action-oriented language
+```
+
+- `title` and `blurb` appear in the sidebar, page header, section page, and search. `topics` (optional) power the topic filters: `"Accessibility"`, `"Payments"`, `"Errors & Messaging"`.
+- Use `##` for page sections (they appear in "On this page") and `###` below that.
+- Do and don't examples use fenced blocks. Blocks next to each other (separated only by blank lines) become one side-by-side table:
+
+  ```md
+  ::: do
+  - *Pay bill*
+  - *Save changes*
+  :::
+
+  ::: dont
+  - *Submit*
+  :::
+  ```
+
+  Add a custom header after the type, e.g. `::: do Use as product name` or `::: dont Avoid`. To place two separate tables back to back, put `<!-- -->` between them.
+- Highlighted panels: `::: callout` (blue) and `::: note` (yellow), closed with `:::`.
+- Tables use standard Markdown pipe tables. Bare email addresses and URLs are not auto-linked; write links as `[text](https://…)`.
+
+**Adding a page:** create `content/pages/<slug>.md`, then add the slug to that section's `children` list in `SECTIONS` in `index.html` (the order there is the sidebar order).
+
+## Previewing locally
+
+The site loads its Markdown with `fetch`, so opening `index.html` directly from disk won't work. From the repo folder, run `python3 -m http.server` and open `http://localhost:8000`.
 
 ## Publishing
 
 The site is live at **https://haydenharrison-kubra.github.io/**. GitHub Pages serves the `main` branch root of this repo, so publishing is just:
 
 ```
-git add index.html styles.css app.js README.md
+git add -A
 git commit -m "Describe the change"
 git push origin main
 ```
@@ -39,7 +85,7 @@ The update appears a minute or two after pushing.
 
 This is a snapshot of the Confluence content. Confluence remains the editable source of truth; there's no automatic sync. When the style guide changes there:
 
-1. Re-pull the updated page(s) and regenerate the matching `<template>` block(s) in `index.html` (asking Claude to do this is the fastest way).
+1. Re-pull the updated page(s) and update the matching file(s) in `content/` (asking Claude to do this is the fastest way).
 2. Add an entry to the top of `CHANGELOG` in `index.html` with `type: "content"` and the slugs you updated in `pages`, e.g.
    ```js
    { date: "2026-11-15", type: "content", title: "Updated button guidance", pages: ["buttons-and-ctas"],

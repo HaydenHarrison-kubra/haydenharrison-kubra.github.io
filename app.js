@@ -69,6 +69,7 @@
     exampleCount: 0,
     glossKinds: []
   };
+  var META = [];
   var els = {};
   var tocObserver = null;
   var toastTimer = null;
@@ -104,6 +105,107 @@
   function isRoute(slug) { return slug === "overview" || !!EXTRA_ROUTES[slug] || !!sectionBySlug(slug) || !!pageBySlug(slug); }
   function secStyle(sec) { return ' style="--c:' + sec.color + '"'; }
   function colorStyle(c) { return ' style="--c:' + c + '"'; }
+
+  // ---------- Content loading (content/*.md) ----------
+  var DD = {
+    do: { head: "abf5d1", cell: "e3fcef", emoji: "✅", label: "Do's" },
+    dont: { head: "ffbdad", cell: "ffebe6", emoji: "❌", label: "Don'ts" }
+  };
+  var PANELS = { callout: "panel-custom", note: "panel-note" };
+
+  function parseFrontMatter(src) {
+    var m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(src);
+    if (!m) return { data: {}, body: src };
+    var data = {};
+    m[1].split(/\r?\n/).forEach(function (line) {
+      var i = line.indexOf(":");
+      if (i === -1) return;
+      var key = line.slice(0, i).trim();
+      var raw = line.slice(i + 1).trim();
+      try { data[key] = JSON.parse(raw); } catch (e) { data[key] = raw.replace(/^["']|["']$/g, ""); }
+    });
+    return { data: data, body: src.slice(m[0].length) };
+  }
+
+  // Markdown plus fenced blocks: "::: do" / "::: dont" (optional custom label) and "::: callout" / "::: note".
+  function renderMarkdown(src) {
+    var lines = src.split(/\r?\n/);
+    var segments = [];
+    var md = [];
+    for (var i = 0; i < lines.length; i++) {
+      var open = /^:::\s*(do|dont|callout|note)\b\s*(.*)$/.exec(lines[i]);
+      if (!open) { md.push(lines[i]); continue; }
+      var body = [];
+      for (i++; i < lines.length && !/^:::\s*$/.test(lines[i]); i++) body.push(lines[i]);
+      segments.push({ type: "md", text: md.join("\n") });
+      segments.push({ type: "block", kind: open[1], label: open[2].trim(), body: body.join("\n") });
+      md = [];
+    }
+    segments.push({ type: "md", text: md.join("\n") });
+
+    var blocks = [];
+    var out = "";
+    for (var s = 0; s < segments.length; s++) {
+      var seg = segments[s];
+      if (seg.type === "md") { out += seg.text; continue; }
+      if (PANELS[seg.kind]) {
+        blocks.push('<div data-type="' + PANELS[seg.kind] + '">' + renderMarkdown(seg.body) + "</div>");
+      } else {
+        // Do/don't blocks separated only by blank lines share one table.
+        var group = [seg];
+        while (s + 2 < segments.length && !segments[s + 1].text.trim() && DD[segments[s + 2].kind]) {
+          group.push(segments[s + 2]);
+          s += 2;
+        }
+        blocks.push(ddTable(group));
+      }
+      out += "\n\n<!--block:" + (blocks.length - 1) + "-->\n\n";
+    }
+    return marked.parse(out).replace(/<!--block:(\d+)-->/g, function (_, n) { return blocks[+n]; });
+  }
+
+  // Emits the same markup the do/don't styles and copy buttons key on.
+  function ddTable(group) {
+    var head = "";
+    var cells = "";
+    group.forEach(function (b) {
+      var d = DD[b.kind];
+      head += '<th style="background-color: #' + d.head + '"><p><strong>' + d.emoji + " " + esc(b.label || d.label) + "</strong></p></th>";
+      cells += '<td style="background-color: #' + d.cell + '">' + renderMarkdown(b.body) + "</td>";
+    });
+    return "<table><thead><tr>" + head + "</tr></thead><tbody><tr>" + cells + "</tr></tbody></table>";
+  }
+
+  function loadContent() {
+    // No bare-URL/email autolinking: examples like name@example.com must stay plain text.
+    marked.use({ tokenizer: { url: function () { return undefined; } } });
+    var jobs = [{ slug: "overview", path: "content/overview.md" }];
+    SECTIONS.forEach(function (sec) {
+      jobs.push({ slug: sec.slug, path: "content/sections/" + sec.slug + ".md" });
+      sec.children.forEach(function (slug) {
+        jobs.push({ slug: slug, path: "content/pages/" + slug + ".md", section: sec });
+      });
+    });
+    return Promise.all(jobs.map(function (job) {
+      return fetch(job.path).then(function (r) {
+        if (!r.ok) throw new Error(job.path + " (" + r.status + ")");
+        return r.text();
+      });
+    })).then(function (sources) {
+      var holder = document.getElementById("templates");
+      sources.forEach(function (src, i) {
+        var job = jobs[i];
+        var fm = parseFrontMatter(src);
+        var t = document.createElement("template");
+        t.setAttribute("data-page", job.slug);
+        t.innerHTML = renderMarkdown(fm.body);
+        holder.appendChild(t);
+        if (job.section) {
+          META.push({ slug: job.slug, title: fm.data.title || job.slug, blurb: fm.data.blurb || "", tags: [job.section.slug].concat(fm.data.topics || []) });
+        }
+      });
+    });
+  }
 
   function getTemplate(slug) { return document.querySelector('template[data-page="' + slug + '"]'); }
   function getTemplateHTML(slug) { var t = getTemplate(slug); return t ? t.innerHTML : ""; }
@@ -1013,11 +1115,19 @@
     if (synced) $("#footerSync").textContent = formatDate(synced);
 
     updateThemeIcon();
+    els.themeBtn.addEventListener("click", toggleTheme);
+    els.content.innerHTML = '<p class="loading">Loading the style guide…</p>';
+    loadContent().then(start, function (err) {
+      els.content.innerHTML = '<div class="empty"><strong>Couldn’t load the style guide content</strong>' + esc(err.message) +
+        (location.protocol === "file:" ? ". Open the site through a local web server (see README)." : ".") + "</div>";
+    });
+  }
+
+  function start() {
     buildIndex();
     renderSidebar();
     renderTagFilters();
 
-    els.themeBtn.addEventListener("click", toggleTheme);
     els.clearTags.addEventListener("click", function () { state.activeTags = []; applyTagFilters(); });
     els.menuBtn.addEventListener("click", function () { setSidebar(!els.sidebar.classList.contains("open")); });
     els.backdrop.addEventListener("click", closeMobileSidebar);
