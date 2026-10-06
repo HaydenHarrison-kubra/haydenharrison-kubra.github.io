@@ -7,6 +7,7 @@ A searchable, static website built from the Confluence page **[Style Guide 2.0](
 - **KUBRA branding** — KUBRA blue/navy palette with green and yellow accents, Montserrat headings (KUBRA's brand typeface) and Inter body text.
 - **Search** — live, full-text search across every page and the glossary, with highlighted snippet previews. Press `/` or `⌘K` / `Ctrl K` to jump to it, and `Enter` to open the top result. Opening a result scrolls to the first match on the page and highlights every match, with a bar to step through them.
 - **Deep links** — every heading has a copy-link button; links like `#buttons-and-ctas/avoid-the-word-click` open the page scrolled to that section.
+- **Standard Copy** — approved, ready-to-paste messages (standard error message, SMS compliance language) with one-click copy and highlighted placeholders. Edit them in `STANDARD_COPY` in `index.html`; they live outside the Confluence content, so a re-sync won't overwrite them.
 - **Glossary** — an A–Z, filterable list of approved product names, abbreviations, preferred terms, and internal terms to avoid, each linked back to its source page.
 - **Changelog and sync dates** — every page shows when it was last synced from Confluence, driven by the changelog page.
 - **Section navigation** — collapsible sidebar grouped the same way as the Confluence space, section landing pages, breadcrumbs, and previous/next links on every page.

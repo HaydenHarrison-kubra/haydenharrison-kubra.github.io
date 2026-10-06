@@ -168,6 +168,8 @@ var META = [
 // Newest first. "content" entries set each page's "Synced from Confluence" date;
 // list the slugs you re-pulled in `pages` (or "all"). "site" entries are site-only changes.
 var CHANGELOG = [
+  { date: "2026-10-06", type: "site", title: "Standard Copy page",
+    notes: ["New Standard Copy page with ready-to-paste error and SMS compliance messages, with placeholders highlighted."] },
   { date: "2026-10-02", type: "site", title: "Deep links, search-to-match, glossary, and changelog",
     notes: [
       "Every heading has a copy-link button, and links open the page scrolled to that section.",
@@ -228,6 +230,29 @@ var GLOSSARY = [
   { term: "service fee", kind: "Preferred term", note: "Financial concept; lowercase common noun.", avoid: ["Additional charges", "Processing fee (unless defined and consistent)"], source: "industry-specific-language" },
   { term: "snapshot", kind: "Preferred term", note: "General system artifact; lowercase common noun.", source: "nouns" },
   { term: "workspace", kind: "Preferred term", note: "Generic UI concept; lowercase common noun.", source: "nouns" }
+];
+
+// Approved copy, used word for word. `placeholders` maps sample values in `text` to what replaces them.
+var STANDARD_COPY = [
+  { id: "error-messages", name: "Error messages", related: ["message-types"],
+    items: [
+      { id: "standard-error", title: "Standard system error", tags: ["All products"], updated: "2026-10-06",
+        context: "Use when a request fails because of a system error and there’s nothing the user can do to fix it.",
+        text: "Something went wrong due to a system error. Please try again later." }
+    ] },
+  { id: "sms-compliance", name: "SMS compliance", related: ["commercial-communications", "legal-content"],
+    intro: "Required disclosure language for SMS enrollment. Use the version that matches the product and program type, and don’t paraphrase it.",
+    items: [
+      { id: "myhq-consumer", title: "MyHQ+ consumer programs", tags: ["MyHQ+", "Consumer"], updated: "2026-10-06",
+        text: "Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By providing your mobile number, you agree to receive automated text messages from ABC Company via KUBRA. See ABC Company’s Terms of Use and KUBRA’s Terms and Conditions and Privacy Policy.",
+        placeholders: { "ABC Company": "Client name" } },
+      { id: "myhq-non-consumer", title: "MyHQ+ non-consumer programs", tags: ["MyHQ+", "Non-consumer"], updated: "2026-10-06",
+        context: "Includes KUBRA two-factor authentication.",
+        text: "Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By turning on KUBRA two-factor authentication, you accept KUBRA\u2019s Terms and Conditions and Privacy Policy." },
+      { id: "bizhq-consumer", title: "BizHQ consumer programs", tags: ["BizHQ", "Consumer"], updated: "2026-10-06",
+        text: "Do you, Joe Smith, agree to receive automated text messages to (480) 111-1111 from KUBRA’s Activity Alerts program? Message and data rates may apply. Message frequency varies. Reply “STOP” to opt out or “HELP” for help. By agreeing, you accept ABC Company’s Terms of Use and KUBRA’s Terms and Conditions and Privacy Policy.",
+        placeholders: { "Joe Smith": "Recipient’s name", "(480) 111-1111": "Recipient’s mobile number", "ABC Company": "Client name" } }
+    ] }
 ];
 </script>
 <script src="app.js"></script>
