@@ -52,7 +52,7 @@ export const misspellings = {
 
 // Compound words that are verbs when split ("set up your account" vs. "the setup").
 export const splitVerbs = {
-  setup: "set up", login: "log in", logout: "log out", signup: "sign up", signin: "sign in", checkout: "check out", backup: "back up", lookup: "look up"
+  setup: "set up", signup: "sign up", checkout: "check out", backup: "back up", lookup: "look up"
 };
 
 // Contracted / full form pairs, for "don't mix styles in one layer".

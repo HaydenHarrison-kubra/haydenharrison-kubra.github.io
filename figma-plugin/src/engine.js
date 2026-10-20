@@ -51,6 +51,18 @@
   var FIXERS = {
     "time-ampm": function (m) { return m[1] + " " + m[2].toLowerCase() + ".m."; },
     "split-verb": function (m, data) { return m[1] + " " + matchCase(m[2], data.splitVerbs[m[2].toLowerCase()] || m[2]); },
+    "sign-in-verb": function (m) {
+      var verb = { log: "sign", logs: "signs", logged: "signed", logging: "signing" }[m[1].toLowerCase()];
+      var dir = { "in": "in", on: "in", into: "in to", onto: "in to", out: "out", off: "out" }[m[2].toLowerCase()];
+      return matchCase(m[1], verb) + " " + (m[2].length > 1 && m[2] === m[2].toUpperCase() ? dir.toUpperCase() : dir);
+    },
+    // "login" is a verb after "to"/"can"/… or before "to", and in buttons; otherwise it's the noun "sign-in".
+    "sign-in-word": function (m, data, spec) {
+      var asVerb = spec.value === "verb", lead = asVerb ? null : m[1], word = asVerb ? m[1] : m[2];
+      var dir = /(in|on)$/i.test(word) ? "in" : "out";
+      if (asVerb || lead || m[4]) return (lead ? lead + " " : "") + matchCase(word, "sign " + dir) + (m[4] || "");
+      return matchCase(word, "sign-" + dir) + (m[3] || "");
+    },
     "match-case": function (m, data, spec) { return matchCase(m[0], spec.value); },
     "it-is": function (m) { return (m[1].charAt(0) === "I" ? "It’s " : "it’s ") + m[2]; },
     "you-are": function (m) { return (m[1].charAt(0) === "Y" ? "You’re " : "you’re ") + m[2]; },

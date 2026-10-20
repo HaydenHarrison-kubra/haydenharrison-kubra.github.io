@@ -116,6 +116,28 @@ Use "select" for choosing an option, button, or link. It works for mouse, touch,
 
 :::
 
+## Sign In and Sign Out
+
+Use "sign in" and "sign out" for account access. Don't use "log in," "log on," "log out," or "login." Use the two-word form as a verb ("sign in") and the hyphenated form as a noun or adjective ("sign-in").
+
+::: do
+
+- *Sign in to view your bill.*
+- *Sign in*
+- *Update your sign-in details.*
+- *You've been signed out.*
+
+:::
+
+::: dont
+
+- *Log in to view your bill.*
+- *Login*
+- *Update your login details.*
+- *You've been logged out.*
+
+:::
+
 ## Voice and Tone
 
 Neutral, clear, supportive, direct — functional, not promotional. Second person ("you") is fine when it improves clarity, but avoid conversational filler or marketing language.

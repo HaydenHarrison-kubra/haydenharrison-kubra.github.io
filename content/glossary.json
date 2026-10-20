@@ -330,6 +330,20 @@
     "source": "industry-specific-language"
   },
   {
+    "term": "sign in / sign out",
+    "kind": "Preferred term",
+    "note": "Use “sign in” and “sign out” as verbs and “sign-in” and “sign-out” as nouns or adjectives. Never “log in” or “login.”",
+    "avoid": [
+      "log in",
+      "login",
+      "log on",
+      "log out",
+      "logout",
+      "log off"
+    ],
+    "source": "instructional-text"
+  },
+  {
     "term": "snapshot",
     "kind": "Preferred term",
     "note": "General system artifact; lowercase common noun.",

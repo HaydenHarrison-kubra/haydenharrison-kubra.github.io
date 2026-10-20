@@ -97,14 +97,9 @@ export default [
   },
   {
     id: "split-verb", severity: "warning",
-    pattern: /\b(to|will|can|please|must|you can|you['’]ll|easily|quickly) (setup|login|logout|signup|signin|checkout|backup|lookup)\b/gi, fix: { fn: "split-verb" }, safeFix: true,
+    pattern: /\b(to|will|can|please|must|you can|you['’]ll|easily|quickly) (setup|signup|checkout|backup|lookup)\b/gi, fix: { fn: "split-verb" }, safeFix: true,
     message: "Use two words for the verb",
     detail: "“Set up your account” (verb) vs. “the setup” (noun)."
-  },
-  {
-    id: "login-to", severity: "warning",
-    pattern: /\blogin to\b/gi, fix: { fn: "match-case", value: "log in to" }, safeFix: true,
-    message: "Use “log in” as a verb"
   },
   {
     id: "e-mail", severity: "suggestion",

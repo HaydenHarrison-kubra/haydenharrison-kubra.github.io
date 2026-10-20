@@ -1,7 +1,7 @@
 {
  "schema": 1,
- "version": "c625518d",
- "updated": "2026-10-06",
+ "version": "06ca677d",
+ "updated": "2026-10-20",
  "siteUrl": "https://haydenharrison-kubra.github.io/",
  "rules": [
   {
@@ -1434,6 +1434,70 @@
   },
   {
    "category": "style",
+   "id": "sign-in-verb",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(log(?:s|ged|ging)?) (in|into|on|onto|out|off)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "sign-in-verb"
+   },
+   "safeFix": true,
+   "message": "Use “sign in” or “sign out”",
+   "detail": "KUBRA uses “sign in,” not “log in.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#instructional-text/sign-in-and-sign-out",
+    "label": "Instructional Text › Sign In and Sign Out"
+   }
+  },
+  {
+   "category": "style",
+   "id": "sign-in-word",
+   "severity": "warning",
+   "exceptContexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "\\b(?:(to|will|can|please|must|you can|you['’]ll|easily|quickly) )?(log-?in|log-?on|log-?out|log-?off|signin|signout)(s)?\\b( to\\b)?",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "sign-in-word"
+   },
+   "safeFix": true,
+   "message": "Use “sign-in” (noun) or “sign in” (verb)",
+   "detail": "KUBRA uses “sign in,” not “login.” Two words for the action, hyphenated for the noun.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#instructional-text/sign-in-and-sign-out",
+    "label": "Instructional Text › Sign In and Sign Out"
+   }
+  },
+  {
+   "category": "style",
+   "id": "sign-in-button",
+   "severity": "warning",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "\\b(log-?in|log-?on|log-?out|log-?off|signin|signout)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "sign-in-word",
+    "value": "verb"
+   },
+   "safeFix": true,
+   "message": "Use “Sign in” or “Sign out”",
+   "detail": "Buttons are actions, so use the verb. KUBRA uses “sign in,” not “login.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#instructional-text/sign-in-and-sign-out",
+    "label": "Instructional Text › Sign In and Sign Out"
+   }
+  },
+  {
+   "category": "style",
    "id": "inclusive-list",
    "severity": "suggestion",
    "pattern": {
@@ -1783,7 +1847,7 @@
    "id": "split-verb",
    "severity": "warning",
    "pattern": {
-    "source": "\\b(to|will|can|please|must|you can|you['’]ll|easily|quickly) (setup|login|logout|signup|signin|checkout|backup|lookup)\\b",
+    "source": "\\b(to|will|can|please|must|you can|you['’]ll|easily|quickly) (setup|signup|checkout|backup|lookup)\\b",
     "flags": "gi"
    },
    "fix": {
@@ -1792,21 +1856,6 @@
    "safeFix": true,
    "message": "Use two words for the verb",
    "detail": "“Set up your account” (verb) vs. “the setup” (noun)."
-  },
-  {
-   "category": "grammar",
-   "id": "login-to",
-   "severity": "warning",
-   "pattern": {
-    "source": "\\blogin to\\b",
-    "flags": "gi"
-   },
-   "fix": {
-    "fn": "match-case",
-    "value": "log in to"
-   },
-   "safeFix": true,
-   "message": "Use “log in” as a verb"
   },
   {
    "category": "grammar",
@@ -2718,10 +2767,7 @@
   },
   "splitVerbs": {
    "setup": "set up",
-   "login": "log in",
-   "logout": "log out",
    "signup": "sign up",
-   "signin": "sign in",
    "checkout": "check out",
    "backup": "back up",
    "lookup": "look up"

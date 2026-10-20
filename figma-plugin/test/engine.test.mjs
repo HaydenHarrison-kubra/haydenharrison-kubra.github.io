@@ -236,7 +236,16 @@ test("grammar", () => {
   expectFix("Your welcome", "body", "your-youre", "You’re welcome");
   expectFix("Faster then before", "body", "then-than", "Faster than before");
   expectFix("You'll want to setup autopay", "body", "split-verb", "You'll want to set up autopay");
-  expectFix("Login to your account", "body", "login-to", "Log in to your account");
+  expectFix("Login to your account", "body", "sign-in-word", "Sign in to your account");
+  expectFix("You need to login first", "body", "sign-in-word", "You need to sign in first");
+  expectFix("Your login details", "body", "sign-in-word", "Your sign-in details");
+  expectFix("Log in to pay your bill", "body", "sign-in-verb", "Sign in to pay your bill");
+  expectFix("You've been logged out", "body", "sign-in-verb", "You've been signed out");
+  expectFix("Log off", "body", "sign-in-verb", "Sign out");
+  expectFix("Login", "button", "sign-in-button", "Sign in");
+  expectFix("Logout", "button", "sign-in-button", "Sign out");
+  assert.ok(!find("Sign in to view your sign-in history", "body", "sign-in-word"));
+  assert.ok(!find("Open the catalog in a new tab", "body", "sign-in-verb"));
   expectFix("Check your e-mail", "body", "e-mail", "Check your email");
   expectFix("Then i saved it", "body", "lowercase-i", "Then I saved it");
   expectRule("Pay now (or later", "body", "unbalanced");

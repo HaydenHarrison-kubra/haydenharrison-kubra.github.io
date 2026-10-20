@@ -598,6 +598,29 @@ export default [
     guide: ["instructional-text", "Interaction Verbs"]
   },
   {
+    id: "sign-in-verb", severity: "warning",
+    pattern: /\b(log(?:s|ged|ging)?) (in|into|on|onto|out|off)\b/gi, fix: { fn: "sign-in-verb" }, safeFix: true,
+    message: "Use “sign in” or “sign out”",
+    detail: "KUBRA uses “sign in,” not “log in.”",
+    guide: ["instructional-text", "Sign In and Sign Out"]
+  },
+  {
+    id: "sign-in-word", severity: "warning", exceptContexts: ["button"],
+    pattern: /\b(?:(to|will|can|please|must|you can|you['’]ll|easily|quickly) )?(log-?in|log-?on|log-?out|log-?off|signin|signout)(s)?\b( to\b)?/gi,
+    fix: { fn: "sign-in-word" }, safeFix: true,
+    message: "Use “sign-in” (noun) or “sign in” (verb)",
+    detail: "KUBRA uses “sign in,” not “login.” Two words for the action, hyphenated for the noun.",
+    guide: ["instructional-text", "Sign In and Sign Out"]
+  },
+  {
+    id: "sign-in-button", severity: "warning", contexts: ["button"],
+    pattern: /\b(log-?in|log-?on|log-?out|log-?off|signin|signout)\b/gi,
+    fix: { fn: "sign-in-word", value: "verb" }, safeFix: true,
+    message: "Use “Sign in” or “Sign out”",
+    detail: "Buttons are actions, so use the verb. KUBRA uses “sign in,” not “login.”",
+    guide: ["instructional-text", "Sign In and Sign Out"]
+  },
+  {
     id: "inclusive-list", severity: "suggestion",
     pattern: /\b(white|black)list(s|ed|ing)?\b/gi, fix: { fn: "allowlist" },
     message: "Use “allowlist” or “blocklist”",
