@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "0c25a505",
+ "version": "c625518d",
  "updated": "2026-10-06",
  "siteUrl": "https://haydenharrison-kubra.github.io/",
  "rules": [
@@ -947,20 +947,82 @@
   },
   {
    "category": "style",
+   "id": "noon",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b12(?::00)?\\s?[Pp]\\.?\\s?[Mm]\\.?(?![\\w])|\\b12 noon\\b",
+    "flags": "g"
+   },
+   "fix": "noon",
+   "safeFix": true,
+   "message": "Use “noon”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/times",
+    "label": "Numbers, Dates, and Times › Times"
+   }
+  },
+  {
+   "category": "style",
    "id": "time-format",
    "severity": "warning",
    "pattern": {
-    "source": "\\b(\\d{1,2}(?::\\d{2})?)\\s?([AaPp])\\.?\\s?[Mm]\\.?(?![\\w])",
+    "source": "\\b(\\d{1,2})(?::(\\d{2}))?\\s?([AaPp])\\.?\\s?[Mm]\\.?(?![\\w])",
     "flags": "g"
    },
    "fix": {
-    "fn": "time-ampm"
+    "fn": "time-hm"
    },
    "safeFix": true,
-   "message": "Write times as “a.m.” and “p.m.”",
+   "message": "Write times like 5:00 PM",
+   "detail": "Uppercase AM or PM, no periods, a space before, and “:00” on the hour.",
    "guide": {
-    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/time",
-    "label": "Abbreviations and Acronyms › Time"
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/times",
+    "label": "Numbers, Dates, and Times › Times"
+   }
+  },
+  {
+   "category": "style",
+   "id": "midnight-deadline",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\bmidnight\\b|\\b12(?::00)?\\s?AM\\b",
+    "flags": "gi"
+   },
+   "message": "Use 11:59 PM for deadlines",
+   "detail": "“Midnight” and 12:00 AM are ambiguous about which day. For cutoffs, use 11:59 PM with a time zone.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/times",
+    "label": "Numbers, Dates, and Times › Times"
+   }
+  },
+  {
+   "category": "style",
+   "id": "time-range-dash",
+   "severity": "warning",
+   "pattern": {
+    "source": "(\\d{1,2}:\\d{2} [AP]M)\\s?[-–]\\s?(\\d{1,2}:\\d{2} [AP]M)",
+    "flags": "g"
+   },
+   "fix": "$1 to $2",
+   "safeFix": true,
+   "message": "Use “to” between times",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-ranges",
+    "label": "Numbers, Dates, and Times › Time Ranges"
+   }
+  },
+  {
+   "category": "style",
+   "id": "time-range-ampm",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b\\d{1,2}:\\d{2}(?!\\s?[AaPp]\\.?[Mm])\\s?(?:to|[-–])\\s?\\d{1,2}:\\d{2}\\s?[AaPp]\\.?[Mm]\\.?",
+    "flags": "g"
+   },
+   "message": "Include AM or PM on both times",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-ranges",
+    "label": "Numbers, Dates, and Times › Time Ranges"
    }
   },
   {
@@ -968,15 +1030,456 @@
    "id": "time-zone",
    "severity": "suggestion",
    "pattern": {
-    "source": "\\b(?:EST|EDT)\\b",
+    "source": "\\b([ECMP])[SD]T\\b",
     "flags": "g"
    },
-   "fix": "ET",
-   "message": "Use “ET”",
+   "fix": "$1T",
+   "message": "Use ET, CT, MT, or PT",
    "detail": "Only specify standard or daylight time when accuracy requires it.",
    "guide": {
-    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/time",
-    "label": "Abbreviations and Acronyms › Time"
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-zones",
+    "label": "Numbers, Dates, and Times › Time Zones"
+   }
+  },
+  {
+   "category": "style",
+   "id": "date-ordinal",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)\\b",
+    "flags": "g"
+   },
+   "fix": "$1 $2",
+   "safeFix": true,
+   "message": "Don’t add “st,” “nd,” “rd,” or “th” to dates",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/dates",
+    "label": "Numbers, Dates, and Times › Dates"
+   }
+  },
+  {
+   "category": "style",
+   "id": "date-comma",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December),\\s(\\d{4})\\b",
+    "flags": "g"
+   },
+   "fix": "$1 $2",
+   "safeFix": true,
+   "message": "No comma between a month and year",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/dates",
+    "label": "Numbers, Dates, and Times › Dates"
+   }
+  },
+  {
+   "category": "style",
+   "id": "date-missing-comma",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec) (\\d{1,2}) (\\d{4})\\b",
+    "flags": "g"
+   },
+   "fix": "$1 $2, $3",
+   "safeFix": true,
+   "message": "Add a comma between the day and year",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/dates",
+    "label": "Numbers, Dates, and Times › Dates"
+   }
+  },
+  {
+   "category": "style",
+   "id": "month-abbreviation",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)\\.?(?=\\s?\\d)",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "month-abbr"
+   },
+   "safeFix": true,
+   "message": "Abbreviate months with three letters and no period",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/abbreviated-months-and-days",
+    "label": "Numbers, Dates, and Times › Abbreviated Months and Days"
+   }
+  },
+  {
+   "category": "style",
+   "id": "day-abbreviation",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(Mon|Tue|Tues|Wed|Thu|Thur|Thurs|Fri|Sat|Sun)\\.(?=[\\s,])",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "day-abbr"
+   },
+   "safeFix": true,
+   "message": "Abbreviate days with three letters and no period",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/abbreviated-months-and-days",
+    "label": "Numbers, Dates, and Times › Abbreviated Months and Days"
+   }
+  },
+  {
+   "category": "style",
+   "id": "date-range-dash",
+   "severity": "suggestion",
+   "exceptContexts": [
+    "table-header"
+   ],
+   "pattern": {
+    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec) (\\d{1,2})\\s?[-–]\\s?(\\d{1,2})\\b",
+    "flags": "g"
+   },
+   "fix": "$1 $2 through $1 $3",
+   "message": "Write date ranges with “through”",
+   "detail": "In copy, use “through” and repeat the month. An en dash is fine in tables and charts.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/date-ranges",
+    "label": "Numbers, Dates, and Times › Date Ranges"
+   }
+  },
+  {
+   "category": "style",
+   "id": "from-dash",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\bfrom\\s+(?:\\S+\\s+)?\\$?\\d[\\d,.:]*\\s?[-–]\\s?\\$?\\d",
+    "flags": "gi"
+   },
+   "message": "Don’t use “from” with a dash",
+   "detail": "Write “from March 1 through March 31,” or use the dash alone in tables.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/date-ranges",
+    "label": "Numbers, Dates, and Times › Date Ranges"
+   }
+  },
+  {
+   "category": "style",
+   "id": "number-range-dash",
+   "severity": "suggestion",
+   "exceptContexts": [
+    "table-header"
+   ],
+   "pattern": {
+    "source": "\\b(\\d+)\\s?[-–]\\s?(\\d+)\\s+((?:business\\s+)?(?:days?|hours?|minutes?|weeks?|months?|years?|attempts?|times?|payments?))\\b",
+    "flags": "gi"
+   },
+   "fix": "$1 to $2 $3",
+   "message": "Write ranges with “to”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/number-ranges",
+    "label": "Numbers, Dates, and Times › Number Ranges"
+   }
+  },
+  {
+   "category": "style",
+   "id": "relative-due-date",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:due|scheduled(?: for)?|expires?|ends?|renews?|pay by|charged)\\s+(?:today|tomorrow|tonight|in \\d+ (?:days?|weeks?|hours?))\\b",
+    "flags": "gi"
+   },
+   "message": "Use an exact date",
+   "detail": "Use exact dates for anything due, scheduled, or final. Relative dates are only for activity feeds.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/relative-dates-and-durations",
+    "label": "Numbers, Dates, and Times › Relative Dates and Durations"
+   }
+  },
+  {
+   "category": "style",
+   "id": "percent-space",
+   "severity": "warning",
+   "pattern": {
+    "source": "(\\d)\\s+%",
+    "flags": "g"
+   },
+   "fix": "$1%",
+   "safeFix": true,
+   "message": "No space before %",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/percentages",
+    "label": "Numbers, Dates, and Times › Percentages"
+   }
+  },
+  {
+   "category": "style",
+   "id": "percent-word",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(\\d+(?:\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s?percent\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "percent"
+   },
+   "message": "Use a numeral and %",
+   "detail": "Spell out “percent” only at the start of a sentence.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/percentages",
+    "label": "Numbers, Dates, and Times › Percentages"
+   }
+  },
+  {
+   "category": "style",
+   "id": "ordinal-word",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b([1-9])(st|nd|rd|th)\\b(?!\\s+of\\b)",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "ordinal-word"
+   },
+   "message": "Spell out first through ninth",
+   "detail": "Use numerals from 10th on. “The 1st of each month” is fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/ordinals",
+    "label": "Numbers, Dates, and Times › Ordinals"
+   }
+  },
+  {
+   "category": "style",
+   "id": "superscript-ordinal",
+   "severity": "warning",
+   "pattern": {
+    "source": "(\\d)(ˢᵗ|ⁿᵈ|ʳᵈ|ᵗʰ)",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "unsuperscript"
+   },
+   "safeFix": true,
+   "message": "Don’t use superscript ordinals",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/ordinals",
+    "label": "Numbers, Dates, and Times › Ordinals"
+   }
+  },
+  {
+   "category": "style",
+   "id": "sentence-starts-with-numeral",
+   "severity": "suggestion",
+   "contexts": [
+    "body",
+    "helper",
+    "error",
+    "success",
+    "banner",
+    "tooltip",
+    "modal"
+   ],
+   "pattern": {
+    "source": "(?:^|[.!?]\\s+)\\d[\\d,.]*(?=\\s+[a-z][^.!?]*[.!?])",
+    "flags": "g"
+   },
+   "message": "Don’t start a sentence with a numeral",
+   "detail": "Rewrite the sentence, like “You have 12 scheduled payments.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/numerals-and-words",
+    "label": "Numbers, Dates, and Times › Numerals and Words"
+   }
+  },
+  {
+   "category": "style",
+   "id": "money-commas",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\$(\\d{4,})(\\.\\d{2})?\\b",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "money-commas"
+   },
+   "safeFix": true,
+   "message": "Use commas in amounts of $1,000 or more",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/large-numbers",
+    "label": "Numbers, Dates, and Times › Large Numbers"
+   }
+  },
+  {
+   "category": "style",
+   "id": "money-abbreviation",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\$(\\d+(?:\\.\\d+)?)([KMB])\\b",
+    "flags": "g"
+   },
+   "fix": {
+    "fn": "money-words"
+   },
+   "message": "Spell out thousand, million, and billion",
+   "detail": "Abbreviations like K and M are only for charts.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/large-numbers",
+    "label": "Numbers, Dates, and Times › Large Numbers"
+   }
+  },
+  {
+   "category": "style",
+   "id": "money-parentheses",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\(\\$\\d[\\d,]*(?:\\.\\d{2})?\\)",
+    "flags": "g"
+   },
+   "message": "Don’t use parentheses for negative amounts",
+   "detail": "Say “Credit of $25.00” or use a minus sign: −$25.00.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/money",
+    "label": "Numbers, Dates, and Times › Money"
+   }
+  },
+  {
+   "category": "style",
+   "id": "money-cents",
+   "type": "money-cents",
+   "severity": "suggestion",
+   "message": "Show cents on transaction amounts",
+   "detail": "Use $125.00 for amounts due, payments, fees, refunds, and balances. Ranges like $10 to $25 are fine.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/money",
+    "label": "Numbers, Dates, and Times › Money"
+   }
+  },
+  {
+   "category": "style",
+   "id": "latin-abbreviation",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(e\\.g\\.|i\\.e\\.)",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "latin"
+   },
+   "message": "Don’t use “e.g.” or “i.e.”",
+   "detail": "Write “for example,” “such as,” or “that is.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/e-g-i-e-and-etc",
+    "label": "Abbreviations and Acronyms › e.g., i.e., and etc."
+   }
+  },
+  {
+   "category": "style",
+   "id": "etc",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\betc\\.?",
+    "flags": "gi"
+   },
+   "message": "Don’t end lists with “etc.”",
+   "detail": "List the items, or say “such as.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/e-g-i-e-and-etc",
+    "label": "Abbreviations and Acronyms › e.g., i.e., and etc."
+   }
+  },
+  {
+   "category": "style",
+   "id": "ellipsis",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\.{3,}",
+    "flags": "g"
+   },
+   "fix": "…",
+   "safeFix": true,
+   "message": "Use the ellipsis character (…)",
+   "detail": "Use an ellipsis only for cut-off text and in-progress states, never for tone.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/ellipses",
+    "label": "Special Characters › Ellipses ( … )"
+   }
+  },
+  {
+   "category": "style",
+   "id": "serial-comma",
+   "type": "serial-comma",
+   "severity": "suggestion",
+   "message": "Use the serial (Oxford) comma",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#special-characters/commas",
+    "label": "Special Characters › Commas"
+   }
+  },
+  {
+   "category": "style",
+   "id": "interaction-verb",
+   "severity": "suggestion",
+   "exceptContexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "\\b(?:click|tap)(?:\\s+on)?\\b(?!\\s+here)",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "match-case",
+    "value": "select"
+   },
+   "message": "Use “select”",
+   "detail": "“Select” works for mouse, touch, keyboard, and assistive tech.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#instructional-text/interaction-verbs",
+    "label": "Instructional Text › Interaction Verbs"
+   }
+  },
+  {
+   "category": "style",
+   "id": "inclusive-list",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(white|black)list(s|ed|ing)?\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "allowlist"
+   },
+   "message": "Use “allowlist” or “blocklist”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#content-principles/use-inclusive-language",
+    "label": "Content Principles › Use Inclusive Language"
+   }
+  },
+  {
+   "category": "style",
+   "id": "inclusive-pronouns",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:he or she|she or he|he\\/she|s\\/he|his or her|her or his|him or her)\\b",
+    "flags": "gi"
+   },
+   "fix": {
+    "fn": "they"
+   },
+   "message": "Use gender-neutral pronouns",
+   "detail": "Use “they” and “their.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#content-principles/use-inclusive-language",
+    "label": "Content Principles › Use Inclusive Language"
+   }
+  },
+  {
+   "category": "style",
+   "id": "inclusive-guys",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:hey|hi|thanks|you) guys\\b|\\bthe disabled\\b",
+    "flags": "gi"
+   },
+   "message": "Use inclusive language",
+   "detail": "Say “everyone” or “people with disabilities.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#content-principles/use-inclusive-language",
+    "label": "Content Principles › Use Inclusive Language"
    }
   },
   {

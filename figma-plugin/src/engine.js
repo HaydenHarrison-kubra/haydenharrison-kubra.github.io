@@ -55,7 +55,35 @@
     "it-is": function (m) { return (m[1].charAt(0) === "I" ? "It’s " : "it’s ") + m[2]; },
     "you-are": function (m) { return (m[1].charAt(0) === "Y" ? "You’re " : "you’re ") + m[2]; },
     "lose": function (m) { return matchCase(m[1], "lose") + " " + m[2]; },
-    "remove-hyphen": function (m) { return m[0].replace("-", ""); }
+    "remove-hyphen": function (m) { return m[0].replace("-", ""); },
+    "time-hm": function (m) { return m[1] + ":" + (m[2] || "00") + " " + m[3].toUpperCase() + "M"; },
+    "month-abbr": function (m) { return /^sept?$/i.test(m[1]) ? "Sep" : m[1]; },
+    "day-abbr": function (m) { return { Tues: "Tue", Thur: "Thu", Thurs: "Thu" }[m[1]] || m[1]; },
+    "percent": function (m) {
+      var words = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+      var n = words[m[1].toLowerCase()];
+      return (n != null ? n : m[1]) + "%";
+    },
+    "ordinal-word": function (m) {
+      var w = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"][+m[1]];
+      return w || m[0];
+    },
+    "unsuperscript": function (m) { return m[1] + { "\u02E2\u1D57": "st", "\u207F\u1D48": "nd", "\u02B3\u1D48": "rd", "\u1D57\u02B0": "th" }[m[2]]; },
+    "money-commas": function (m) { return "$" + m[1].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (m[2] || ""); },
+    "money-words": function (m) {
+      if (m[2] === "K") return "$" + String(Math.round(parseFloat(m[1]) * 1000)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return "$" + m[1] + (m[2] === "M" ? " million" : " billion");
+    },
+    "latin": function (m) {
+      var low = m[1].toLowerCase() === "e.g." ? "for example" : "that is";
+      return m[1].charAt(0) === m[1].charAt(0).toUpperCase() && /[A-Z]/.test(m[1].charAt(0)) ? low.charAt(0).toUpperCase() + low.slice(1) : low;
+    },
+    "allowlist": function (m) { return matchCase(m[0], (m[1].toLowerCase() === "white" ? "allow" : "block") + "list" + (m[2] || "")); },
+    "they": function (m) {
+      var t = m[0].toLowerCase();
+      var r = /^his|^her or his/.test(t) ? "their" : /^him/.test(t) ? "them" : "they";
+      return matchCase(m[0], r);
+    }
   };
 
   function fixFor(rule, m, c) {
@@ -199,7 +227,7 @@
         if (masks.concat(placeholders).some(function (r) { return wd.start >= r.start && wd.start < r.end; })) return;
         var w = wd.w;
         var between = wi === 0 ? text.slice(0, wd.start) : text.slice(list[wi - 1].start + list[wi - 1].w.length, wd.start);
-        var isStart = wi === 0 || /[.!?:\n]/.test(between);
+        var isStart = (wi === 0 && !/\d/.test(between)) || (wi > 0 && /[.!?:\n]/.test(between)); // "3 accounts" starts with a number
         if (allCaps) {
           if (c.acronyms[w]) return;
           var lowered = w.toLowerCase();
@@ -313,6 +341,31 @@
         var match = text.slice(from, end);
         if (fixed !== match) out.push({ start: from, end: end, match: match, replacement: fixed });
         re.lastIndex = end;
+      }
+      return out;
+    },
+
+    // "$125" as a transaction amount should be "$125.00". Ranges ("$10 to $25"), "$1.2 million", and "$5K" are skipped.
+    "money-cents": function (rule, text) {
+      var out = [], re = /\$\d[\d,]*(?![\d,]*\.\d)(?![\d,]*\s?(?:million|billion|thousand|[KMB]\b))/g, m;
+      while ((m = re.exec(text))) {
+        var start = m.index, end = start + m[0].length;
+        if (text.charAt(end) === "." && /\d/.test(text.charAt(end + 1))) continue;
+        var before = text.slice(0, start), after = text.slice(end);
+        if (/(?:to|through|and|[-\u2013])\s*$/i.test(before) || /^\s*(?:to|through|and|[-\u2013])\s*\$/i.test(after)) continue;
+        out.push({ start: start, end: end, match: m[0], replacement: m[0] + ".00" });
+      }
+      return out;
+    },
+
+    // "a card, bank account or cash" -> "a card, bank account, or cash". Only lists introduced by words like
+    // "with," "of," "for," or "including," since "If ready, select Pay and confirm" isn't a list.
+    "serial-comma": function (rule, text) {
+      var out = [], re = /\b(with|of|for|includes?|including|such as|like|accepts?|using|use|via|by|in|from|between)\s+((?:an?|the|your|our)\s+)?([\w\u2019'-]+(?:\s[\w\u2019'-]+){0,2}),\s([\w\u2019'-]+(?:\s[\w\u2019'-]+){0,2})\s(and|or)\s/gi, m;
+      while ((m = re.exec(text))) {
+        var gapStart = m.index + m[0].length - (m[5].length + 2); // the space before "and"/"or"
+        var start = m.index + m[0].indexOf(m[4]), end = gapStart;
+        out.push({ start: start, end: end, match: text.slice(start, end), replacement: text.slice(start, end) + "," });
       }
       return out;
     },

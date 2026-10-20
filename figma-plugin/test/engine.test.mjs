@@ -180,17 +180,21 @@ test("tone and messages", () => {
   expectRule("Error 404", "error", "error-code-only");
   expectFix("Payment method saved.", "success", "single-sentence-period", "Payment method saved");
   expectClean("Payment method saved. You can change it any time.", "success");
-  expectClean("Payment scheduled for 10 a.m.", "success");
+  expectClean("Payment sent to Acme Inc.", "success");
   expectRule("Additional fees may apply", "body", "vague-fees");
   expectFix("Enter the OTP", "body", "otp", "Enter the verification code");
   expectRule("You can't cancel. Payments do not refund", "body", "contractions-mixed");
 });
 
 test("time, PCI, and layout language", () => {
-  expectFix("Due by 5 PM", "body", "time-format", "Due by 5 p.m.");
-  expectFix("Opens at 9:30am", "body", "time-format", "Opens at 9:30 a.m.");
-  expectClean("Opens at 9:30 a.m. ET", "body");
-  expectFix("Support hours are 8 a.m. to 5 p.m. EST", "body", "time-zone", "Support hours are 8 a.m. to 5 p.m. ET");
+  expectFix("Due by 5 PM", "body", "time-format", "Due by 5:00 PM");
+  expectFix("Due by 5 p.m.", "body", "time-format", "Due by 5:00 PM");
+  expectFix("Opens at 9:30am", "body", "time-format", "Opens at 9:30 AM");
+  expectFix("Opens at 9:30 a.m.", "body", "time-format", "Opens at 9:30 AM");
+  expectClean("Opens at 9:30 AM ET", "body");
+  expectClean("Maintenance in progress. Some features may be unavailable until 2:00 AM ET.", "banner");
+  expectFix("Support hours are 8:00 AM to 5:00 PM EST", "body", "time-zone", "Support hours are 8:00 AM to 5:00 PM ET");
+  expectFix("Call by 5:00 PM CDT", "body", "time-zone", "Call by 5:00 PM CT");
   expectRule("Card 4111 1111 1111 1111", "body", "card-number");
   expectRule("Card number 4111111111111111 is invalid", "error", "card-number");
   expectClean("Card ending in •••• 1234", "body");
@@ -221,7 +225,7 @@ test("grammar", () => {
   expectClean("Create a user account in an hour", "body");
   expectClean("Choose Plan A or Plan B", "body");
   expectFix("Payment failed. try again", "body", "sentence-start", "Payment failed. Try again");
-  expectClean("Use a card, e.g. a debit card", "body");
+  assert.ok(!find("Use a card, e.g. a debit card", "body", "sentence-start"), "no capital needed after e.g.");
   expectFix("Pay  now", "body", "double-space", "Pay now");
   expectFix("Hello , world", "body", "space-before-punctuation", "Hello, world");
   expectFix("Saved.Next, review", "body", "missing-space-sentence", "Saved. Next, review");
@@ -287,6 +291,69 @@ test("quoted SMS keywords are allowed outside approved copy", () => {
   expectFix('Reply "STOP" to opt out', "body", "curly-quotes", "Reply “STOP” to opt out");
   expectRule("Select the “Advanced” option", "body", "quotation-marks");
   expectClean("Reply START to resume", "body");
+});
+
+test("numbers, dates, and times", () => {
+  expectFix("Open until 12 PM", "body", "noon", "Open until noon");
+  expectFix("Open until 12:00 PM", "body", "noon", "Open until noon");
+  expectRule("Pay by midnight", "body", "midnight-deadline");
+  expectClean("Pay by 11:59 PM ET on March 15", "body");
+  expectFix("9:00 AM–5:00 PM ET", "body", "time-range-dash", "9:00 AM to 5:00 PM ET");
+  expectRule("Open 9:00 to 5:00 PM", "body", "time-range-ampm");
+  expectClean("Open 9:00 AM to 5:00 PM ET", "body");
+  expectFix("Due March 15th", "body", "date-ordinal", "Due March 15");
+  expectFix("Due Mar. 3rd", "body", "date-ordinal", "Due Mar 3");
+  expectClean("Charged on the 15th of each month", "body");
+  expectFix("Starting June, 2026", "body", "date-comma", "Starting June 2026");
+  expectFix("Due March 15 2026", "body", "date-missing-comma", "Due March 15, 2026");
+  expectClean("Due March 15, 2026, at 5:00 PM ET", "body");
+  expectFix("Due Sept. 3", "body", "month-abbreviation", "Due Sep 3");
+  expectFix("Due Oct. 3", "body", "month-abbreviation", "Due Oct 3");
+  expectClean("Due Sep 3", "body");
+  expectFix("Mon., Sep 3", "body", "day-abbreviation", "Mon, Sep 3");
+  expectFix("Thurs., Sep 3", "body", "day-abbreviation", "Thu, Sep 3");
+  expectFix("Billing period March 1-31", "body", "date-range-dash", "Billing period March 1 through March 31");
+  expectRule("Available from Mar 1–31", "body", "from-dash");
+  expectFix("Arrives in 3-5 business days", "body", "number-range-dash", "Arrives in 3 to 5 business days");
+  expectRule("Your payment is due tomorrow", "body", "relative-due-date");
+  expectRule("Autopay renews in 3 days", "body", "relative-due-date");
+  expectClean("Posted 2 hours ago", "body");
+  expectFix("Save 5 % today", "body", "percent-space", "Save 5% today");
+  expectFix("A five percent fee", "body", "percent-word", "A 5% fee");
+  expectFix("Your 1st payment", "body", "ordinal-word", "Your first payment");
+  expectClean("Your 12th payment", "body");
+  expectFix("Your 12ᵗʰ payment", "body", "superscript-ordinal", "Your 12th payment");
+  expectRule("12 payments are scheduled.", "body", "sentence-starts-with-numeral");
+  expectClean("You have 12 scheduled payments.", "body");
+  expectClean("3 accounts", "label");
+  expectFix("Balance $12500.00", "body", "money-commas", "Balance $12,500.00");
+  expectFix("Raised $1.2M", "body", "money-abbreviation", "Raised $1.2 million");
+  expectFix("Up to $5K", "body", "money-abbreviation", "Up to $5,000");
+  expectRule("Refund ($25.00)", "body", "money-parentheses");
+  expectFix("Amount due: $125", "body", "money-cents", "Amount due: $125.00");
+  expectClean("Amount due: $125.00", "body");
+  expectClean("Fees range from $10 to $25", "body");
+  expectClean("$1.2 million raised", "body");
+});
+
+test("punctuation and wording", () => {
+  expectFix("Use a card (e.g., Visa)", "body", "latin-abbreviation", "Use a card (for example, Visa)");
+  expectFix("Your billing period, i.e., the month", "body", "latin-abbreviation", "Your billing period, that is, the month");
+  expectRule("Visa, Mastercard, etc.", "body", "etc");
+  expectFix("Processing...", "body", "ellipsis", "Processing…");
+  expectClean("Processing…", "body");
+  expectFix("Pay with a card, bank account or cash.", "body", "serial-comma", "Pay with a card, bank account, or cash.");
+  expectClean("Pay with a card, bank account, or cash.", "body");
+  assert.ok(!find("If you're ready, select Pay and confirm.", "body", "serial-comma"));
+  assert.ok(!find("Hi, Joe and Dana", "heading", "serial-comma"));
+  expectFix("Click Pay bill to continue", "body", "interaction-verb", "Select Pay bill to continue");
+  expectFix("Tap on the card", "body", "interaction-verb", "Select the card");
+  assert.ok(!find("Click Here", "button", "interaction-verb"), "buttons have their own click rule");
+  expectFix("Add it to the whitelist", "body", "inclusive-list", "Add it to the allowlist");
+  expectFix("He or she can pay", "body", "inclusive-pronouns", "They can pay");
+  expectFix("Update his or her account", "body", "inclusive-pronouns", "Update their account");
+  expectRule("Hey guys", "heading", "inclusive-guys");
+  expectRule("Choose the 4th option", "body", "ordinal-word");
 });
 
 test("ignored issues are marked, and categories can be turned off", () => {

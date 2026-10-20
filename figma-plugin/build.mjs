@@ -103,6 +103,7 @@ const preferredFor = (name) => GLOSSARY.find((g) => g.kind === "Preferred term" 
 const covered = new Set();
 
 for (const g of GLOSSARY) {
+  if (/\s\/\s/.test(g.term)) continue; // paired entries like "AM / PM" are handled by dedicated rules
   const guide = glossaryGuide(g);
   const id = "glossary-" + slugify(g.term);
   const variants = (g.avoid || []).filter(plainVariant).filter((v) => !coveredByHandRules.has(v.toLowerCase()));

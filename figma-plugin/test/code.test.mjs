@@ -166,14 +166,14 @@ test("fixes keep working when several land in one layer", async () => {
     .map((i) => ({ nodeId: item.id, start: i.start, end: i.end, expected: i.match, replacement: i.replacement }));
   assert.ok(fixes.length >= 2);
   await send({ type: "apply-fixes", fixes });
-  assert.equal(body.characters, "Pay the bill by 5 p.m.");
+  assert.equal(body.characters, "Pay the bill by 5:00 PM");
   assert.equal(last("fix-result").applied, fixes.length);
-  assert.equal(last("nodes-updated").items[0].text, "Pay the bill by 5 p.m.");
+  assert.equal(last("nodes-updated").items[0].text, "Pay the bill by 5:00 PM");
 });
 
 test("stale fixes are refused instead of corrupting text", async () => {
   await send({ type: "apply-fixes", fixes: [{ nodeId: body.id, start: 0, end: 3, expected: "Xyz", replacement: "Abc" }] });
-  assert.equal(body.characters, "Pay the bill by 5 p.m.");
+  assert.equal(body.characters, "Pay the bill by 5:00 PM");
   assert.equal(last("fix-result").applied, 0);
   assert.match(last("fix-result").failed[0].reason, /changed since the scan/);
 });

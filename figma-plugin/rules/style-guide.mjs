@@ -10,6 +10,8 @@
 
 const SENTENCE_CASE_CONTEXTS = ["button", "heading", "label", "menu", "toggle", "checkbox", "tab"];
 const MESSAGE_CONTEXTS = ["error", "success", "banner", "tooltip", "modal"];
+const FULL_MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December";
+const MONTHS = FULL_MONTHS + "|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec";
 // Carrier SMS keywords. Quoting them (Reply “STOP”) is required in SMS compliance language.
 const SMS_KEYWORDS = "STOP|HELP|START|UNSTOP|CANCEL|END|QUIT|UNSUBSCRIBE|STOPALL|INFO|YES";
 
@@ -403,18 +405,217 @@ export default [
   },
 
   // ---------- Abbreviations and time ----------
+  // ---------- Numbers, dates, and times ----------
+  {
+    id: "noon", severity: "warning",
+    pattern: /\b12(?::00)?\s?[Pp]\.?\s?[Mm]\.?(?![\w])|\b12 noon\b/g, fix: "noon", safeFix: true,
+    message: "Use “noon”",
+    guide: ["numbers-dates-and-times", "Times"]
+  },
   {
     id: "time-format", severity: "warning",
-    pattern: /\b(\d{1,2}(?::\d{2})?)\s?([AaPp])\.?\s?[Mm]\.?(?![\w])/g, fix: { fn: "time-ampm" }, safeFix: true,
-    message: "Write times as “a.m.” and “p.m.”",
-    guide: ["abbreviations-and-acronyms", "Time"]
+    pattern: /\b(\d{1,2})(?::(\d{2}))?\s?([AaPp])\.?\s?[Mm]\.?(?![\w])/g, fix: { fn: "time-hm" }, safeFix: true,
+    message: "Write times like 5:00 PM",
+    detail: "Uppercase AM or PM, no periods, a space before, and “:00” on the hour.",
+    guide: ["numbers-dates-and-times", "Times"]
+  },
+  {
+    id: "midnight-deadline", severity: "suggestion",
+    pattern: /\bmidnight\b|\b12(?::00)?\s?AM\b/gi,
+    message: "Use 11:59 PM for deadlines",
+    detail: "“Midnight” and 12:00 AM are ambiguous about which day. For cutoffs, use 11:59 PM with a time zone.",
+    guide: ["numbers-dates-and-times", "Times"]
+  },
+  {
+    id: "time-range-dash", severity: "warning",
+    pattern: /(\d{1,2}:\d{2} [AP]M)\s?[-–]\s?(\d{1,2}:\d{2} [AP]M)/g, fix: "$1 to $2", safeFix: true,
+    message: "Use “to” between times",
+    guide: ["numbers-dates-and-times", "Time Ranges"]
+  },
+  {
+    id: "time-range-ampm", severity: "warning",
+    pattern: /\b\d{1,2}:\d{2}(?!\s?[AaPp]\.?[Mm])\s?(?:to|[-–])\s?\d{1,2}:\d{2}\s?[AaPp]\.?[Mm]\.?/g,
+    message: "Include AM or PM on both times",
+    guide: ["numbers-dates-and-times", "Time Ranges"]
   },
   {
     id: "time-zone", severity: "suggestion",
-    pattern: /\b(?:EST|EDT)\b/g, fix: "ET",
-    message: "Use “ET”",
+    pattern: /\b([ECMP])[SD]T\b/g, fix: "$1T",
+    message: "Use ET, CT, MT, or PT",
     detail: "Only specify standard or daylight time when accuracy requires it.",
-    guide: ["abbreviations-and-acronyms", "Time"]
+    guide: ["numbers-dates-and-times", "Time Zones"]
+  },
+  {
+    id: "date-ordinal", severity: "warning",
+    pattern: new RegExp(`\\b(${MONTHS})\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)\\b`, "g"), fix: "$1 $2", safeFix: true,
+    message: "Don’t add “st,” “nd,” “rd,” or “th” to dates",
+    guide: ["numbers-dates-and-times", "Dates"]
+  },
+  {
+    id: "date-comma", severity: "warning",
+    pattern: new RegExp(`\\b(${FULL_MONTHS}),\\s(\\d{4})\\b`, "g"), fix: "$1 $2", safeFix: true,
+    message: "No comma between a month and year",
+    guide: ["numbers-dates-and-times", "Dates"]
+  },
+  {
+    id: "date-missing-comma", severity: "warning",
+    pattern: new RegExp(`\\b(${MONTHS}) (\\d{1,2}) (\\d{4})\\b`, "g"), fix: "$1 $2, $3", safeFix: true,
+    message: "Add a comma between the day and year",
+    guide: ["numbers-dates-and-times", "Dates"]
+  },
+  {
+    id: "month-abbreviation", severity: "warning",
+    pattern: /\b(Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)\.?(?=\s?\d)/g, fix: { fn: "month-abbr" }, safeFix: true,
+    message: "Abbreviate months with three letters and no period",
+    guide: ["numbers-dates-and-times", "Abbreviated Months and Days"]
+  },
+  {
+    id: "day-abbreviation", severity: "warning",
+    pattern: /\b(Mon|Tue|Tues|Wed|Thu|Thur|Thurs|Fri|Sat|Sun)\.(?=[\s,])/g, fix: { fn: "day-abbr" }, safeFix: true,
+    message: "Abbreviate days with three letters and no period",
+    guide: ["numbers-dates-and-times", "Abbreviated Months and Days"]
+  },
+  {
+    id: "date-range-dash", severity: "suggestion", exceptContexts: ["table-header"],
+    pattern: new RegExp(`\\b(${MONTHS}) (\\d{1,2})\\s?[-–]\\s?(\\d{1,2})\\b`, "g"), fix: "$1 $2 through $1 $3",
+    message: "Write date ranges with “through”",
+    detail: "In copy, use “through” and repeat the month. An en dash is fine in tables and charts.",
+    guide: ["numbers-dates-and-times", "Date Ranges"]
+  },
+  {
+    id: "from-dash", severity: "warning",
+    pattern: /\bfrom\s+(?:\S+\s+)?\$?\d[\d,.:]*\s?[-–]\s?\$?\d/gi,
+    message: "Don’t use “from” with a dash",
+    detail: "Write “from March 1 through March 31,” or use the dash alone in tables.",
+    guide: ["numbers-dates-and-times", "Date Ranges"]
+  },
+  {
+    id: "number-range-dash", severity: "suggestion", exceptContexts: ["table-header"],
+    pattern: /\b(\d+)\s?[-–]\s?(\d+)\s+((?:business\s+)?(?:days?|hours?|minutes?|weeks?|months?|years?|attempts?|times?|payments?))\b/gi, fix: "$1 to $2 $3",
+    message: "Write ranges with “to”",
+    guide: ["numbers-dates-and-times", "Number Ranges"]
+  },
+  {
+    id: "relative-due-date", severity: "suggestion",
+    pattern: /\b(?:due|scheduled(?: for)?|expires?|ends?|renews?|pay by|charged)\s+(?:today|tomorrow|tonight|in \d+ (?:days?|weeks?|hours?))\b/gi,
+    message: "Use an exact date",
+    detail: "Use exact dates for anything due, scheduled, or final. Relative dates are only for activity feeds.",
+    guide: ["numbers-dates-and-times", "Relative Dates and Durations"]
+  },
+  {
+    id: "percent-space", severity: "warning",
+    pattern: /(\d)\s+%/g, fix: "$1%", safeFix: true,
+    message: "No space before %",
+    guide: ["numbers-dates-and-times", "Percentages"]
+  },
+  {
+    id: "percent-word", severity: "suggestion",
+    pattern: /\b(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\s?percent\b/gi, fix: { fn: "percent" },
+    message: "Use a numeral and %",
+    detail: "Spell out “percent” only at the start of a sentence.",
+    guide: ["numbers-dates-and-times", "Percentages"]
+  },
+  {
+    id: "ordinal-word", severity: "suggestion",
+    pattern: /\b([1-9])(st|nd|rd|th)\b(?!\s+of\b)/g, fix: { fn: "ordinal-word" },
+    message: "Spell out first through ninth",
+    detail: "Use numerals from 10th on. “The 1st of each month” is fine.",
+    guide: ["numbers-dates-and-times", "Ordinals"]
+  },
+  {
+    id: "superscript-ordinal", severity: "warning",
+    pattern: /(\d)(ˢᵗ|ⁿᵈ|ʳᵈ|ᵗʰ)/g, fix: { fn: "unsuperscript" }, safeFix: true,
+    message: "Don’t use superscript ordinals",
+    guide: ["numbers-dates-and-times", "Ordinals"]
+  },
+  {
+    id: "sentence-starts-with-numeral", severity: "suggestion",
+    contexts: ["body", "helper", "error", "success", "banner", "tooltip", "modal"],
+    pattern: /(?:^|[.!?]\s+)\d[\d,.]*(?=\s+[a-z][^.!?]*[.!?])/g,
+    message: "Don’t start a sentence with a numeral",
+    detail: "Rewrite the sentence, like “You have 12 scheduled payments.”",
+    guide: ["numbers-dates-and-times", "Numerals and Words"]
+  },
+  {
+    id: "money-commas", severity: "warning",
+    pattern: /\$(\d{4,})(\.\d{2})?\b/g, fix: { fn: "money-commas" }, safeFix: true,
+    message: "Use commas in amounts of $1,000 or more",
+    guide: ["numbers-dates-and-times", "Large Numbers"]
+  },
+  {
+    id: "money-abbreviation", severity: "suggestion",
+    pattern: /\$(\d+(?:\.\d+)?)([KMB])\b/g, fix: { fn: "money-words" },
+    message: "Spell out thousand, million, and billion",
+    detail: "Abbreviations like K and M are only for charts.",
+    guide: ["numbers-dates-and-times", "Large Numbers"]
+  },
+  {
+    id: "money-parentheses", severity: "warning",
+    pattern: /\(\$\d[\d,]*(?:\.\d{2})?\)/g,
+    message: "Don’t use parentheses for negative amounts",
+    detail: "Say “Credit of $25.00” or use a minus sign: −$25.00.",
+    guide: ["numbers-dates-and-times", "Money"]
+  },
+  {
+    id: "money-cents", type: "money-cents", severity: "suggestion",
+    message: "Show cents on transaction amounts",
+    detail: "Use $125.00 for amounts due, payments, fees, refunds, and balances. Ranges like $10 to $25 are fine.",
+    guide: ["numbers-dates-and-times", "Money"]
+  },
+
+  // ---------- Punctuation and wording ----------
+  {
+    id: "latin-abbreviation", severity: "warning",
+    pattern: /\b(e\.g\.|i\.e\.)/gi, fix: { fn: "latin" },
+    message: "Don’t use “e.g.” or “i.e.”",
+    detail: "Write “for example,” “such as,” or “that is.”",
+    guide: ["abbreviations-and-acronyms", "e.g., i.e., and etc."]
+  },
+  {
+    id: "etc", severity: "suggestion",
+    pattern: /\betc\.?/gi,
+    message: "Don’t end lists with “etc.”",
+    detail: "List the items, or say “such as.”",
+    guide: ["abbreviations-and-acronyms", "e.g., i.e., and etc."]
+  },
+  {
+    id: "ellipsis", severity: "warning",
+    pattern: /\.{3,}/g, fix: "…", safeFix: true,
+    message: "Use the ellipsis character (…)",
+    detail: "Use an ellipsis only for cut-off text and in-progress states, never for tone.",
+    guide: ["special-characters", "Ellipses ( … )"]
+  },
+  {
+    id: "serial-comma", type: "serial-comma", severity: "suggestion",
+    message: "Use the serial (Oxford) comma",
+    guide: ["special-characters", "Commas"]
+  },
+  {
+    id: "interaction-verb", severity: "suggestion", exceptContexts: ["button"],
+    pattern: /\b(?:click|tap)(?:\s+on)?\b(?!\s+here)/gi, fix: { fn: "match-case", value: "select" },
+    message: "Use “select”",
+    detail: "“Select” works for mouse, touch, keyboard, and assistive tech.",
+    guide: ["instructional-text", "Interaction Verbs"]
+  },
+  {
+    id: "inclusive-list", severity: "suggestion",
+    pattern: /\b(white|black)list(s|ed|ing)?\b/gi, fix: { fn: "allowlist" },
+    message: "Use “allowlist” or “blocklist”",
+    guide: ["content-principles", "Use Inclusive Language"]
+  },
+  {
+    id: "inclusive-pronouns", severity: "suggestion",
+    pattern: /\b(?:he or she|she or he|he\/she|s\/he|his or her|her or his|him or her)\b/gi, fix: { fn: "they" },
+    message: "Use gender-neutral pronouns",
+    detail: "Use “they” and “their.”",
+    guide: ["content-principles", "Use Inclusive Language"]
+  },
+  {
+    id: "inclusive-guys", severity: "suggestion",
+    pattern: /\b(?:hey|hi|thanks|you) guys\b|\bthe disabled\b/gi,
+    message: "Use inclusive language",
+    detail: "Say “everyone” or “people with disabilities.”",
+    guide: ["content-principles", "Use Inclusive Language"]
   },
 
   // ---------- Phone numbers ----------
