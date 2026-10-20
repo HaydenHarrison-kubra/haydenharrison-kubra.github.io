@@ -84,6 +84,39 @@ Parentheses should be used sparingly and never as a substitute for clarity.
 
 :::
 
+## Commas
+
+Use the serial (Oxford) comma before "and" or "or" in a list of three or more items.
+
+::: do
+
+- *Pay with a card, bank account, or cash.*
+
+:::
+
+::: dont
+
+- *Pay with a card, bank account or cash.*
+
+:::
+
+## Ellipses ( … )
+
+Use an ellipsis only for text that's been cut off and for in-progress states. Use the single ellipsis character (…), not three periods. Never use an ellipsis for tone or suspense.
+
+::: do
+
+- *Processing…*
+
+:::
+
+::: dont
+
+- *Processing...*
+- *Your payment is almost done...*
+
+:::
+
 ## What to Avoid
 
 - Parenthetical plurals outside of input instructions

@@ -151,6 +151,28 @@ Payment and billing experiences are not the place for personality or humor. Avoi
 
 :::
 
+## Use Inclusive Language
+
+Write so every user feels addressed and respected. Use gender-neutral language, put people before conditions, and avoid terms with harmful or exclusionary associations.
+
+::: do
+
+- *They · their account*
+- *Everyone · all customers*
+- *Allowlist · blocklist*
+- *People with disabilities*
+
+:::
+
+::: dont
+
+- *He or she · his or her account*
+- *Hey guys*
+- *Whitelist · blacklist*
+- *The disabled*
+
+:::
+
 ## When Principles Conflict
 
 If multiple principles apply: 1) Prioritize clarity, 2) Then accuracy, 3) Then consistency, 4) Then tone. If uncertainty remains, escalate for review rather than introducing a new pattern.

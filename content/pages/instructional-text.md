@@ -98,6 +98,24 @@ Avoid positional references that rely on layout — use specific references inst
 
 :::
 
+## Interaction Verbs
+
+Use "select" for choosing an option, button, or link. It works for mouse, touch, keyboard, and assistive tech. Use "enter" for typing into a field.
+
+::: do
+
+- *Select **Pay bill**.*
+- *Enter your routing number.*
+
+:::
+
+::: dont
+
+- *Click **Pay bill**.*
+- *Tap here to continue.*
+
+:::
+
 ## Voice and Tone
 
 Neutral, clear, supportive, direct — functional, not promotional. Second person ("you") is fine when it improves clarity, but avoid conversational filler or marketing language.
