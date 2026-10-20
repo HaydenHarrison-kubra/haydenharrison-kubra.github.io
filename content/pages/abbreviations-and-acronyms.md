@@ -56,22 +56,25 @@ Acronyms may be used more frequently, but must still be accurate, consistent, an
 
 ## Time
 
-Use ET unless specifying daylight or standard time is necessary.
+Use AM and PM: uppercase, no periods, with ":00" on the hour. Use ET, CT, MT, or PT, and don't specify daylight or standard time unless it's necessary. See [Numbers, Dates, and Times](#numbers-dates-and-times/times) for full time and date formatting.
 
 ::: do
 
-- *a.m. / p.m.*
+- *5:00 PM · 9:30 AM*
 - *ET (preferred for general use)*
 
 :::
 
 ::: dont
 
+- *5:00 p.m. · 5 PM*
 - *Mixing EST/EDT unless accuracy is required*
 
 :::
 
 ## Days and Months
+
+Abbreviate with three letters and no period, only when space is tight. See [Numbers, Dates, and Times](#numbers-dates-and-times/abbreviated-months-and-days).
 
 ::: do
 
@@ -104,6 +107,22 @@ Format phone numbers as (xxx) xxx-xxxx: the area code in parentheses, a space, t
 
 - *480-111-1111 · 480.111.1111 · 480 111 1111 · (480)111-1111 · 4801111111*
 - *1-480-111-1111 · +1 480-111-1111 · +1-480-111-1111 · 1 (480) 111-1111*
+
+:::
+
+## e.g., i.e., and etc.
+
+Don't use these in UI copy. Write "for example," "such as," or "that is" instead, and list the items rather than ending with "etc."
+
+::: do
+
+- *Use a debit or credit card, such as Visa or Mastercard.*
+
+:::
+
+::: dont
+
+- *Use a card (e.g., Visa, Mastercard, etc.).*
 
 :::
 

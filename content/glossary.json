@@ -137,10 +137,14 @@
     "source": "industry-specific-language"
   },
   {
-    "term": "a.m. / p.m.",
+    "term": "AM / PM",
     "kind": "Abbreviation",
-    "note": "Preferred time format: lowercase with periods.",
-    "source": "abbreviations-and-acronyms"
+    "note": "Uppercase, no periods, with a space before and “:00” on the hour, like 5:00 PM. Use “noon” instead of 12:00 PM.",
+    "source": "numbers-dates-and-times",
+    "avoid": [
+      "a.m.",
+      "p.m."
+    ]
   },
   {
     "term": "CNAME",
@@ -155,11 +159,11 @@
   {
     "term": "ET",
     "kind": "Abbreviation",
-    "note": "Eastern Time. Preferred for general use; only specify EST or EDT when accuracy requires it.",
+    "note": "Eastern Time. Use ET, CT, MT, and PT; only specify standard or daylight time (EST, EDT) when accuracy requires it.",
     "avoid": [
       "Mixing EST/EDT"
     ],
-    "source": "abbreviations-and-acronyms"
+    "source": "numbers-dates-and-times"
   },
   {
     "term": "PIN",
