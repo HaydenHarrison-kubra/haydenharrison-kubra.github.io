@@ -38,7 +38,7 @@ A title appears at the beginning of a page or section and provides a clear, high
 
 :::
 
-## Headings and Subheadings
+## Headings and subheadings
 
 Headings and subheadings organize content into scannable, logical sections, helping users quickly find relevant information.
 
@@ -77,7 +77,7 @@ Do not skip heading levels (e.g., H2 → H4).
 
 Use sentence case for headings and subheadings (capitalize only the first word and proper nouns).
 
-### Keywords and Clarity
+### Keywords and clarity
 
 - Include relevant keywords users are likely to search for
 - Avoid vague or generic phrasing

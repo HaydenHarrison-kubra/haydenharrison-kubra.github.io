@@ -5,7 +5,7 @@ blurb: "When to use a table, naming, and formatting rules."
 
 Tables organize structured data and allow users to quickly compare information.
 
-## When to Use Tables
+## When to use tables
 
 Use tables when:
 
@@ -15,7 +15,7 @@ Use tables when:
 
 Avoid tables for simple lists or short content.
 
-## Introducing Tables
+## Introducing tables
 
 - Refer to tables as "this table" or "the table"
 - Do not use "the following table"
@@ -32,7 +32,7 @@ Avoid tables for simple lists or short content.
 
 :::
 
-## Naming Tables
+## Naming tables
 
 - Give tables a clear, descriptive name
 - Ensure users understand what information the table contains
@@ -50,24 +50,25 @@ Avoid tables for simple lists or short content.
 
 :::
 
-## Column Headings
+## Column headings
 
-- Use title case for column headings
+- Use sentence case for column headings
 - Keep headings concise and descriptive
 
 ::: do
 
-- *Payment Type | Processing Time | Status*
+- *Payment type | Processing time | Status*
 
 :::
 
 ::: dont
 
+- *Payment Type | Processing Time | Status*
 - *payment type | processing time | status*
 
 :::
 
-## Table Content
+## Table content
 
 - Capitalize the first word of each entry
 - Capitalize proper nouns as required
@@ -89,7 +90,7 @@ Avoid tables for simple lists or short content.
 
 :::
 
-## Do Not
+## Do not
 
 - Alter capitalization of product names or technical terms
 - Overload tables with excessive content

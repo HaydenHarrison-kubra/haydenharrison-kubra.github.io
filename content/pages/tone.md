@@ -5,7 +5,7 @@ blurb: "How voice adapts across informational, error, and legal contexts."
 
 Tone changes depending on the user's situation, emotional state, and task.
 
-## Tone by Context
+## Tone by context
 
 | Context | Tone |
 |---|---|
@@ -18,9 +18,14 @@ Tone changes depending on the user's situation, emotional state, and task.
 
 > ⚠️ Tone should never introduce surprise, judgment, or emotional intensity — especially in financial flows.
 
-## Writing for Financial and Technical Experiences
+## Writing for financial and technical experiences
 
-Because our products involve billing, payments, and system-driven outcomes: avoid emotional language in transactional moments, do not assign blame to the user, be explicit about system limitations or constraints, use consistent terminology for money, timeframes, and system states.
+Because our products involve billing, payments, and system-driven outcomes:
+
+- Avoid emotional language in transactional moments.
+- Do not assign blame to the user.
+- Be explicit about system limitations or constraints.
+- Use consistent terminology for money, timeframes, and system states.
 
 ::: do
 
@@ -38,7 +43,11 @@ Because our products involve billing, payments, and system-driven outcomes: avoi
 
 Contractions help language feel natural but must be used carefully.
 
-**Use contractions when:** writing consumer-facing UI, space is limited, the message is informational or confirmational.
+**Use contractions when:**
+
+- Writing consumer-facing UI
+- Space is limited
+- The message is informational or confirmational
 
 ::: do
 
@@ -47,7 +56,12 @@ Contractions help language feel natural but must be used carefully.
 
 :::
 
-**Avoid contractions when:** writing legal, compliance, or PCI-related content; writing error messages with legal or financial impact; mixing contracted and non-contracted forms in the same surface.
+**Avoid contractions when:**
+
+- Writing legal, compliance, or PCI-related content
+- Mixing contracted and non-contracted forms in the same surface
+
+Contractions like can't, couldn't, and don't are fine in error messages.
 
 ::: do
 
@@ -61,9 +75,9 @@ Contractions help language feel natural but must be used carefully.
 
 :::
 
-## Empathy Without Apology
+## Empathy without apology
 
-We acknowledge friction without being overly apologetic. It's okay to recognize inconvenience; avoid excessive apologies or emotional language; do not minimize the impact of errors.
+We acknowledge friction without being overly apologetic.
 
 ::: do
 
@@ -77,7 +91,15 @@ We acknowledge friction without being overly apologetic. It's okay to recognize 
 
 :::
 
-## What to Avoid (Across All Contexts)
+::: details More detail
+
+- It's okay to recognize inconvenience.
+- Avoid excessive apologies or emotional language.
+- Do not minimize the impact of errors.
+
+:::
+
+## What to avoid (across all contexts)
 
 - Slang, emojis, or humor
 - Over-celebratory success messages
@@ -85,11 +107,15 @@ We acknowledge friction without being overly apologetic. It's okay to recognize 
 - Passive ambiguity (e.g., "This may have failed")
 - Conversational filler (e.g., "Just," "Simply," "Quickly")
 
-## When in Doubt
+## When in doubt
+
+If ambiguity remains, escalate for review rather than inventing a new tone.
+
+::: details More detail
 
 1. Prioritize clarity over friendliness.
 1. Choose neutral over conversational.
 1. State facts before offering guidance.
 1. Use existing terminology and patterns.
 
-If ambiguity remains, escalate for review rather than inventing a new tone.
+:::

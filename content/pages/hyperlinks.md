@@ -6,14 +6,14 @@ topics: ["Accessibility"]
 
 Hyperlinks connect users to relevant internal or external resources.
 
-## General Guidelines
+## General guidelines
 
 - Link meaningful, descriptive text, not generic phrases
 - Ensure users understand where the link will take them
 - Only link to trusted and relevant resources
 - Always link legal document names, like Terms of Use, Terms and Conditions, and Privacy Policy (see [Legal Content](#legal-content/linking-legal-documents))
 
-## Link Text
+## Link text
 
 - Write the sentence naturally, then link the most relevant words
 - Avoid instructional phrases like "click here"
@@ -32,7 +32,7 @@ Hyperlinks connect users to relevant internal or external resources.
 
 :::
 
-## Articles and Formatting
+## Articles and formatting
 
 - Do not include preceding articles (a, an, the, our) in link text
 - Do not include punctuation unless it is part of the official title
@@ -49,7 +49,7 @@ Hyperlinks connect users to relevant internal or external resources.
 
 :::
 
-## Tone and Clarity
+## Tone and clarity
 
 - Keep link text concise and specific
 - Avoid vague or ambiguous wording
@@ -66,7 +66,7 @@ Hyperlinks connect users to relevant internal or external resources.
 
 :::
 
-## Accessibility Considerations
+## Accessibility considerations
 
 - Link text should make sense out of context (e.g., for screen readers)
 - Avoid using multiple identical link texts for different destinations
@@ -84,7 +84,11 @@ Hyperlinks connect users to relevant internal or external resources.
 
 :::
 
-## When in Doubt
+## When in doubt
+
+Prioritize clarity, scannability, and consistency across all structured content.
+
+::: details More detail
 
 If you're unsure how to structure content:
 
@@ -93,4 +97,4 @@ If you're unsure how to structure content:
 1. Use tables only when structure improves clarity
 1. Link meaningful, descriptive text
 
-Prioritize clarity, scannability, and consistency across all structured content.
+:::

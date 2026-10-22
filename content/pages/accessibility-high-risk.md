@@ -6,11 +6,11 @@ topics: ["Accessibility", "Payments", "Errors & Messaging"]
 
 This covers high-risk user moments in payment and billing flows where unclear or inaccessible copy can cause financial harm, user frustration, or compliance issues. These patterns require extra precision, predictability, and accessibility review.
 
-## What Qualifies as "High-Risk" Copy
+## What qualifies as "High-Risk" copy
 
 A flow is considered high-risk when it involves money movement or authorization, account access or identity verification, irreversible or time-sensitive actions, fees, penalties, or service disruption, or compliance or regulatory disclosure. In these contexts, clarity and accessibility override tone, brevity, and stylistic preference.
 
-## 1. Authentication and Verification (MFA, OTP, Identity Checks)
+## 1. Authentication and verification (MFA, OTP, identity checks)
 
 **Risks:** cognitive load, memory reliance, time pressure, screen reader interruptions.
 
@@ -35,7 +35,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 ::: do
 
-- *"The verification code is expired. Request a new code to continue." (Actionable and neutral.)*
+- *"The verification code has expired. Request a new code to continue." (Actionable and neutral.)*
 
 :::
 
@@ -48,7 +48,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 **Recovery** — always include a secondary path: resend code, use a different method, or contact support.
 
-## 2. Payment Failures
+## 2. Payment failures
 
 **Risks:** user anxiety, repeated failed attempts, blame perception, duplicate payments.
 
@@ -70,7 +70,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 :::
 
-## 3. Scheduled Payments and Autopay
+## 3. Scheduled payments and AutoPay
 
 **Risks:** unintended charges, missed payments, trust erosion.
 
@@ -78,7 +78,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 ::: do
 
-- *"Autopay is scheduled to run on March 15 each month."*
+- *"AutoPay is scheduled to run on the 15th of each month."*
 - *"Changes to this payment will apply starting April 15."*
 
 :::
@@ -90,7 +90,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 :::
 
-## 4. Fees, Penalties, and Charges
+## 4. Fees, penalties, and charges
 
 **Risks:** legal exposure, user confusion, perceived deception.
 
@@ -99,7 +99,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 ::: do
 
 - *"A service fee of $2.50 will be added to this payment."*
-- *"A late fee may apply if payment is not received by March 20."*
+- *"A late fee may apply if payment is not received by 11:59 PM ET on March 20."*
 
 :::
 
@@ -110,7 +110,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 :::
 
-## 5. Refunds, Reversals, and Cancellations
+## 5. Refunds, reversals, and cancellations
 
 **Risks:** false expectations, timing disputes, support escalation.
 
@@ -127,7 +127,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 :::
 
-## 6. Account Lockouts and Security Holds
+## 6. Account lockouts and security holds
 
 **Risks:** panic, repeated failed attempts, accessibility barriers during stress.
 
@@ -142,7 +142,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 :::
 
-## 7. Service Disruptions and System Outages
+## 7. Service disruptions and system outages
 
 **Risks:** loss of trust, repeated retries, support overload.
 
@@ -159,15 +159,15 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 :::
 
-## Language to Avoid in High-Risk Flows
+## Language to avoid in high-risk flows
 
 Never use humor or emojis; "Oops", "Uh-oh", "Yikes"; blame ("You entered…"); minimizing language ("Just", "Simply"); or ambiguous timing ("Soon", "Shortly").
 
-## When to Escalate for Review
+## When to escalate for review
 
 Escalate copy for accessibility and legal review if it mentions fees, penalties, or refunds; affects account access or identity; blocks a user from completing a payment; changes scheduled or recurring payments; or relates to PCI or regulatory requirements.
 
-## Accessibility Checklist for High-Risk Copy
+## Accessibility checklist for high-risk copy
 
 Before shipping, confirm:
 

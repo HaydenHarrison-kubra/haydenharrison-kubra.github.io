@@ -166,6 +166,18 @@
     "source": "numbers-dates-and-times"
   },
   {
+    "term": "CT / MT / PT",
+    "kind": "Abbreviation",
+    "note": "Central, Mountain, and Pacific Time. Like ET, only specify standard or daylight time (CST, PDT) when accuracy requires it.",
+    "source": "numbers-dates-and-times"
+  },
+  {
+    "term": "e.g. / i.e. / etc.",
+    "kind": "Abbreviation",
+    "note": "Don’t use in UI copy. Write “for example,” “such as,” or “that is,” and list the items instead of ending with “etc.”",
+    "source": "abbreviations-and-acronyms"
+  },
+  {
     "term": "PIN",
     "kind": "Abbreviation",
     "note": "Widely recognized; acceptable in UI when appropriate for your users.",
@@ -243,9 +255,26 @@
     "source": "industry-specific-language"
   },
   {
-    "term": "autopay",
+    "term": "AutoPay",
+    "kind": "Product name",
+    "note": "Automatic recurring payments. Always write “AutoPay,” with a capital A and P, including mid-sentence. Add helper text if users may need clarification.",
+    "avoid": [
+      "autopay",
+      "Autopay",
+      "AUTOPAY",
+      "auto-pay",
+      "Auto-pay",
+      "Auto-Pay",
+      "auto pay",
+      "Auto pay",
+      "Auto Pay"
+    ],
+    "source": "industry-specific-language"
+  },
+  {
+    "term": "billing address",
     "kind": "Preferred term",
-    "note": "Semi-technical; use with care and add helper text if clarification is needed.",
+    "note": "User-familiar term for the address tied to a payment method.",
     "source": "industry-specific-language"
   },
   {

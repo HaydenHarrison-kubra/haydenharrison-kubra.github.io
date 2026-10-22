@@ -37,7 +37,7 @@ function classify(file) {
   if (file === "content/glossary.json") return { page: "glossary" };
   if (file === "content/standard-copy.json") return { page: "standard-copy" };
   if (file === "content/sections.json") return { page: null };
-  if (/^figma-plugin\/(rules|config)\//.test(file)) return { plugin: true };
+  if (/^figma-plugin\/(?:(?:rules|config|src)\/|build\.mjs$)/.test(file)) return { plugin: true };
   return null;
 }
 

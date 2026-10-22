@@ -9,7 +9,7 @@ const engine = require("../src/engine.js");
 const rulesJson = JSON.parse(readFileSync(new URL("../../rules.json", import.meta.url), "utf8"));
 const c = engine.compile(rulesJson);
 
-const PARENTS = { "text-button": "button" };
+const PARENTS = { "text-button": "button", "menu-placeholder": "placeholder", "rich-tooltip": "tooltip" };
 const check = (text, context = "body", extra = {}) => engine.check(c, { text, context, contextParent: PARENTS[context] || null, ...extra });
 const ids = (text, context, extra) => check(text, context, extra).map((i) => i.ruleId);
 const find = (text, context, ruleId, extra) => check(text, context, extra).find((i) => i.ruleId === ruleId);
@@ -151,7 +151,8 @@ test("special characters and typography", () => {
   expectFix("Billing & payments", "heading", "ampersand", "Billing and payments");
   expectClean("Contact OG&E", "body");
   expectRule("Enable/disable alerts", "body", "slash");
-  expectClean("Due 03/15/2026", "body");
+  expectClean("03/15/2026", "label");
+  assert.ok(!find("Due 03/15/2026", "body", "slash"), "dates aren't slashes");
   expectClean("Use MM/DD/YYYY format", "body");
   expectClean("Go to https://kubra.com/pay", "body");
   expectRule("Select the “Advanced” option", "body", "quotation-marks");
@@ -188,9 +189,10 @@ test("tone and messages", () => {
 
 test("time, PCI, and layout language", () => {
   expectFix("Due by 5 PM", "body", "time-format", "Due by 5:00 PM");
-  expectFix("Due by 5 p.m.", "body", "time-format", "Due by 5:00 PM");
+  expectFix("Due by 5 p.m.", "body", "time-format", "Due by 5:00 PM.");
+  expectFix("Due by 5 p.m. on Friday", "body", "time-format", "Due by 5:00 PM on Friday");
   expectFix("Opens at 9:30am", "body", "time-format", "Opens at 9:30 AM");
-  expectFix("Opens at 9:30 a.m.", "body", "time-format", "Opens at 9:30 AM");
+  expectFix("Opens at 9:30 a.m.", "body", "time-format", "Opens at 9:30 AM.");
   expectClean("Opens at 9:30 AM ET", "body");
   expectClean("Maintenance in progress. Some features may be unavailable until 2:00 AM ET.", "banner");
   expectFix("Support hours are 8:00 AM to 5:00 PM EST", "body", "time-zone", "Support hours are 8:00 AM to 5:00 PM ET");
@@ -370,6 +372,76 @@ test("ignored issues are marked, and categories can be turned off", () => {
   const again = check("Submit", "button", { ignored: [issue.key] }).find((i) => i.ruleId === "button-generic");
   assert.equal(again.ignored, true);
   assert.ok(!engine.check(c, { text: "Pay the the bill", context: "body" }, { categories: { grammar: false } }).some((i) => i.ruleId === "repeated-word"));
+});
+
+test("audit fixes: periods, sign-in, dates, and false positives", () => {
+  // Times keep the period that ends a sentence.
+  assert.ok(!find("Please pay by 5:00 PM.", "body", "time-format"));
+  expectFix("Pay at 12 PM.", "body", "noon", "Pay at noon.");
+  expectFix("12 PM is the cutoff", "body", "noon", "Noon is the cutoff");
+  // Sign-in: URLs, domains, nouns, and compound adjectives.
+  assert.ok(!find("Visit kubra.com/login to pay", "body", "sign-in-word"));
+  assert.ok(!find("Use Login.gov to verify", "body", "sign-in-word"));
+  expectFix("Add a login to your account", "body", "sign-in-word", "Add a sign-in to your account");
+  expectFix("The log in page", "body", "sign-in-verb", "The sign-in page");
+  assert.equal(find("Your login details", "body", "sign-in-word").safeFix, false, "no bulk fix for login words");
+  // A time isn't the end of a date range.
+  assert.ok(!find("Due Mar 15 - 5:00 PM ET", "body", "date-range-dash"));
+  expectFix("Mar 1-31", "body", "date-range-dash", "Mar 1 through Mar 31");
+  // "click" and "tap" that aren't instructions.
+  for (const t of ["Double-click the file", "One-click payments", "Tap your card on the reader", "Tap to Pay on iPhone", "Click and drag the slider"]) {
+    assert.ok(!find(t, "body", "interaction-verb"), t);
+  }
+  // Names stay capitalized.
+  expectFix("Sign In With Apple", "button", "sentence-case", "Sign in with Apple");
+  expectFix("Ship To United States", "heading", "sentence-case", "Ship to United States");
+  // Legal acceptance, "Five percent", ordinals in dates.
+  assert.ok(!find("You must accept the Terms and Conditions to continue.", "body", "you-must"));
+  assert.ok(!find("Five percent of your payment goes to fees.", "body", "percent-word"));
+  expectFix("You save five percent", "body", "percent-word", "You save 5%");
+  assert.ok(!find("Due Mar 1st", "body", "ordinal-word"));
+  expectFix("Due Mar 1st", "body", "date-ordinal", "Due Mar 1");
+  // Phone numbers, promotions, and minimums.
+  assert.ok(!find("Text us from 555-123-4567", "body", "from-dash"));
+  for (const t of ["Get $10 off", "Payments of $25 or more qualify", "Save $5/month", "Pay up to $500 today"]) {
+    assert.ok(!find(t, "body", "money-cents"), t);
+  }
+  expectFix("A payment of $125 is due", "body", "money-cents", "A payment of $125.00 is due");
+  // Small ones.
+  assert.ok(!ids("Sign in to TD Bank", "body").some((id) => /^glossary-transaction/.test(id)));
+  assert.ok(!find("We just sent a code", "body", "minimizing"));
+  assert.ok(find("Just enter your code", "body", "minimizing"));
+  assert.ok(!find("EST. 1999", "body", "time-zone"));
+});
+
+test("new checks", () => {
+  expectRule("Payment posted 10/20/2026.", "body", "numeric-date");
+  expectFix("Due March 15, 2026 at 5:00 PM ET.", "body", "date-year-comma", "Due March 15, 2026, at 5:00 PM ET.");
+  assert.ok(!find("Due March 15, 2026.", "body", "date-year-comma"));
+  expectRule("Pay by 5:00 PM on March 20.", "body", "deadline-time-zone");
+  assert.ok(!find("Pay by 5:00 PM ET on March 20.", "body", "deadline-time-zone"));
+  assert.ok(!find("Pay by 11:59 PM on March 20 (ET).", "body", "deadline-time-zone"));
+  expectRule("Send us your card number and we’ll update it.", "body", "card-data-free-text");
+  expectRule("Reply with your full account number", "body", "card-data-free-text");
+  expectRule("Learn more", "tooltip", "tooltip-link", { links: [{ start: 0, end: 10 }] });
+  expectRule("Due on the 15th", "tooltip", "tooltip-bold", { bold: [{ start: 11, end: 15 }] });
+  expectRule("Your routing number is on your check", "tooltip", "tooltip-length");
+  assert.ok(!find("Copy account number", "tooltip", "tooltip-length"));
+  assert.ok(!find("Your routing number is on your check", "rich-tooltip", "tooltip-length"));
+  expectRule("Details", "heading", "heading-generic");
+  assert.ok(!find("Payment details", "heading", "heading-generic"));
+  expectRule("© 2026 KUBRA", "button", "copyright-in-ui");
+  assert.ok(!find("© 2026 KUBRA. All rights reserved.", "body", "copyright-in-ui"), "footers are body text");
+  expectRule("Your refund may take a while", "body", "vague-timing");
+  expectRule("Changes apply next billing cycle", "body", "vague-timing");
+  expectRule("Payment method", "menu-placeholder", "dropdown-placeholder", { contextParent: "placeholder" });
+  assert.ok(!find("Select a payment method", "menu-placeholder", "dropdown-placeholder", { contextParent: "placeholder" }));
+});
+
+test("rules file lists the engine features it needs", () => {
+  assert.ok(rulesJson.requires.runners.every((r) => engine.runnerTypes.includes(r)));
+  assert.ok(rulesJson.requires.fixers.every((f) => engine.fixerNames.includes(f)));
+  assert.ok(rulesJson.requires.fixers.includes("sign-in-word"));
 });
 
 test("rules file is consistent", () => {

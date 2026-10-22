@@ -126,16 +126,22 @@
     return { data: data, body: src.slice(m[0].length) };
   }
 
-  // Markdown plus fenced blocks: "::: do" / "::: dont" (optional custom label) and "::: callout" / "::: note".
+  // Markdown plus fenced blocks: "::: do" / "::: dont" (optional custom label), "::: callout" / "::: note",
+  // and "::: details" (optional summary label): extra rules folded away so pages stay short. Blocks can nest.
+  var BLOCK_OPEN = /^:::\s*(do|dont|callout|note|details)\b\s*(.*)$/;
   function renderMarkdown(src) {
     var lines = src.split(/\r?\n/);
     var segments = [];
     var md = [];
     for (var i = 0; i < lines.length; i++) {
-      var open = /^:::\s*(do|dont|callout|note)\b\s*(.*)$/.exec(lines[i]);
+      var open = BLOCK_OPEN.exec(lines[i]);
       if (!open) { md.push(lines[i]); continue; }
-      var body = [];
-      for (i++; i < lines.length && !/^:::\s*$/.test(lines[i]); i++) body.push(lines[i]);
+      var body = [], depth = 0;
+      for (i++; i < lines.length; i++) {
+        if (BLOCK_OPEN.test(lines[i])) depth++;
+        else if (/^:::\s*$/.test(lines[i])) { if (!depth) break; depth--; }
+        body.push(lines[i]);
+      }
       segments.push({ type: "md", text: md.join("\n") });
       segments.push({ type: "block", kind: open[1], label: open[2].trim(), body: body.join("\n") });
       md = [];
@@ -147,7 +153,9 @@
     for (var s = 0; s < segments.length; s++) {
       var seg = segments[s];
       if (seg.type === "md") { out += seg.text; continue; }
-      if (PANELS[seg.kind]) {
+      if (seg.kind === "details") {
+        blocks.push('<details class="more"><summary>' + esc(seg.label || "More detail") + "</summary>" + renderMarkdown(seg.body) + "</details>");
+      } else if (PANELS[seg.kind]) {
         blocks.push('<div data-type="' + PANELS[seg.kind] + '">' + renderMarkdown(seg.body) + "</div>");
       } else {
         // Do/don't blocks separated only by blank lines share one table.
@@ -572,6 +580,10 @@
       }
       frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
       node.parentNode.replaceChild(frag, node);
+    });
+    // Matches inside a folded "More detail" section open it.
+    $all("details mark", container).forEach(function (m) {
+      for (var d = m.closest("details"); d; d = d.parentElement && d.parentElement.closest("details")) d.open = true;
     });
   }
 

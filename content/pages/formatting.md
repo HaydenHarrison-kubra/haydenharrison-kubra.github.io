@@ -9,7 +9,7 @@ Formatting is how we add structure and emphasis without adding words. Like voice
 
 ### Purposeful
 
-Every formatting choice must carry meaning. Formatting is a signal, not decoration. If removing the formatting doesn't change the meaning, remove it. Reserve each style for a single, predictable job.
+Every formatting choice must carry meaning. Formatting is a signal, not decoration.
 
 ::: do
 
@@ -23,9 +23,15 @@ Every formatting choice must carry meaning. Formatting is a signal, not decorati
 
 :::
 
+::: details More detail
+
+Format to guide attention, not to add visual interest. If removing the formatting doesn't change the meaning, remove it. Reserve each style for a single, predictable job.
+
+:::
+
 ### Consistent
 
-The same kind of information is formatted the same way everywhere. Format amounts, dates, and system states the same way across every surface. Don't mix conventions within a single screen.
+The same kind of information is formatted the same way everywhere. Inconsistent formatting erodes trust, especially in financial flows.
 
 ::: do
 
@@ -39,9 +45,15 @@ The same kind of information is formatted the same way everywhere. Format amount
 
 :::
 
+::: details More detail
+
+Format amounts, dates, and system states the same way across every surface. Don't mix conventions within a single screen. When a pattern exists, reuse it rather than inventing a new one.
+
+:::
+
 ### Accessible
 
-Formatting must work for screen readers, high-contrast modes, and users who adjust text size. Never rely on styling alone to convey meaning. Pair color or weight with a text label or icon.
+Formatting must work for screen readers, high-contrast modes, and users who adjust text size. Visual emphasis alone is never enough. Never rely on styling alone to convey meaning. Pair color or weight with a text label or icon. Avoid styles that reduce legibility.
 
 ::: do
 
@@ -55,13 +67,13 @@ Formatting must work for screen readers, high-contrast modes, and users who adju
 
 :::
 
-## Formatting by Element
+## Formatting by element
 
 Each element below has one primary job. Use it for that job only.
 
 ### Bold
 
-Bold draws the eye to the single most important piece of information on a screen. Use for critical data users must not miss: amounts, due dates, deadlines. Limit to one idea per screen.
+Bold draws the eye to the single most important piece of information on a screen. Use for critical data users must not miss: amounts, due dates, deadlines. Use for the names of UI elements in instructions.
 
 ::: do
 
@@ -72,6 +84,12 @@ Bold draws the eye to the single most important piece of information on a screen
 ::: dont
 
 - *"Transfer **$500.00** to your **linked account** before the **deadline** shown above."*
+
+:::
+
+::: details More detail
+
+Limit to one idea per screen — emphasizing everything emphasizes nothing.
 
 :::
 
@@ -91,9 +109,15 @@ Italics reduce readability and are difficult for many users, including those wit
 
 :::
 
+::: details More detail
+
+Do not use italics for emphasis (use bold instead), never use italics in error, legal, or PCI-related content, and avoid italicizing more than a few consecutive words.
+
+:::
+
 ### Underline
 
-Underlines signal links. Nothing else. Never underline for emphasis, or users will read it as a broken or unresponsive link.
+Underlines signal links. Nothing else.
 
 ::: do
 
@@ -107,9 +131,15 @@ Underlines signal links. Nothing else. Never underline for emphasis, or users wi
 
 :::
 
-### All Caps
+::: details More detail
 
-Never, under any circumstances, use capitalization as a formatting tool. It reads as shouting and is announced awkwardly by screen readers.
+Reserve underlines exclusively for hyperlinks — never underline for emphasis, or users will read it as a broken or unresponsive link.
+
+:::
+
+### All caps
+
+Never use all caps as a formatting tool. It reads as shouting and is announced awkwardly by screen readers.
 
 ::: do
 
@@ -123,9 +153,15 @@ Never, under any circumstances, use capitalization as a formatting tool. It read
 
 :::
 
-### Monospace / Code
+::: details More detail
 
-Use a monospace style for strings users must read or copy exactly — reference IDs, confirmation codes, and error codes. Do not use monospace for ordinary numbers, amounts, or dates.
+For capitalization and case rules, see Titles and Headings and the Nouns page.
+
+:::
+
+### Monospace / code
+
+Use a monospace style for strings users must read or copy exactly — reference IDs, confirmation codes, and error codes, or anywhere an exact character-for-character match matters.
 
 ::: do
 
@@ -139,9 +175,15 @@ Use a monospace style for strings users must read or copy exactly — reference 
 
 :::
 
+::: details More detail
+
+Do not use monospace for ordinary numbers, amounts, or dates.
+
+:::
+
 ### Color
 
-Color reinforces meaning but never carries it alone. Always pair color with text, an icon, or both.
+Color reinforces meaning but never carries it alone. Always pair color with text, an icon, or both. Never use color as the only way to distinguish two states.
 
 ::: do
 
@@ -155,11 +197,17 @@ Color reinforces meaning but never carries it alone. Always pair color with text
 
 :::
 
+::: details More detail
+
+Use semantic colors consistently, matching what users already associate them with.
+
+:::
+
 ## Guidelines
 
-### Emphasis Restraint
+### Emphasis restraint
 
-Emphasis works only when it's scarce. Limit emphasis to one primary point per screen or message. Don't stack styles (bold and italic and color) on the same element.
+Emphasis works only when it's scarce. The more we bold, the less any of it means.
 
 ::: do
 
@@ -173,9 +221,15 @@ Emphasis works only when it's scarce. Limit emphasis to one primary point per sc
 
 :::
 
-### Formatting in Sensitive Content
+::: details More detail
 
-In legal, compliance, and PCI flows, formatting must not introduce ambiguity. Keep legal and compliance text in plain, unstyled prose unless a label is genuinely required.
+Limit emphasis to one primary point per screen or message. Don't stack styles (bold and italic and color) on the same element. If two things compete for emphasis, decide which one matters more.
+
+:::
+
+### Formatting in sensitive content
+
+In legal, compliance, and PCI flows, formatting must not introduce ambiguity or alter perceived meaning. Keep legal and compliance text in plain, unstyled prose unless a label is genuinely required. Do not use bold or italics to soften, downplay, or dramatize obligations. Apply emphasis evenly — selectively bolding part of a clause can change how it's read.
 
 ::: do
 
@@ -189,7 +243,7 @@ In legal, compliance, and PCI flows, formatting must not introduce ambiguity. Ke
 
 :::
 
-### What to Avoid (Across All Contexts)
+### What to avoid (across all contexts)
 
 - Bolding entire sentences or paragraphs
 - Italics for emphasis
@@ -199,9 +253,15 @@ In legal, compliance, and PCI flows, formatting must not introduce ambiguity. Ke
 - Mixing formatting conventions within one surface
 - Decorative formatting that adds no meaning
 
-### When in Doubt
+### When in doubt
+
+If a formatting choice could change how content is interpreted — especially in financial, legal, or compliance flows — escalate for review rather than introducing a new convention.
+
+::: details More detail
 
 1. Default to no formatting — plain text is the baseline.
 1. Add emphasis only when it changes what the user notices first.
 1. Use the element built for the job (bold for emphasis, monospace for codes, underline for links).
 1. Match the pattern already used elsewhere in the product.
+
+:::

@@ -6,11 +6,13 @@ topics: ["Accessibility"]
 
 Instructional text tells users what to do — beyond what a label, placeholder, or button already communicates.
 
-## When to Use
+## When to use
 
-Use when the task is complex, the user may make errors, system behavior is not obvious, or the action has financial or technical implications. Do not use instructional text for obvious actions.
+Use instructional text when the task is complex, the user may make errors, system behavior is not obvious, or the action has financial or technical implications. *Do not use instructional text for obvious actions.*
 
-## Be Direct and Active
+## Be direct and active
+
+Tell users what to do using short, active-voice sentences. Avoid vague, passive, or hedging phrasing.
 
 ::: do
 
@@ -26,13 +28,15 @@ Use when the task is complex, the user may make errors, system behavior is not o
 
 :::
 
-## Keep It Short and Focused
+## Keep it short and focused
 
-Use the fewest words needed, avoid long paragraphs, and break complex instructions into steps. If more than one action is required, use a list.
+Use the fewest words needed, avoid long paragraphs, and break complex instructions into steps. *If more than one action is required, use a list.*
 
-## Instruction Formats
+## Instruction formats
 
-### Single-Line
+### Single-line
+
+Use for simple, one-step tasks.
 
 ::: do
 
@@ -41,7 +45,9 @@ Use the fewest words needed, avoid long paragraphs, and break complex instructio
 
 :::
 
-### Multi-Step
+### Multi-step
+
+Use a numbered list when order matters.
 
 ::: do
 
@@ -58,7 +64,9 @@ Use the fewest words needed, avoid long paragraphs, and break complex instructio
 
 :::
 
-### Inline (Per Field)
+### Inline (per field)
+
+Use when a specific field needs guidance. Keep it concise.
 
 ::: do
 
@@ -67,7 +75,9 @@ Use the fewest words needed, avoid long paragraphs, and break complex instructio
 
 :::
 
-## Explain the "Why" When Necessary
+## Explain the "Why" when necessary
+
+If a step isn't obvious or has consequences, briefly explain why — but don't over-explain simple actions.
 
 ::: do
 
@@ -76,17 +86,17 @@ Use the fewest words needed, avoid long paragraphs, and break complex instructio
 
 :::
 
-## Avoid Redundancy
+## Avoid redundancy
 
-Instructional text should add value, not duplicate field labels, placeholder text, or button labels.
+Instructional text should add value, not duplicate existing information. Don't repeat field labels, placeholder text, or button labels.
 
-## Directional Language
+## Directional language
 
-Avoid positional references that rely on layout — use specific references instead.
+Avoid positional references that rely on layout — use specific references instead. This improves accessibility and consistency across devices.
 
 ::: do
 
-- *Select Confirm payment.*
+- *Select **Confirm payment**.*
 - *Enter your details in Card number.*
 
 :::
@@ -98,7 +108,7 @@ Avoid positional references that rely on layout — use specific references inst
 
 :::
 
-## Interaction Verbs
+## Interaction verbs
 
 Use "select" for choosing an option, button, or link. It works for mouse, touch, keyboard, and assistive tech. Use "enter" for typing into a field.
 
@@ -116,9 +126,9 @@ Use "select" for choosing an option, button, or link. It works for mouse, touch,
 
 :::
 
-## Sign In and Sign Out
+## Sign in and sign out
 
-Use "sign in" and "sign out" for account access. Don't use "log in," "log on," "log out," or "login." Use the two-word form as a verb ("sign in") and the hyphenated form as a noun or adjective ("sign-in").
+Use "sign in" and "sign out" for account access. Don't use "log in," "log on," "log out," or "login."
 
 ::: do
 
@@ -138,9 +148,15 @@ Use "sign in" and "sign out" for account access. Don't use "log in," "log on," "
 
 :::
 
-## Voice and Tone
+::: details More detail
 
-Neutral, clear, supportive, direct — functional, not promotional. Second person ("you") is fine when it improves clarity, but avoid conversational filler or marketing language.
+Use the two-word form as a verb ("sign in") and the hyphenated form as a noun or adjective ("sign-in").
+
+:::
+
+## Voice and tone
+
+Instructional text should be neutral, clear, supportive, and direct — functional, not promotional.
 
 ::: do
 
@@ -157,6 +173,21 @@ Neutral, clear, supportive, direct — functional, not promotional. Second perso
 
 :::
 
+::: details More detail
+
+Second person ("you") is fine when it improves clarity, but avoid conversational filler, marketing language, or unnecessary politeness.
+
+:::
+
 ## Accessibility
 
-Must be readable by screen readers, use clear and plain language, and not rely on visual layout. If instructions are critical, they must be visible, not hidden in tooltips.
+Instructional text must be readable by screen readers, use clear and plain language, and avoid unnecessary complexity — it must not rely on visual layout. If instructions are critical, they must be visible, not hidden in tooltips.
+
+## Common mistakes to avoid
+
+- Writing instructions that duplicate labels
+- Using vague or generic language
+- Over-explaining simple tasks
+- Using conversational filler ("just," "simply")
+- Relying on position-based directions
+- Writing long paragraphs instead of lists

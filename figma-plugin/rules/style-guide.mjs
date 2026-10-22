@@ -110,6 +110,43 @@ export default [
     detail: "Question marks are the only exception.",
     guide: ["titles-and-headings", "Punctuation"]
   },
+  {
+    id: "heading-generic", severity: "suggestion", contexts: ["heading", "table-header"],
+    pattern: /^\s*(?:information|details|important information|more information|overview|general|miscellaneous|misc|other|table\s*#?\s*\d+)\s*$/gi,
+    message: "Generic heading",
+    detail: "Say what the section is about, like “Payment details” or “AutoPay schedule.”",
+    guide: ["titles-and-headings", "Keywords and Clarity"]
+  },
+
+  // ---------- Tooltips ----------
+  {
+    id: "tooltip-length", type: "word-count", max: 4, severity: "suggestion", contexts: ["tooltip"], exceptContexts: ["rich-tooltip"],
+    message: "Tooltip is longer than 4 words",
+    detail: "Standard tooltips use 4 words or fewer. For more, use a rich tooltip (up to 5 lines) or inline text.",
+    guide: ["tooltips", "Structure and length"]
+  },
+  {
+    id: "tooltip-link", type: "format", check: "links", severity: "warning", contexts: ["tooltip"],
+    message: "Don’t put links in tooltips",
+    detail: "Tooltips can’t be reliably reached by keyboard or touch. Put the link in the page instead.",
+    guide: ["tooltips", "Content Guidelines"]
+  },
+  {
+    id: "tooltip-bold", type: "format", check: "bold", severity: "suggestion", contexts: ["tooltip"],
+    message: "Don’t format text in tooltips",
+    detail: "Keep tooltip text plain.",
+    guide: ["tooltips", "Content Guidelines"]
+  },
+
+  // ---------- Copyright ----------
+  {
+    id: "copyright-in-ui", severity: "suggestion",
+    contexts: ["button", "text-button", "link", "error", "success", "banner", "label", "helper", "tooltip", "modal", "heading", "menu", "tab", "toggle", "checkbox"],
+    pattern: /©|\bcopyright\b/gi,
+    message: "Keep copyright notices out of UI copy",
+    detail: "Copyright belongs in footers, legal pages, and documentation.",
+    guide: ["copyright-and-trademarks", "Do Not Include Copyright in UI Copy"]
+  },
 
   // ---------- Links ----------
   {
@@ -178,7 +215,7 @@ export default [
     id: "em-dash", severity: "suggestion",
     pattern: /\s?—\s?|\s–\s/g,
     message: "Avoid dashes in UI copy",
-    detail: "Use a period or comma instead. En dashes in number ranges, like “1–2,” are fine.",
+    detail: "Use a period or comma instead. For ranges in sentences, use “to” or “through.” En dashes are only for tables and charts.",
     guide: ["special-characters", "Hyphens and Dashes"]
   },
   {
@@ -225,7 +262,7 @@ export default [
     message: "Avoid exclamation points",
     detail: "Keep messages calm and factual.",
     guide: ["content-principles", "Prefer Facts Over Emotion in Transactional Moments"],
-    guideByContext: { tooltip: ["tooltips", "Structure, Length, and Punctuation"] }
+    guideByContext: { tooltip: ["tooltips", "Punctuation"] }
   },
   {
     id: "apology", severity: "suggestion",
@@ -243,15 +280,15 @@ export default [
   },
   {
     id: "minimizing", severity: "suggestion",
-    pattern: /\b(?:just|simply)\b/gi,
+    pattern: /\b(?:just(?!\s+(?:sent|received|updated|posted|signed|made|paid|now|added|changed|scheduled|completed|created|processed|submitted))|simply)\b/gi,
     message: "Avoid minimizing words like “just” and “simply”",
     guide: ["accessibility-high-risk", "Language to Avoid in High-Risk Flows"]
   },
   {
     id: "vague-timing", severity: "suggestion",
-    pattern: /\b(?:soon|shortly|upcoming)\b/gi,
+    pattern: /\b(?:soon|shortly|upcoming|some ?time|from time to time|in a while|may take a while|at a later date|(?:(?:the|your) )?next billing cycle)\b/gi,
     message: "Say exactly when",
-    detail: "Avoid relative timing like “soon” or “shortly.” Give a date or time frame.",
+    detail: "Avoid relative timing like “soon,” “shortly,” or “next billing cycle.” Give a date or time frame.",
     guide: ["legal-content", "Timing"]
   },
   {
@@ -262,7 +299,7 @@ export default [
   },
   {
     id: "you-must", severity: "suggestion",
-    pattern: /\byou must\b/gi,
+    pattern: /\byou must\b(?!\s+(?:accept|agree)\b)/gi,
     message: "Guide, don’t lecture",
     detail: "Phrase it as an instruction, like “Select a payment method.”",
     guide: ["content-principles", "Guide, Don't Lecture"]
@@ -307,8 +344,8 @@ export default [
     id: "single-sentence-period", type: "single-sentence-period", severity: "suggestion", contexts: ["success", "banner", "tooltip"],
     fix: "", safeFix: true,
     message: "Drop the period on single-sentence messages",
-    guide: ["message-types", "Structure, Length, and Punctuation"],
-    guideByContext: { banner: ["banners", "Punctuation"], tooltip: ["tooltips", "Structure, Length, and Punctuation"] }
+    guide: ["message-types", "Punctuation"],
+    guideByContext: { banner: ["banners", "Punctuation"], tooltip: ["tooltips", "Punctuation"] }
   },
   {
     id: "vague-fees", severity: "warning",
@@ -359,6 +396,13 @@ export default [
     guide: ["forms", "Required vs. Optional Fields"]
   },
   {
+    id: "dropdown-placeholder", severity: "suggestion", contexts: ["menu-placeholder"],
+    pattern: /^\s*(?!select\b)\S[^\n]*$/gi,
+    message: "Start dropdown placeholders with “Select”",
+    detail: "Like “Select a payment method.”",
+    guide: ["menus", "Placeholder Text"]
+  },
+  {
     id: "vague-placeholder", severity: "warning",
     pattern: /^\s*(?:choose one|select one|please select|select an option|type here|enter (?:a )?date|enter text|enter value)\s*\.?\s*$/gi,
     message: "Vague placeholder",
@@ -369,7 +413,7 @@ export default [
     id: "toggle-action", severity: "suggestion", contexts: ["toggle"],
     pattern: /^\s*(?:turn (?:on|off)|enable|disable|activate|deactivate)\b/gi,
     message: "Label the setting, not the action",
-    detail: "Toggle labels name the state being enabled, like “Autopay.”",
+    detail: "Toggle labels name the state being enabled, like “AutoPay” or “Paperless billing.”",
     guide: ["forms", "Label the State Being Enabled, Not the Action"]
   },
   {
@@ -408,13 +452,13 @@ export default [
   // ---------- Numbers, dates, and times ----------
   {
     id: "noon", severity: "warning",
-    pattern: /\b12(?::00)?\s?[Pp]\.?\s?[Mm]\.?(?![\w])|\b12 noon\b/g, fix: "noon", safeFix: true,
+    pattern: /\b12(?::00)?\s?[Pp]\.?\s?[Mm](\.?)(?![\w])|\b12 noon\b/g, fix: { fn: "noon" }, safeFix: true,
     message: "Use “noon”",
     guide: ["numbers-dates-and-times", "Times"]
   },
   {
     id: "time-format", severity: "warning",
-    pattern: /\b(\d{1,2})(?::(\d{2}))?\s?([AaPp])\.?\s?[Mm]\.?(?![\w])/g, fix: { fn: "time-hm" }, safeFix: true,
+    pattern: /\b(\d{1,2})(?::(\d{2}))?\s?([AaPp])\.?\s?[Mm](\.?)(?![\w])/g, fix: { fn: "time-hm" }, safeFix: true,
     message: "Write times like 5:00 PM",
     detail: "Uppercase AM or PM, no periods, a space before, and “:00” on the hour.",
     guide: ["numbers-dates-and-times", "Times"]
@@ -440,7 +484,7 @@ export default [
   },
   {
     id: "time-zone", severity: "suggestion",
-    pattern: /\b([ECMP])[SD]T\b/g, fix: "$1T",
+    pattern: /\b([ECMP])[SD]T\b(?!\.?\s*\d)/g, fix: "$1T",
     message: "Use ET, CT, MT, or PT",
     detail: "Only specify standard or daylight time when accuracy requires it.",
     guide: ["numbers-dates-and-times", "Time Zones"]
@@ -464,6 +508,27 @@ export default [
     guide: ["numbers-dates-and-times", "Dates"]
   },
   {
+    id: "date-year-comma", severity: "warning",
+    pattern: new RegExp(`\\b(${MONTHS}) (\\d{1,2}), (\\d{4})(?= [a-z])`, "g"), fix: "$1 $2, $3,", safeFix: true,
+    message: "Add a comma after the year",
+    detail: "Mid-sentence, a full date takes a comma after the year too: “March 15, 2026, at 5:00 PM ET.”",
+    guide: ["numbers-dates-and-times", "Dates"]
+  },
+  {
+    id: "numeric-date", severity: "suggestion", exceptContexts: ["label", "placeholder", "table-header"],
+    pattern: /\b\d{1,2}\/\d{1,2}\/(?:\d{4}|\d{2})\b/g,
+    message: "Write the month out",
+    detail: "Use numeric dates like 03/15/2026 only in input fields and dense tables. In messages, write “March 15, 2026.”",
+    guide: ["numbers-dates-and-times", "Dates"]
+  },
+  {
+    id: "deadline-time-zone", severity: "suggestion",
+    pattern: /\b(?:by|before|until|no later than)\s+(?:\d{1,2}:\d{2}\s?[AP]M|noon)\b(?![^.!?\n]*?\b(?:[ECMP]T|[ECMP][SD]T|Eastern|Central|Mountain|Pacific|local time)\b)/g,
+    message: "Add a time zone to the deadline",
+    detail: "Deadlines and cutoffs always need a time zone, like “by 5:00 PM ET.”",
+    guide: ["numbers-dates-and-times", "Time Zones"]
+  },
+  {
     id: "month-abbreviation", severity: "warning",
     pattern: /\b(Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)\.?(?=\s?\d)/g, fix: { fn: "month-abbr" }, safeFix: true,
     message: "Abbreviate months with three letters and no period",
@@ -477,14 +542,14 @@ export default [
   },
   {
     id: "date-range-dash", severity: "suggestion", exceptContexts: ["table-header"],
-    pattern: new RegExp(`\\b(${MONTHS}) (\\d{1,2})\\s?[-–]\\s?(\\d{1,2})\\b`, "g"), fix: "$1 $2 through $1 $3",
+    pattern: new RegExp(`\\b(${MONTHS}) (\\d{1,2})\\s?[-–]\\s?(\\d{1,2})\\b(?!:|\\s?[AaPp]\\.?[Mm]\\b)`, "g"), fix: "$1 $2 through $1 $3",
     message: "Write date ranges with “through”",
     detail: "In copy, use “through” and repeat the month. An en dash is fine in tables and charts.",
     guide: ["numbers-dates-and-times", "Date Ranges"]
   },
   {
     id: "from-dash", severity: "warning",
-    pattern: /\bfrom\s+(?:\S+\s+)?\$?\d[\d,.:]*\s?[-–]\s?\$?\d/gi,
+    pattern: /\bfrom\s+(?:\S+\s+)?\$?\d[\d,.:]*\s?[-–]\s?\$?\d(?!\d{2}[-.]\d{4}|\d{3}\b)/gi,
     message: "Don’t use “from” with a dash",
     detail: "Write “from March 1 through March 31,” or use the dash alone in tables.",
     guide: ["numbers-dates-and-times", "Date Ranges"]
@@ -512,14 +577,14 @@ export default [
     id: "percent-word", severity: "suggestion",
     pattern: /\b(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\s?percent\b/gi, fix: { fn: "percent" },
     message: "Use a numeral and %",
-    detail: "Spell out “percent” only at the start of a sentence.",
+    detail: "Spell out the number and “percent” only at the start of a sentence.",
     guide: ["numbers-dates-and-times", "Percentages"]
   },
   {
     id: "ordinal-word", severity: "suggestion",
     pattern: /\b([1-9])(st|nd|rd|th)\b(?!\s+of\b)/g, fix: { fn: "ordinal-word" },
     message: "Spell out first through ninth",
-    detail: "Use numerals from 10th on. “The 1st of each month” is fine.",
+    detail: "Use numerals from 10th on. Recurring days like “the 1st of each month” are fine. Dates never take “st” or “th.”",
     guide: ["numbers-dates-and-times", "Ordinals"]
   },
   {
@@ -559,7 +624,7 @@ export default [
   {
     id: "money-cents", type: "money-cents", severity: "suggestion",
     message: "Show cents on transaction amounts",
-    detail: "Use $125.00 for amounts due, payments, fees, refunds, and balances. Ranges like $10 to $25 are fine.",
+    detail: "Use $125.00 for amounts due, payments, fees, refunds, and balances. Ranges, promotions (“$10 off”), and minimums (“$25 or more”) can use whole dollars.",
     guide: ["numbers-dates-and-times", "Money"]
   },
 
@@ -592,7 +657,9 @@ export default [
   },
   {
     id: "interaction-verb", severity: "suggestion", exceptContexts: ["button"],
-    pattern: /\b(?:click|tap)(?:\s+on)?\b(?!\s+here)/gi, fix: { fn: "match-case", value: "select" },
+    // Not "Double-click" or "One-click payments", tapping a card on a reader, or Apple's "Tap to Pay".
+    pattern: /\b(?:click|tap)\b(?!\s+here|-|\s+(?:and|to)\s+(?:drag|pay)\b|\s+(?:on\s+)?your\s+(?:card|phone|device)\b)(?:\s+on\b)?/gi, skipInToken: /\w-(?:click|tap)\b/i,
+    fix: { fn: "match-case", value: "select" },
     message: "Use “select”",
     detail: "“Select” works for mouse, touch, keyboard, and assistive tech.",
     guide: ["instructional-text", "Interaction Verbs"]
@@ -607,14 +674,15 @@ export default [
   {
     id: "sign-in-word", severity: "warning", exceptContexts: ["button"],
     pattern: /\b(?:(to|will|can|please|must|you can|you['’]ll|easily|quickly) )?(log-?in|log-?on|log-?out|log-?off|signin|signout)(s)?\b( to\b)?/gi,
-    fix: { fn: "sign-in-word" }, safeFix: true,
+    skipInToken: /\/|@|\.[a-z]{2,}\b/i, // URLs, emails, and domains like Login.gov
+    fix: { fn: "sign-in-word" },
     message: "Use “sign-in” (noun) or “sign in” (verb)",
     detail: "KUBRA uses “sign in,” not “login.” Two words for the action, hyphenated for the noun.",
     guide: ["instructional-text", "Sign In and Sign Out"]
   },
   {
     id: "sign-in-button", severity: "warning", contexts: ["button"],
-    pattern: /\b(log-?in|log-?on|log-?out|log-?off|signin|signout)\b/gi,
+    pattern: /\b(log-?in|log-?on|log-?out|log-?off|signin|signout)\b/gi, skipInToken: /\/|@|\.[a-z]{2,}\b/i,
     fix: { fn: "sign-in-word", value: "verb" }, safeFix: true,
     message: "Use “Sign in” or “Sign out”",
     detail: "Buttons are actions, so use the verb. KUBRA uses “sign in,” not “login.”",
@@ -654,6 +722,14 @@ export default [
     id: "card-number", type: "card-number", severity: "error", category: "compliance",
     message: "Don’t show full card or account numbers",
     detail: "Mask them, like “•••• 1234.” This includes real-looking placeholder examples.",
+    guide: ["pci-compliance", "Sensitive Data (Do Not Expose)"]
+  },
+  {
+    id: "card-data-free-text", severity: "error", category: "compliance",
+    pattern: /\b(?:(not|never|don['’]t|won['’]t)\s+)?(?:send|email|e-mail|text|paste|share|reply with|message)\s+(?:it\s+to\s+)?(?:us\s+)?(?:your\s+)?(?:full\s+)?(?:credit\s+|debit\s+|bank\s+)?(?:card|account|routing)\s+(?:number|details|info(?:rmation)?)\b/gi,
+    skipIfGroup: 1, // "Do not share your card details" is the right advice
+    message: "Don’t ask for card or account details in free text",
+    detail: "Collect payment details only in secure payment fields, never by text, email, chat, or a message box.",
     guide: ["pci-compliance", "Sensitive Data (Do Not Expose)"]
   },
   {

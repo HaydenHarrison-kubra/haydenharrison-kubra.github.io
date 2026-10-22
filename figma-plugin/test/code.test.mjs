@@ -86,6 +86,7 @@ const storage = {};
 const figma = {
   mixed: Symbol("mixed"),
   currentPage: Object.assign(page, { selection: [] }),
+  root: { data: {}, getPluginData(k) { return this.data[k] || ""; }, setPluginData(k, v) { this.data[k] = v; } },
   skipInvisibleInstanceChildren: false,
   showUI() {},
   ui: { postMessage: (m) => messages.push(m), onmessage: null },
@@ -109,7 +110,10 @@ const last = (type) => JSON.parse(JSON.stringify(messages.filter((m) => m.type =
 test("ready returns selection count and cached rules", async () => {
   storage.rules = { schema: 1 };
   await send({ type: "ready" });
-  assert.deepEqual(last("init"), { type: "init", selection: 0, cachedRules: { schema: 1 } });
+  const init = last("init");
+  assert.deepEqual({ type: init.type, selection: init.selection, cachedRules: init.cachedRules, ignoredRules: init.ignoredRules },
+    { type: "init", selection: 0, cachedRules: { schema: 1 }, ignoredRules: [] });
+  assert.ok(init.contexts.some((c) => c.id === "body") && init.contexts.some((c) => c.id === "button"), "sends the layer types to choose from");
 });
 
 test("scan finds visible text and works out what each layer is", async () => {
@@ -184,6 +188,38 @@ test("ignore is saved on the layer", async () => {
   assert.deepEqual(last("nodes-updated").items[0].ignored, ["heading-punctuation|."]);
   await send({ type: "ignore", nodeId: heading.id, key: "heading-punctuation|.", ignored: false });
   assert.equal(heading.data.ignored, "");
+});
+
+test("a layer type set by hand wins, and can be cleared", async () => {
+  await send({ type: "set-context", nodeId: body.id, context: "error" });
+  let item = last("nodes-updated").items[0];
+  assert.equal(item.context, "error");
+  assert.equal(item.contextManual, true);
+  assert.equal(item.contextSource, "set by you");
+  await send({ type: "set-context", nodeId: body.id, context: "" });
+  item = last("nodes-updated").items[0];
+  assert.equal(item.context, "body");
+  assert.equal(item.contextManual, false);
+});
+
+test("a placeholder inside a dropdown is a dropdown placeholder", async () => {
+  const dd = instance(component("State=Default", "Dropdown")).add(new FakeText("Payment method", { name: "Placeholder" }));
+  page.add(dd);
+  await send({ type: "scan", scope: "page" });
+  const item = last("scan-result").items.find((i) => i.id === dd.children[0].id);
+  assert.equal(item.context, "menu-placeholder");
+  assert.equal(item.contextParent, "placeholder");
+  assert.ok(engine.check(compiled, item).some((i) => i.ruleId === "dropdown-placeholder"));
+});
+
+test("rules can be turned off for the whole file", async () => {
+  await send({ type: "ignore-rule", ruleId: "repeated-word", ignored: true });
+  assert.deepEqual(last("ignored-rules").rules, ["repeated-word"]);
+  assert.equal(figma.root.getPluginData("ignoredRules"), '["repeated-word"]');
+  await send({ type: "ready" });
+  assert.deepEqual(last("init").ignoredRules, ["repeated-word"]);
+  await send({ type: "ignore-rule", ruleId: "repeated-word", ignored: false });
+  assert.deepEqual(last("ignored-rules").rules, []);
 });
 
 test("selection scan only includes selected layers", async () => {

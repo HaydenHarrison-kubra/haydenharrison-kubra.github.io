@@ -4,9 +4,11 @@ blurb: "Approved formatting for product names."
 topics: ["Accessibility"]
 ---
 
-## Naming Rules
+## Naming rules
 
-### 1. Use Exact Approved Formatting
+### 1. Use exact approved formatting
+
+Product names must match approved capitalization, match approved spacing and punctuation, and not be altered for readability.
 
 ::: do
 
@@ -23,7 +25,9 @@ topics: ["Accessibility"]
 
 :::
 
-### 2. Do Not Create Variations
+### 2. Do not create variations
+
+Do not introduce shortened versions, alternate spellings, or informal variants.
 
 ::: do
 
@@ -38,12 +42,20 @@ topics: ["Accessibility"]
 
 :::
 
-### 3. Do Not Modify for Sentence Flow
+::: details More detail
+
+Consistency is critical across products.
+
+:::
+
+### 3. Do not modify for sentence flow
+
+Product names should not be rewritten to fit tone or grammar.
 
 ::: do
 
-- *Manage settings in Storm Center.*
-- *Use IncidentWatch to monitor events.*
+- *Manage settings in Storm Center*
+- *Use IncidentWatch to monitor events*
 
 :::
 
@@ -54,12 +66,14 @@ topics: ["Accessibility"]
 
 :::
 
-### 4. Maintain Capitalization Everywhere
+### 4. Maintain capitalization everywhere
+
+Do not adjust capitalization to match sentence case rules.
 
 ::: do
 
-- *Enable Pay-by-Text notifications.*
-- *Open Image Library.*
+- *Enable Pay-by-Text notifications*
+- *Open Image Library*
 
 :::
 
@@ -70,23 +84,33 @@ topics: ["Accessibility"]
 
 :::
 
-## Descriptor vs. Product Name
+## Descriptor vs. product name
+
+Capitalize only when referring to the official product or feature.
 
 ::: do Use as Product Name
 
-- *Manage Payment Reminders in your settings.*
+- *Manage Payment Reminders in your settings*
 
 :::
 
 ::: do Use as Descriptor
 
-- *Enable payment reminders for your account.*
+- *Enable payment reminders for your account*
 
 :::
 
-## First Mention vs. Repeated Use
+::: details More detail
 
-**In UI Copy:** use the full product name; do not abbreviate unless officially defined. **In Documentation:** use the full name on first mention; an acronym may follow.
+Some terms can function as both a product name (proper noun) and a general concept (common noun).
+
+:::
+
+## First mention vs. repeated use
+
+**In UI Copy:** use the full product name when needed; do not abbreviate unless officially defined.
+
+**In Documentation:** use the full name on first mention; an acronym may follow if applicable.
 
 ::: do
 
@@ -95,7 +119,9 @@ topics: ["Accessibility"]
 
 :::
 
-## Integration with Canonical Copy
+## Integration with canonical copy
+
+Product names used in buttons, labels, errors, and messages must match the Product Naming Reference.
 
 ::: do
 
@@ -109,7 +135,9 @@ topics: ["Accessibility"]
 
 :::
 
-## Accessibility Considerations
+## Accessibility considerations
+
+Product names must be readable when spoken aloud, avoid unnecessary stylization, and use standard characters.
 
 ::: do
 

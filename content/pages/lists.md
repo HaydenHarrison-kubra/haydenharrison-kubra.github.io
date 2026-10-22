@@ -6,17 +6,19 @@ topics: ["Accessibility"]
 
 Lists should make complex information easier to scan, never harder to interpret. In payment systems, clarity in lists directly supports trust and accuracy.
 
-## Bulleted Lists
+## Bulleted lists
 
 Use when items can appear in any order, do not represent sequence, and do not imply priority. **Examples:** features, benefits, filter options, system capabilities.
 
-## Numbered Lists
+## Numbered lists
 
-Use when items must be completed in order, represent a sequence, or indicate ranking or priority. **Examples:** payment steps, verification process, setup instructions. Do not use numbered lists for unordered content.
+Use when items must be completed in order, represent a sequence, or indicate ranking or priority. **Examples:** payment steps, verification process, setup instructions. *Do not use numbered lists for unordered content.*
 
-## Consistency Is Mandatory
+## Consistency is mandatory
 
-All items within a list must follow the same grammatical structure — choose all sentence fragments, or all complete sentences. Never mix.
+All items within a list must follow the same grammatical structure. Choose one format — all sentence fragments, or all complete sentences — and apply it consistently. *Never mix.*
+
+### 1. Sentence fragment list
 
 ::: do
 
@@ -34,15 +36,34 @@ All items within a list must follow the same grammatical structure — choose al
 
 :::
 
+### 2. Complete sentence list
+
+::: do
+
+- *Enter your payment details.*
+- *Review the transaction summary.*
+- *Confirm the payment. (If one item requires a period, all must use periods.)*
+
+:::
+
 ## Capitalization
 
-Capitalize the first letter of the first word in each item; use sentence case unless proper nouns apply.
+- Capitalize the first letter of the first word in each item.
+- Use sentence case unless proper nouns apply.
 
-## List Length
+## List length
 
-Lists should be concise and avoid long paragraphs. If a list item exceeds two lines, reconsider structure — use subheadings for complex content.
+Lists should be concise, contain only essential information, and avoid long paragraphs.
 
-## Parallel Structure
+::: details More detail
+
+*If a list item exceeds two lines, reconsider structure. For complex content, use subheadings instead.*
+
+:::
+
+## Parallel structure
+
+Parallel structure improves clarity and accessibility.
 
 ::: do
 
@@ -58,11 +79,13 @@ Lists should be concise and avoid long paragraphs. If a list item exceeds two li
 
 :::
 
-## Accessibility Considerations
+## Accessibility considerations
 
-Use semantic HTML (not visually formatted text); don't rely on visual indentation alone; avoid positional references ("first option above"). For numbered lists, don't refer to items by number in body text.
+Lists must be structured using semantic HTML (not visually formatted text), not rely on visual indentation alone, and avoid positional references ("first option above"). For numbered lists, do not refer to the item by number in body text — if order changes, references break.
 
-## Error Summary Lists
+## Error summary lists
+
+Error summaries should identify the field, briefly state the issue, and link to the affected field.
 
 ::: do
 
@@ -78,7 +101,9 @@ Use semantic HTML (not visually formatted text); don't rely on visual indentatio
 
 :::
 
-## Instructional Lists
+## Instructional lists
+
+When guiding a user through payment steps, avoid conversational transitions in structured steps.
 
 ::: do
 
@@ -96,7 +121,7 @@ Use semantic HTML (not visually formatted text); don't rely on visual indentatio
 
 :::
 
-## Avoid These Common Mistakes
+## Avoid these common mistakes
 
 - Mixing fragments and sentences
 - Inconsistent punctuation
@@ -104,3 +129,7 @@ Use semantic HTML (not visually formatted text); don't rely on visual indentatio
 - Vague or abstract phrasing
 - Referring to list position instead of content
 - Using decorative symbols
+
+## Special characters and plurals
+
+Follow global rules: no slashes, no parenthetical plurals, avoid ampersands, no decorative punctuation.

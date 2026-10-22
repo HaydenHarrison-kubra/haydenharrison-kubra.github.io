@@ -4,9 +4,9 @@ blurb: "Product names, trademark symbols, and third-party brands."
 topics: ["Accessibility"]
 ---
 
-## Always Use Official Names
+## Always use official names
 
-Do not modify names for readability or style, introduce new variations, or shorten/abbreviate unless officially defined.
+All product and service names must use their approved spelling, capitalization, and formatting. Do not modify names for readability or style, introduce new variations, or shorten or abbreviate unless officially defined.
 
 ::: do
 
@@ -23,9 +23,11 @@ Do not modify names for readability or style, introduce new variations, or short
 
 :::
 
-## Trademark Symbols (™ and ®)
+## Trademark symbols (™ and ®)
 
-Use in legal or formal documentation and at first mention in long-form content if required. Not in UI copy unless legally required.
+**General Rule:** Trademark symbols should be used in legal or formal documentation, and at first mention in long-form content (if required). They should not be used in UI copy unless legally required.
+
+### In UI
 
 ::: do
 
@@ -41,7 +43,13 @@ Use in legal or formal documentation and at first mention in long-form content i
 
 :::
 
-## Do Not Alter Trademarks
+### In legal or marketing content
+
+If required, use the symbol on first mention only. Do not repeat it on every instance.
+
+## Do not alter trademarks
+
+Trademarks must appear exactly as registered, not be pluralized, not be hyphenated or reformatted, and not be used as verbs.
 
 ::: do
 
@@ -57,7 +65,9 @@ Use in legal or formal documentation and at first mention in long-form content i
 
 :::
 
-## Third-Party Trademarks
+## Third-party trademarks
+
+When referencing third-party brands: use the official name and capitalization, do not modify or abbreviate, and do not imply ownership.
 
 ::: do
 
@@ -73,11 +83,13 @@ Use in legal or formal documentation and at first mention in long-form content i
 
 :::
 
-## Do Not Include Copyright in UI Copy
+## Do not include copyright in UI copy
 
-Avoid placing copyright language in forms, buttons, error messages, or banners.
+Avoid placing copyright language in forms, buttons, error messages, or banners. Keep legal ownership separate from functional UI content.
 
-## Use Trademarks as Adjectives, Not Nouns or Verbs
+## Use trademarks as adjectives, not nouns or verbs
+
+Trademarked terms should describe a product or service, not replace it.
 
 ::: do
 
@@ -93,11 +105,19 @@ Avoid placing copyright language in forms, buttons, error messages, or banners.
 
 :::
 
-## Attribution (When Required)
+## Attribution (when required)
 
-**Example:** PayPal is a registered trademark of PayPal, Inc. — in legal or documentation sections, not UI.
+If required by agreement, include attribution statements in legal or documentation sections, not UI.
 
-## Accessibility Considerations
+::: details More detail
+
+**Example:** PayPal is a registered trademark of PayPal, Inc.
+
+:::
+
+## Accessibility considerations
+
+Avoid excessive use of symbols (™, ®) in UI, ensure brand names are readable by screen readers, and avoid stylized or non-standard characters.
 
 ::: do
 
@@ -111,6 +131,16 @@ Avoid placing copyright language in forms, buttons, error messages, or banners.
 
 :::
 
+## Maintain consistency across all surfaces
+
+Trademark usage must remain consistent across UI copy, documentation, help content, support materials, and marketing content. Do not introduce alternate naming between surfaces.
+
 ## Copyright
 
-Copyright notices should be included in footers, legal pages, and documentation. **Example:** © 2026 KUBRA. All rights reserved.
+**Ownership Statements:** Copyright notices should be included in footers, in legal pages, and in documentation.
+
+::: details More detail
+
+**Example:** © \[current year\] KUBRA. All rights reserved.
+
+:::

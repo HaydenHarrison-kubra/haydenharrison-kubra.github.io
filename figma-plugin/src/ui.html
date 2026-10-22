@@ -88,8 +88,15 @@
 
   .frame-head { position: sticky; top: 0; z-index: 1; margin: 0; padding: 8px 12px 6px; background: var(--bg); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .layer { margin: 0 8px 8px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  .layer-head { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; border: 0; background: var(--bg-2); text-align: left; }
+  .layer-top { display: flex; align-items: center; background: var(--bg-2); }
+  .layer-head { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; padding: 8px 10px; border: 0; background: transparent; text-align: left; }
   .layer-head:hover { background: var(--bg-hover); }
+  .ctx-select { flex: none; max-width: 150px; margin-right: 8px; height: 22px; padding: 0 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--muted); font: inherit; font-size: 10px; font-weight: 500; cursor: pointer; }
+  .ctx-select.manual { color: var(--brand-ink); border-color: var(--brand); }
+  .off-rules { display: grid; gap: 4px; }
+  .off-rules .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .off-rules .none { color: var(--muted); }
+  .update-note { margin: 0 12px 10px; padding: 8px 10px; border-radius: 6px; background: var(--bg-2); border: 1px solid var(--warning); font-size: 11px; }
   .layer-name { flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ctx { flex: none; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--muted); font-size: 10px; font-weight: 500; }
   .locate { color: var(--faint); }
@@ -139,7 +146,11 @@
   <h3>Scanning</h3>
   <label><input type="checkbox" id="includeHidden"> Include hidden layers</label>
   <label><input type="checkbox" id="showIgnored"> Show ignored issues</label>
+  <h3>Rules turned off in this file</h3>
+  <div class="off-rules" id="offRules"></div>
 </div>
+
+<div class="update-note" id="updateNote" hidden></div>
 
 <div class="summary" id="summary" hidden></div>
 
@@ -171,7 +182,8 @@
     sev: { error: true, warning: true, suggestion: true },
     cats: { style: true, grammar: true, compliance: true },
     showIgnored: false, includeHidden: false,
-    selection: 0, scanned: false, scanning: false, scanMeta: null
+    selection: 0, scanned: false, scanning: false, scanMeta: null,
+    contexts: [], ignoredRules: [], ruleNames: {}
   };
   var $ = function (id) { return document.getElementById(id); };
   var post = function (msg) { parent.postMessage({ pluginMessage: msg }, "*"); };
@@ -194,7 +206,7 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2200);
   }
-  function copyText(text) {
+  function copyText(text, done, failed) {
     var ta = document.createElement("textarea");
     ta.value = text;
     ta.style.position = "fixed";
@@ -204,14 +216,24 @@
     var ok = false;
     try { ok = document.execCommand("copy"); } catch (e) {}
     document.body.removeChild(ta);
-    toast(ok ? "Approved text copied" : "Couldn’t copy. Open the guide link to copy it there.");
+    toast(ok ? done : failed);
   }
 
   // ---------- rules ----------
+  // Checks or fixers the rules use that this copy of the plugin doesn't have.
+  function missingFeatures(json) {
+    var req = json.requires || {};
+    return (req.runners || []).filter(function (r) { return CopyAudit.runnerTypes.indexOf(r) === -1; })
+      .concat((req.fixers || []).filter(function (f) { return CopyAudit.fixerNames.indexOf(f) === -1; }));
+  }
   function useRules(json, source) {
     try {
       state.compiled = CopyAudit.compile(json);
-      state.rulesInfo = { source: source, updated: json.updated, version: json.version };
+      state.rulesInfo = { source: source, updated: json.updated, version: json.version, missing: missingFeatures(json) };
+      state.ruleNames = {};
+      (json.rules || []).forEach(function (r) { state.ruleNames[r.id] = r.message; });
+      renderUpdateNote();
+      renderOffRules();
       renderRulesStatus();
       recheckAll();
       render();
@@ -246,6 +268,53 @@
     el.title = (info.source === "live" ? "Up to date with the style guide." : (state.liveError || "Checking the style guide for updates…")) + " Version " + info.version + ".";
   }
 
+  function renderUpdateNote() {
+    var info = state.rulesInfo, el = $("updateNote");
+    if (!info || !info.missing.length) { el.hidden = true; return; }
+    el.hidden = false;
+    el.textContent = "The style guide has checks this copy of the plugin can’t run. Update the plugin to get them all.";
+    el.title = "Missing: " + info.missing.join(", ");
+  }
+  function renderOffRules() {
+    var el = $("offRules");
+    if (!state.ignoredRules.length) { el.innerHTML = '<span class="none">None. Use “Turn off in file” on an issue to stop seeing a rule here.</span>'; return; }
+    el.innerHTML = state.ignoredRules.map(function (id) {
+      return '<div class="row"><span>' + esc(state.ruleNames[id] || id) + '</span><button type="button" class="btn small" data-rule-on="' + esc(id) + '">Turn on</button></div>';
+    }).join("");
+  }
+  function ruleOff(i) { return state.ignoredRules.indexOf(i.ruleId) !== -1; }
+
+  // ---------- report ----------
+  function report() {
+    var byRule = {}, order = [], total = 0;
+    state.order.forEach(function (id) {
+      var item = state.items.get(id);
+      (state.issues.get(id) || []).forEach(function (i) {
+        if (i.ignored || ruleOff(i) || !state.sev[i.severity]) return;
+        if (!byRule[i.ruleId]) { byRule[i.ruleId] = { issue: i, hits: [] }; order.push(i.ruleId); }
+        byRule[i.ruleId].hits.push({ item: item, issue: i });
+        total++;
+      });
+    });
+    order.sort(function (a, b) {
+      var x = byRule[a], y = byRule[b];
+      return SEVERITIES.indexOf(x.issue.severity) - SEVERITIES.indexOf(y.issue.severity) || y.hits.length - x.hits.length;
+    });
+    var lines = ["KUBRA Copy Audit: " + total + " issue" + (total === 1 ? "" : "s") + " in " + state.order.length + " text layers" +
+      (state.rulesInfo ? " (rules " + state.rulesInfo.version + ", " + formatDate(state.rulesInfo.updated) + ")" : ""), ""];
+    order.forEach(function (ruleId) {
+      var g = byRule[ruleId];
+      lines.push(SEV_LABEL[g.issue.severity] + ": " + g.issue.message + " (" + g.hits.length + ")" + (g.issue.guide ? " " + g.issue.guide.url : ""));
+      g.hits.slice(0, 20).forEach(function (h) {
+        var where = (h.item.frame ? h.item.frame + " › " : "") + h.item.name;
+        lines.push("  - " + where + ": “" + h.issue.match.replace(/\s+/g, " ").slice(0, 80) + "”" + (h.issue.replacement != null ? " → “" + h.issue.replacement.replace(/\s+/g, " ").slice(0, 80) + "”" : ""));
+      });
+      if (g.hits.length > 20) lines.push("  - and " + (g.hits.length - 20) + " more");
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
+
   // ---------- checking ----------
   function recheck(id) {
     var item = state.items.get(id);
@@ -256,7 +325,7 @@
 
   function visibleIssues(id) {
     return (state.issues.get(id) || []).filter(function (i) {
-      return state.sev[i.severity] && (state.showIgnored || !i.ignored);
+      return state.sev[i.severity] && (state.showIgnored || (!i.ignored && !ruleOff(i)));
     });
   }
 
@@ -288,7 +357,7 @@
     var counts = { error: 0, warning: 0, suggestion: 0 }, safe = [];
     state.order.forEach(function (id) {
       (state.issues.get(id) || []).forEach(function (i) {
-        if (i.ignored) return;
+        if (i.ignored || ruleOff(i)) return;
         counts[i.severity]++;
         if (i.safeFix && state.sev[i.severity]) safe.push({ id: id, issue: i });
       });
@@ -299,6 +368,7 @@
     summary.innerHTML = SEVERITIES.map(function (s) {
       return '<button type="button" class="chip" data-sev="' + s + '" aria-pressed="' + state.sev[s] + '"><span class="sev sev-' + s + '"></span>' + counts[s] + " " + SEV_LABEL[s].toLowerCase() + (counts[s] === 1 ? "" : "s") + "</button>";
     }).join("") + '<span class="spacer"></span>' +
+      (counts.error + counts.warning + counts.suggestion ? '<button type="button" class="btn small" id="copyReport" title="Copies a summary grouped by rule, for design reviews.">Copy report</button>' : "") +
       (safeFixes.length ? '<button type="button" class="btn small" id="fixAllSafe" title="Applies fixes that are safe to make in bulk. Undo with Cmd/Ctrl+Z.">Fix ' + safeFixes.length + " safe</button>" : "");
     state.safeFixes = safeFixes;
 
@@ -315,10 +385,11 @@
       shown += list.length;
       var frame = item.frame || "";
       if (frame !== lastFrame) { html += '<h2 class="frame-head" title="' + esc(frame) + '">' + esc(frame || "Page") + "</h2>"; lastFrame = frame; }
-      html += '<section class="layer"><button type="button" class="layer-head" data-select="' + esc(id) + '" title="Select this layer in Figma (' + esc(item.contextLabel + ", from " + item.contextSource) + ')">' +
-        '<span class="layer-name">' + esc(item.name) + '</span><span class="ctx">' + esc(item.contextLabel) + '</span><span class="locate">' + ICON_LOCATE + "</span></button>";
+      html += '<section class="layer"><div class="layer-top"><button type="button" class="layer-head" data-select="' + esc(id) + '" title="Select this layer in Figma">' +
+        '<span class="layer-name">' + esc(item.name) + '</span><span class="locate">' + ICON_LOCATE + "</span></button>" + contextSelect(id, item) + "</div>";
       list.forEach(function (i, n) {
-        html += '<div class="issue' + (i.ignored ? " is-ignored" : "") + '">' +
+        var off = ruleOff(i);
+        html += '<div class="issue' + (i.ignored || off ? " is-ignored" : "") + '">' +
           '<div class="issue-top"><span class="sev sev-' + i.severity + '" aria-hidden="true"></span><div><span class="msg">' + esc(i.message) + '</span> <span class="sev-label">· ' + SEV_LABEL[i.severity] + "</span></div></div>" +
           '<div class="snippet">' + snippetHtml(item.text, i.start, i.end) + "</div>" + fixHtml(i) +
           (i.detail ? '<p class="detail">' + esc(i.detail) + "</p>" : "") +
@@ -326,6 +397,7 @@
           (i.replacement != null && !i.ignored ? '<button type="button" class="btn small primary" data-fix="' + esc(id) + '" data-n="' + n + '">Fix</button>' : "") +
           (i.approvedText ? '<button type="button" class="btn small" data-copy="' + esc(id) + '" data-n="' + n + '">Copy approved text</button>' : "") +
           '<button type="button" class="btn small" data-ignore="' + esc(id) + '" data-n="' + n + '">' + (i.ignored ? "Restore" : "Ignore") + "</button>" +
+          '<button type="button" class="btn small" data-rule-' + (off ? "on" : "off") + '="' + esc(i.ruleId) + '" title="' + (off ? "Check this rule again in this file." : "Stop checking this rule anywhere in this file. Turn it back on in Settings.") + '">' + (off ? "Turn on in file" : "Turn off in file") + "</button>" +
           (i.guide ? '<button type="button" class="link-btn" data-url="' + esc(i.guide.url) + '" title="' + esc(i.guide.label) + '">Guide' + ICON_EXT + "</button>" : "") +
           "</div></div>";
       });
@@ -337,6 +409,17 @@
         (hiddenByFilter ? "Turn a severity back on to see them." : "Checked " + state.order.length + " text layer" + (state.order.length === 1 ? "" : "s") + ".") + "</div>";
     }
     results.innerHTML = html;
+  }
+
+  // The layer's type, which decides which rules apply. Designers can correct it; the choice is saved on the layer.
+  function contextSelect(id, item) {
+    var choices = state.contexts.length ? state.contexts : [{ id: item.context, label: item.contextLabel }];
+    var opts = '<option value=""' + (item.contextManual ? "" : " selected") + ">" + esc((item.contextManual ? "Detect automatically" : item.contextLabel + " (detected)")) + "</option>";
+    opts += choices.map(function (c) {
+      return '<option value="' + esc(c.id) + '"' + (item.contextManual && c.id === item.context ? " selected" : "") + ">" + esc(c.label) + "</option>";
+    }).join("");
+    return '<select class="ctx-select' + (item.contextManual ? " manual" : "") + '" data-ctx="' + esc(id) + '" aria-label="Layer type" title="' +
+      esc(item.contextManual ? "Layer type set by you." : "Detected from " + item.contextSource + ". Change it if it’s wrong.") + '">' + opts + "</select>";
   }
 
   function pickNonOverlapping(list) {
@@ -365,6 +448,11 @@
     if (t.dataset.select) { post({ type: "select", nodeId: t.dataset.select }); return; }
     if (t.dataset.url) { post({ type: "open-url", url: t.dataset.url }); return; }
     if (t.dataset.sev) { state.sev[t.dataset.sev] = !state.sev[t.dataset.sev]; render(); return; }
+    if (t.dataset.ruleOff || t.dataset.ruleOn) {
+      post({ type: "ignore-rule", ruleId: t.dataset.ruleOff || t.dataset.ruleOn, ignored: !!t.dataset.ruleOff });
+      return;
+    }
+    if (t.id === "copyReport") { copyText(report(), "Report copied", "Couldn’t copy the report."); return; }
     if (t.id === "fixAllSafe") {
       post({ type: "apply-fixes", fixes: state.safeFixes.map(function (x) { return fixMessage(x.id, x.issue); }) });
       return;
@@ -375,9 +463,14 @@
       var issue = list[+t.dataset.n];
       if (!issue) return;
       if (t.dataset.fix) post({ type: "apply-fixes", fixes: [fixMessage(id, issue)] });
-      else if (t.dataset.copy) copyText(issue.approvedText);
+      else if (t.dataset.copy) copyText(issue.approvedText, "Approved text copied", "Couldn’t copy. Open the guide link to copy it there.");
       else post({ type: "ignore", nodeId: id, key: issue.key, ignored: !issue.ignored });
     }
+  });
+
+  document.addEventListener("change", function (e) {
+    var s = e.target;
+    if (s && s.dataset && s.dataset.ctx) post({ type: "set-context", nodeId: s.dataset.ctx, context: s.value });
   });
 
   $("scanSelection").addEventListener("click", function () { startScan("selection"); });
@@ -413,11 +506,14 @@
   var handlers = {
     init: function (msg) {
       state.selection = msg.selection || 0;
+      state.contexts = msg.contexts || [];
+      state.ignoredRules = msg.ignoredRules || [];
       renderScanbar();
       if (!(msg.cachedRules && useRules(msg.cachedRules, "cached"))) useRules(BUNDLED_RULES, "built-in");
       fetchLive();
     },
     selection: function (msg) { state.selection = msg.count; renderScanbar(); },
+    "ignored-rules": function (msg) { state.ignoredRules = msg.rules || []; renderOffRules(); render(); },
     "page-changed": function (msg) {
       state.selection = msg.selection || 0;
       state.scanned = false;

@@ -3,13 +3,23 @@ title: "Empty States"
 blurb: "Onboarding, no-results, and system-limited states."
 ---
 
-An empty state appears when a page, table, or section has no data to display. Empty states should be clear, instructive, and actionable, and should never leave users wondering whether something is broken.
+An empty state appears when a page, table, or section has no data to display. Empty states guide users when content is missing, unavailable, or not yet created. Across KUBRA products, empty states should be clear, instructive, and actionable. They should reduce uncertainty and help users understand what to do next.
 
-## Types of Empty States
+## Purpose of an empty state
 
-### 1. First-Time Empty State (Onboarding)
+An effective empty state should:
 
-Occurs when a user has not yet created or configured anything. **Goal:** encourage setup or creation.
+1. Explain why nothing is displayed
+2. Clarify whether this is expected
+3. Provide next steps when applicable
+
+Empty states should never leave users wondering whether something is broken.
+
+## Types of empty states
+
+### 1. First-time empty state (onboarding)
+
+Occurs when a user has not yet created or configured anything. **Goal:** encourage setup or creation. These states should guide users toward the primary action.
 
 ::: do
 
@@ -18,19 +28,20 @@ Occurs when a user has not yet created or configured anything. **Goal:** encoura
 
 :::
 
-### 2. No Results Empty State (Filtered/Search)
+### 2. No results empty state (filtered/search)
 
 Occurs when a search or filter returns no matches. **Goal:** help users adjust input. Avoid implying system failure.
 
 ::: do
 
 - *"No \[thing\] found. Try adjusting your filters or search terms."*
+- *If there are no filters, use: "Try adjusting your search terms"*
 
 :::
 
-### 3. System-Limited Empty State
+### 3. System-limited empty state
 
-Occurs when data is unavailable due to configuration, permissions, or environment limitations. If the issue blocks progress, escalate to an error instead.
+Occurs when data is unavailable due to configuration, permissions, or environment limitations. **Goal:** clarify context. If the issue blocks progress, escalate to an error instead.
 
 ::: do
 
@@ -41,7 +52,13 @@ Occurs when data is unavailable due to configuration, permissions, or environmen
 
 ## Tone
 
-Neutral, supportive, direct. Avoid humor, filler, or marketing tone.
+Empty states should be neutral, supportive, and direct. Avoid humor, filler, or marketing tone.
+
+::: details More detail
+
+FANG guidance consistently favors practical, supportive language over playful copy in productivity tools.
+
+:::
 
 ::: do
 
@@ -57,9 +74,11 @@ Neutral, supportive, direct. Avoid humor, filler, or marketing tone.
 
 ## Structure
 
-Can include a short header, supporting body text (optional), and a primary CTA (if action is possible).
+Empty states can include a short header, supporting body text (optional), and a primary CTA (if action is possible). Keep empty states concise and avoid large blocks of text.
 
-### Simple Empty State (Single Sentence)
+### Simple empty state (single sentence)
+
+Use when no additional explanation is needed. No period needed.
 
 ::: do
 
@@ -67,7 +86,9 @@ Can include a short header, supporting body text (optional), and a primary CTA (
 
 :::
 
-### Instructional Empty State (Header + Body + CTA)
+### Instructional empty state (header + body + CTA)
+
+Use when user action is expected.
 
 ::: do
 
@@ -79,9 +100,11 @@ Can include a short header, supporting body text (optional), and a primary CTA (
 
 :::
 
-## CTAs in Empty States
+## CTAs in empty states
 
-Use clear, action-driven verbs; keep CTAs short (1–2 words); avoid vague CTAs like "OK" or "Learn more."
+- Use clear, action-driven verbs
+- Keep CTAs short (1–2 words)
+- Avoid vague CTAs like "OK" or "Learn more" unless contextually appropriate
 
 ::: do
 
@@ -96,10 +119,29 @@ Use clear, action-driven verbs; keep CTAs short (1–2 words); avoid vague CTAs 
 
 :::
 
-## What to Avoid
+## Length and punctuation
+
+- Keep text concise and scannable
+- Avoid exceeding one short paragraph
+- Do not use a period for single-sentence fragments
+- Use punctuation only when multiple sentences are necessary
+
+## What to avoid
 
 - Vague statements ("Nothing here yet")
 - Emotional tone
 - Over-explaining system behavior
 - Repeating visible UI labels
 - Using empty states to promote unrelated features
+
+::: do
+
+- *"No scheduled payments"*
+
+:::
+
+::: dont
+
+- *"Oops! You don't have anything here yet."*
+
+:::

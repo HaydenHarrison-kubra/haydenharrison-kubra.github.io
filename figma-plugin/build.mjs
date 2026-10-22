@@ -67,14 +67,17 @@ for (const sec of SECTIONS) {
   }
 }
 
+// Headings match regardless of capitalization, so switching the guide between title case and sentence case doesn't break links.
+// The label uses the heading as it's written on the page today.
 function resolveGuide(spec, ruleId) {
   if (!spec) return null;
   const [slug, heading, nth = 1] = spec;
   const page = pages[slug];
   if (!page) fail(`rule "${ruleId}" links to unknown page "${slug}"`);
-  const list = page.anchors.get(heading);
+  const key = [...page.anchors.keys()].find((k) => k === heading) || [...page.anchors.keys()].find((k) => k.toLowerCase() === heading.toLowerCase());
+  const list = key && page.anchors.get(key);
   if (!list || !list[nth - 1]) fail(`rule "${ruleId}" links to heading "${heading}", which isn't on ${slug}.md. Headings there: ${[...page.anchors.keys()].join(" | ")}`);
-  return { url: `${siteUrl}#${slug}/${list[nth - 1]}`, label: `${page.title} › ${heading}` };
+  return { url: `${siteUrl}#${slug}/${list[nth - 1]}`, label: `${page.title} › ${key}` };
 }
 
 // ---------- rules ----------
@@ -129,7 +132,7 @@ for (const g of GLOSSARY) {
     for (const name of names) {
       const preferred = preferredFor(name);
       addRule({ id: id + (names.length > 1 ? "-" + slugify(name) : ""), type: "term", terms: [name], caseSensitive: name !== name.toLowerCase(),
-        fix: preferred ? preferred.term : undefined, severity: "warning",
+        fix: preferred ? preferred.term : undefined, allow: data.termAllow[name], severity: "warning",
         message: `Avoid “${name}” in consumer UI`, detail: g.note, guide }, "style");
       covered.add(name.toLowerCase());
     }
@@ -196,14 +199,19 @@ const payload = {
     standardCopyChecks: data.standardCopyChecks
   }
 };
+// The checks and fixers these rules use. A plugin whose engine lacks one shows "Update the plugin" instead of silently skipping it.
+const requires = {
+  runners: [...new Set(rules.map((r) => r.type || "pattern"))].sort(),
+  fixers: [...new Set(rules.map((r) => r.fix && typeof r.fix === "object" ? r.fix.fn : null).filter(Boolean))].sort()
+};
 const version = createHash("sha1").update(JSON.stringify(payload)).digest("hex").slice(0, 8);
 // When the rule inputs last changed (from git), shown in the plugin's header.
 let updated;
 try {
-  updated = execFileSync("git", ["log", "-1", "--format=%cs", "--", "content", "figma-plugin/rules", "figma-plugin/config"], { cwd: site, encoding: "utf8" }).trim();
+  updated = execFileSync("git", ["log", "-1", "--format=%cs", "--", "content", "figma-plugin/rules", "figma-plugin/config", "figma-plugin/src", "figma-plugin/build.mjs"], { cwd: site, encoding: "utf8" }).trim();
 } catch (e) {}
 if (!updated) updated = new Date().toISOString().slice(0, 10);
-const rulesJson = { schema: engine.SCHEMA, version, updated, siteUrl, ...payload };
+const rulesJson = { schema: engine.SCHEMA, version, updated, siteUrl, requires, ...payload };
 engine.compile(rulesJson); // fails loudly if the engine can't read what we built
 
 const rulesText = JSON.stringify(rulesJson, null, 1) + "\n";

@@ -3,9 +3,11 @@ title: "Abbreviations and Acronyms"
 blurb: "When abbreviations are acceptable in UI vs. docs."
 ---
 
-## In User Interface (UI) Copy
+## In user interface (UI) copy
 
 ### Avoid abbreviations and acronyms by default
+
+UI copy must be immediately understandable, especially in payment flows.
 
 ::: do
 
@@ -23,6 +25,8 @@ blurb: "When abbreviations are acceptable in UI vs. docs."
 
 ### Use only when widely recognized
 
+Some acronyms are acceptable if they are commonly understood by your audience.
+
 ::: do
 
 - *SMS*
@@ -30,7 +34,15 @@ blurb: "When abbreviations are acceptable in UI vs. docs."
 
 :::
 
+::: details More detail
+
+Use with caution — ensure consistency across the product, and avoid mixing full and abbreviated forms.
+
+:::
+
 ### Do not introduce new acronyms in UI
+
+Avoid creating or introducing acronyms that require explanation. If unavoidable, provide context or helper text.
 
 ::: dont
 
@@ -39,9 +51,11 @@ blurb: "When abbreviations are acceptable in UI vs. docs."
 
 :::
 
-## In Documentation and Help Content
+## In documentation and help content
 
 ### Spell out on first use
+
+When using acronyms in documentation, spell out the full term first. After the first mention, the acronym may be used consistently.
 
 ::: do
 
@@ -50,13 +64,35 @@ blurb: "When abbreviations are acceptable in UI vs. docs."
 
 :::
 
-## In Technical or Admin Interfaces
+### Be consistent
 
-Acronyms may be used more frequently, but must still be accurate, consistent, and defined if not universally understood.
+Do not switch between the full term and acronym, or between different variations of the same acronym.
+
+::: details More detail
+
+Consistency improves readability and reduces confusion.
+
+:::
+
+## In technical or admin interfaces
+
+Acronyms may be used more frequently in technical contexts, but must still be accurate, be consistent, and be defined if not universally understood.
+
+::: do
+
+- *CNAME configuration (if audience is technical and term is expected)*
+
+:::
+
+::: details More detail
+
+Avoid unnecessary complexity.
+
+:::
 
 ## Time
 
-Use AM and PM: uppercase, no periods, with ":00" on the hour. Use ET, CT, MT, or PT, and don't specify daylight or standard time unless it's necessary. See [Numbers, Dates, and Times](#numbers-dates-and-times/times) for full time and date formatting.
+Use AM and PM: uppercase, no periods, with ":00" on the hour. Use ET, CT, MT, or PT, and don't specify daylight or standard time unless it's necessary.
 
 ::: do
 
@@ -72,7 +108,13 @@ Use AM and PM: uppercase, no periods, with ":00" on the hour. Use ET, CT, MT, or
 
 :::
 
-## Days and Months
+::: details More detail
+
+See [Numbers, Dates, and Times](#numbers-dates-and-times/times) for full time and date formatting.
+
+:::
+
+## Days and months
 
 Abbreviate with three letters and no period, only when space is tight. See [Numbers, Dates, and Times](#numbers-dates-and-times/abbreviated-months-and-days).
 
@@ -85,6 +127,8 @@ Abbreviate with three letters and no period, only when space is tight. See [Numb
 
 ## Currency
 
+Use standard currency symbols where appropriate. Avoid spelling out currency unless required.
+
 ::: do
 
 - *$125.00*
@@ -92,9 +136,9 @@ Abbreviate with three letters and no period, only when space is tight. See [Numb
 
 :::
 
-## Phone Numbers
+## Phone numbers
 
-Format phone numbers as (xxx) xxx-xxxx: the area code in parentheses, a space, then the number with a hyphen. Country codes are approved. When you include one, use +1 (xxx) xxx-xxxx.
+Format phone numbers as (xxx) xxx-xxxx: the area code in parentheses, a space, then the number with a hyphen.
 
 ::: do
 
@@ -107,6 +151,22 @@ Format phone numbers as (xxx) xxx-xxxx: the area code in parentheses, a space, t
 
 - *480-111-1111 · 480.111.1111 · 480 111 1111 · (480)111-1111 · 4801111111*
 - *1-480-111-1111 · +1 480-111-1111 · +1-480-111-1111 · 1 (480) 111-1111*
+
+:::
+
+::: details More detail
+
+Country codes are approved. When you include one, use +1 (xxx) xxx-xxxx.
+
+:::
+
+## Use with care
+
+Examples: ACH (bank transfer). Provide clarification if needed.
+
+::: do
+
+- *Bank account (ACH)*
 
 :::
 
@@ -126,7 +186,9 @@ Don't use these in UI copy. Write "for example," "such as," or "that is" instead
 
 :::
 
-## Avoid in Consumer UI
+## Avoid in consumer UI
+
+Replace with user-friendly terms whenever possible.
 
 ::: dont
 

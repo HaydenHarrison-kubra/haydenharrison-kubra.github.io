@@ -625,6 +625,18 @@ mark{background:var(--mark-bg);color:var(--mark-text);border-radius:3px;padding:
 .content [data-type^="panel"] p:last-child,.content [data-type^="panel"] ul:last-child{margin-bottom:0;}
 .section-intro [data-type="panel-custom"]{font-size:17px;}
 
+/* "More detail": extra rules folded away under the main guidance. */
+.content details.more{margin:0 0 24px;border:1px solid var(--border);border-radius:12px;background:var(--surface);}
+.content details.more > summary{cursor:pointer;list-style:none;padding:12px 18px;font-weight:600;font-size:14px;color:var(--brand);display:flex;align-items:center;gap:8px;border-radius:12px;}
+.content details.more > summary::-webkit-details-marker{display:none;}
+.content details.more > summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s;}
+.content details.more[open] > summary::before{transform:rotate(45deg);}
+.content details.more > summary:hover{background:var(--surface-2);}
+.content details.more > summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px;}
+.content details.more > :not(summary){margin-left:18px;margin-right:18px;}
+.content details.more > :last-child{margin-bottom:16px;}
+@media (prefers-reduced-motion: reduce){.content details.more > summary::before{transition:none;}}
+
 .table-wrap{
   margin:0 0 26px;
   overflow-x:auto;

@@ -6,21 +6,56 @@ topics: ["Errors & Messaging", "Payments"]
 
 A modal interrupts the current workflow to require user attention or confirmation before proceeding. Confirmation dialogs are a specific type of modal used when an action may result in significant change, data loss, or irreversible impact. Because modals block progress, they should be used intentionally and sparingly.
 
-## When to Use a Confirmation Dialog
+## When to use a confirmation dialog
 
-Use when an action permanently deletes data, removes access or permissions, cancels payments or scheduled actions, affects multiple users/systems/environments, or cannot be easily undone. **Examples:** deleting a workspace, cancelling a scheduled payment, resetting map configurations, removing a shared access role.
+Use a confirmation dialog when an action:
 
-## When Not to Use a Modal
+- Permanently deletes data
+- Removes access or permissions
+- Cancels payments or scheduled actions
+- Affects multiple users, systems, or environments
+- Cannot be easily undone
 
-Do not use when the action is low-risk and reversible, a warning banner is sufficient, the action is expected and routine, or the confirmation exists only to "double check."
+::: details More detail
 
-## Structure of a Confirmation Dialog
+**Examples:**
 
-A confirmation dialog typically includes a title, body copy, primary CTA, and secondary CTA.
+- Deleting a workspace
+- Cancelling a scheduled payment
+- Resetting map configurations
+- Removing a shared access role
+
+:::
+
+## When not to use a modal
+
+Do not use a modal when:
+
+- The action is low-risk and reversible
+- A warning banner is sufficient
+- The action is expected and routine
+- The confirmation exists only to "double check"
+
+## Structure of a confirmation dialog
+
+A confirmation dialog typically includes:
+
+1. Title
+2. Body copy
+3. Primary CTA
+4. Secondary CTA
+
+Each element must work together to clarify intent and reduce ambiguity.
 
 ### Title
 
-State the action or consequence directly; be short and clear; avoid conversational phrasing. Do not ask "Are you sure?" — instead, state the action.
+The title should state the action or consequence directly, be short and clear, and avoid conversational phrasing. Do not ask "Are you sure?" — instead, state the action.
+
+::: details More detail
+
+The title should focus on the decision being made.
+
+:::
 
 ::: do
 
@@ -36,9 +71,9 @@ State the action or consequence directly; be short and clear; avoid conversation
 
 :::
 
-### Body Copy
+### Body copy
 
-Explain the consequences, clarify scope, and indicate whether the action is reversible. Keep it concise and factual.
+The body should explain the consequences of the action, clarify scope (what is affected), and indicate whether the action is reversible. Keep it concise and factual — avoid over-explaining or repeating the title.
 
 ::: do
 
@@ -52,11 +87,33 @@ Explain the consequences, clarify scope, and indicate whether the action is reve
 
 :::
 
-### Primary and Secondary CTAs
+### Primary and secondary CTAs
 
-**Primary CTA** — use a verb that clearly reflects the action: Delete, Cancel payment, Remove access. **Secondary CTA** — use "Cancel" for most interactions, or "Go back" when the primary action includes the word "Cancel," to prevent confusion (e.g., Primary: "Cancel payment" · Secondary: "Go back").
+**Primary CTA** — use a verb that clearly reflects the action, match the risk level, and avoid vague labels.
 
-### Full Examples
+::: do
+
+- *Delete*
+- *Cancel payment*
+- *Remove access*
+
+:::
+
+**Secondary CTA** — use "Cancel" for most interactions, or "Go back" when the primary action includes the word "Cancel," to prevent confusion.
+
+::: do
+
+- *Primary: "Cancel payment" · Secondary: "Go back"*
+
+:::
+
+::: details More detail
+
+This prevents users from wondering: "Am I cancelling this dialog or cancelling the payment?"
+
+:::
+
+### Full examples
 
 ::: do
 
@@ -78,7 +135,7 @@ Explain the consequences, clarify scope, and indicate whether the action is reve
 
 ## Tone
 
-Direct, neutral, and serious when appropriate. Avoid emotional language, alarmist phrasing, and humor.
+Confirmation dialogs should be direct, neutral, and serious when appropriate. Avoid emotional language, alarmist phrasing, and humor.
 
 ::: do
 
@@ -92,8 +149,22 @@ Direct, neutral, and serious when appropriate. Avoid emotional language, alarmis
 
 :::
 
-## When in Doubt
+## Punctuation
+
+- Titles should not include punctuation unless they are phrased as a question
+- Body copy follows standard sentence rules
+- Do not overuse exclamation points
+
+## When in doubt
+
+If confirmation is unnecessary, remove the modal and rely on clear inline messaging instead.
+
+::: details More detail
+
+If you're unsure whether to use a confirmation dialog:
 
 1. Assess whether the action is reversible
-1. Evaluate potential impact or data loss
-1. Determine whether the user would reasonably expect confirmation
+2. Evaluate potential impact or data loss
+3. Determine whether the user would reasonably expect confirmation
+
+:::

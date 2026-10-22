@@ -4,7 +4,7 @@ blurb: "A decision hierarchy for resolving copy conflicts."
 topics: ["Payments"]
 ---
 
-## Decision Hierarchy (Use This First)
+## Decision hierarchy (use this first)
 
 When making a decision, apply this order of priority — top to bottom:
 
@@ -16,7 +16,7 @@ When making a decision, apply this order of priority — top to bottom:
 | **4. Consistency** | Does this match existing patterns? Is this term already defined in the system? | Prefer consistency over introducing new phrasing. |
 | **5. Brevity** (lowest priority) | Can this be shortened without losing meaning? | Never sacrifice clarity or accuracy for brevity. |
 
-## Decision Framework (Step-by-Step)
+## Decision framework (step-by-step)
 
 Use this when you're unsure what to write:
 
@@ -70,11 +70,9 @@ Escalate for review if the decision affects payments, legal/compliance, new term
 
 :::
 
-## Common Decision Scenarios
+## Common decision scenarios
 
-### Scenario 1: "Continue" vs. Specific CTA
-
-*Why: Specificity reduces financial risk.*
+### Scenario 1: "Continue" vs. specific CTA
 
 ::: do
 
@@ -88,7 +86,13 @@ Escalate for review if the decision affects payments, legal/compliance, new term
 
 :::
 
-### Scenario 2: Short vs. Clear
+::: details More detail
+
+*Why: Specificity reduces financial risk.*
+
+:::
+
+### Scenario 2: Short vs. clear
 
 ::: do
 
@@ -102,7 +106,13 @@ Escalate for review if the decision affects payments, legal/compliance, new term
 
 :::
 
-### Scenario 3: Technical vs. User-Friendly
+::: details More detail
+
+*Why: Clarity over brevity.*
+
+:::
+
+### Scenario 3: Technical vs. user-friendly
 
 ::: do
 
@@ -116,7 +126,13 @@ Escalate for review if the decision affects payments, legal/compliance, new term
 
 :::
 
-### Scenario 4: Friendly vs. Neutral Tone
+::: details More detail
+
+*Why: Use user-understandable language.*
+
+:::
+
+### Scenario 4: Friendly vs. neutral tone
 
 ::: do
 
@@ -130,7 +146,13 @@ Escalate for review if the decision affects payments, legal/compliance, new term
 
 :::
 
-### Scenario 5: Acronym vs. Full Term
+::: details More detail
+
+*Why: Maintain neutral, professional tone.*
+
+:::
+
+### Scenario 5: Acronym vs. full term
 
 ::: do
 
@@ -144,6 +166,14 @@ Escalate for review if the decision affects payments, legal/compliance, new term
 
 :::
 
-## When to Reuse vs. Create New Copy
+::: details More detail
 
-**Reuse when:** the same action exists elsewhere, a canonical pattern exists, or the meaning is identical. **Create new copy when:** the action is new, the context is meaningfully different, or reusing would create confusion.
+*Why: Avoid unclear abbreviations in UI.*
+
+:::
+
+## When to reuse vs. create new copy
+
+**Reuse when:** the same action exists elsewhere, a canonical pattern exists, or the meaning is identical.
+
+**Create new copy when:** the action is new, the context is meaningfully different, or reusing would create confusion.

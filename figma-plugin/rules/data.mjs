@@ -4,6 +4,14 @@
 export const properNouns = [
   "KUBRA", "MyHQ+", "MyHQ", "BizHQ+", "BizHQ",
   "Visa", "Mastercard", "American Express", "Discover", "Google Pay", "Venmo", "Zelle", "Android", "iOS", "iPhone", "Wi-Fi",
+  "Apple", "Apple Pay", "Google", "Samsung", "Samsung Pay", "Microsoft", "Amazon", "Tap to Pay",
+  "United States", "Canada", "Mexico", "Puerto Rico",
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
+  "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+  "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
+  "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+  "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
+  "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland", "Nova Scotia", "Ontario", "Quebec", "Saskatchewan",
   "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
   "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",
   "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Sept", "Oct", "Nov", "Dec"
@@ -48,6 +56,11 @@ export const misspellings = {
   sumbit: "submit", teh: "the", thier: "their", tomorow: "tomorrow", tommorow: "tomorrow", transaciton: "transaction",
   transcation: "transaction", transfered: "transferred", trasaction: "transaction", truely: "truly", untill: "until",
   usernmae: "username", verfication: "verification", verifcation: "verification", wich: "which", wierd: "weird", withdrawl: "withdrawal"
+};
+
+// Names that contain a glossary term the plugin otherwise flags, and are fine ("TD" vs. "TD Bank").
+export const termAllow = {
+  TD: ["TD Bank", "TD Ameritrade", "TD Canada Trust"]
 };
 
 // Compound words that are verbs when split ("set up your account" vs. "the setup").

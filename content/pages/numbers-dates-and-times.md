@@ -6,7 +6,7 @@ topics: ["Payments", "Accessibility"]
 
 Numbers, dates, and times carry the details users act on: amounts owed, due dates, and deadlines. Format them the same way everywhere so they're easy to scan and hard to misread.
 
-## Numerals and Words
+## Numerals and words
 
 Use numerals for all quantities in UI copy. Digits are faster to scan than words. Use words only when a number isn't a count.
 
@@ -39,9 +39,9 @@ Don't start a sentence with a numeral. Rewrite the sentence, or spell out the nu
 
 :::
 
-## Large Numbers
+## Large numbers
 
-Use commas in numbers with four or more digits. Don't use commas in years, account numbers, reference IDs, or ZIP codes. Spell out million and billion; use abbreviations like K and M only in charts.
+Use commas in numbers with four or more digits. Don't use commas in years, account numbers, reference IDs, or ZIP codes.
 
 ::: do
 
@@ -58,9 +58,15 @@ Use commas in numbers with four or more digits. Don't use commas in years, accou
 
 :::
 
+::: details More detail
+
+Spell out million and billion; use abbreviations like K and M only in charts.
+
+:::
+
 ## Money
 
-Show cents on every transaction amount, including amounts due, payments, fees, refunds, and balances. For negative amounts, say "credit" or use a minus sign, not parentheses. Write money ranges with "to." Add a currency code only when needed for clarity.
+Show cents on every transaction amount, including amounts due, payments, fees, refunds, and balances. Ranges, promotions, and minimums can use whole dollars ("$10 to $25," "$10 off," "Payments of $25 or more"). For negative amounts, say "credit" or use a minus sign, not parentheses.
 
 ::: do
 
@@ -75,6 +81,12 @@ Show cents on every transaction amount, including amounts due, payments, fees, r
 
 - *$125 (as a transaction amount)*
 - *($25.00)*
+
+:::
+
+::: details More detail
+
+Write money ranges with "to." Add a currency code only when needed for clarity.
 
 :::
 
@@ -112,7 +124,7 @@ Spell out first through ninth. Use numerals from 10th on. Don't use superscript.
 
 :::
 
-## Number Ranges
+## Number ranges
 
 In copy, use "to" or "through." Use an en dash, with no spaces, only in tables and charts.
 
@@ -131,7 +143,7 @@ In copy, use "to" or "through." Use an en dash, with no spaces, only in tables a
 
 ## Dates
 
-Spell out the month in sentences and messages. Use MM/DD/YYYY only in input fields and dense tables. Don't add ordinals to a date with a month; "the 15th of each month" is fine. Put a comma between the day and the year, and after the year mid-sentence. A month and year alone take no comma.
+Spell out the month in sentences and messages. Use MM/DD/YYYY only in input fields and dense tables.
 
 ::: do
 
@@ -149,6 +161,12 @@ Spell out the month in sentences and messages. Use MM/DD/YYYY only in input fiel
 
 :::
 
+::: details More detail
+
+Don't add ordinals to a date with a month; "the 15th of each month" is fine. Put a comma between the day and the year, and after the year mid-sentence. A month and year alone take no comma.
+
+:::
+
 ### Year
 
 Always include the year on receipts, statements, confirmations, and legal copy. In short, temporary UI, like a dashboard, you can leave out the year when the date is in the current year.
@@ -160,7 +178,7 @@ Always include the year on receipts, statements, confirmations, and legal copy. 
 
 :::
 
-### Abbreviated Months and Days
+### Abbreviated months and days
 
 Spell out months and days in sentences. When space is tight, use three letters with no period. Don't mix abbreviated and full names on one screen.
 
@@ -181,7 +199,7 @@ Spell out months and days in sentences. When space is tight, use three letters w
 
 :::
 
-## Date Ranges
+## Date ranges
 
 In copy, use "through" for inclusive ranges, like billing periods, and repeat the month. Use an en dash, with no spaces, only in tables and charts. Don't use "from" with a dash.
 
@@ -219,7 +237,7 @@ Use numerals with AM or PM: uppercase, no periods, with a space before. Include 
 
 :::
 
-## Time Ranges
+## Time ranges
 
 Use "to" between times, and include AM or PM on both.
 
@@ -235,7 +253,7 @@ Use "to" between times, and include AM or PM on both.
 
 :::
 
-## Time Zones
+## Time zones
 
 Use ET, CT, MT, and PT. Don't specify standard or daylight time unless accuracy requires it. Always include a time zone with deadlines and cutoffs.
 
@@ -252,9 +270,9 @@ Use ET, CT, MT, and PT. Don't specify standard or daylight time unless accuracy 
 
 :::
 
-## Relative Dates and Durations
+## Relative dates and durations
 
-Use exact dates for anything due, scheduled, or final. "Today," "Yesterday," and "2 hours ago" are only for activity feeds and timestamps. Write durations with numerals and spell out the unit. Say "business days" when weekends and holidays don't count. Abbreviate units, like min and hr, only when space is tight.
+Use exact dates for anything due, scheduled, or final. "Today," "Yesterday," and "2 hours ago" are only for activity feeds and timestamps.
 
 ::: do
 
@@ -268,6 +286,12 @@ Use exact dates for anything due, scheduled, or final. "Today," "Yesterday," and
 
 - *Due in 3 days · Due tomorrow*
 - *3-5 days*
+
+:::
+
+::: details More detail
+
+Write durations with numerals and spell out the unit. Say "business days" when weekends and holidays don't count. Abbreviate units, like min and hr, only when space is tight.
 
 :::
 

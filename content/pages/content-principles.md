@@ -7,9 +7,15 @@ UX content supports users as they complete important, often time-sensitive tasks
 
 These principles apply to all UX writing, regardless of surface or component. When specific rules conflict, these principles should guide decision-making.
 
-## Be Clear Before Being Polite
+## Be clear before being polite
 
-Clarity is the highest priority in financial and technical experiences. Users should immediately understand: what happened, what it means, what to do next. Avoid softening language at the expense of accuracy.
+Clarity is the highest priority in financial and technical experiences. Users should immediately understand:
+
+- What happened
+- What it means
+- What to do next
+
+Avoid softening language at the expense of accuracy.
 
 ::: do
 
@@ -23,9 +29,19 @@ Clarity is the highest priority in financial and technical experiences. Users sh
 
 :::
 
-## Be Predictable and Consistent
+::: details More detail
 
-Users build trust when language behaves the same way across similar experiences. Use the same terminology for the same concepts; follow established patterns for errors, warnings, and success states.
+**In practice:**
+
+- Use direct, concrete language
+- State outcomes plainly
+- Use familiar financial and technical terms consistently
+
+:::
+
+## Be predictable and consistent
+
+Users build trust when language behaves the same way across similar experiences.
 
 ::: do
 
@@ -39,9 +55,17 @@ Users build trust when language behaves the same way across similar experiences.
 
 :::
 
-## Write for the User's Situation, Not the Interface
+::: details More detail
 
-Users don't think in terms of components. They think in terms of outcomes. Write content based on what the user is trying to do, what just happened, and what they need to do next — not the UI element, internal system names, or implementation details.
+- Use the same terminology for the same concepts
+- Follow established patterns for errors, warnings, and success states
+- Avoid introducing new phrasing when an approved pattern exists
+
+:::
+
+## Write for the user's situation, not the interface
+
+Users don't think in terms of components. They think in terms of outcomes.
 
 ::: do
 
@@ -55,9 +79,25 @@ Users don't think in terms of components. They think in terms of outcomes. Write
 
 :::
 
-## Reduce Cognitive Load
+::: details More detail
 
-Keep messages concise and scannable; focus on one idea or action per message; break up complex information with headings or steps; avoid unnecessary words or filler.
+**Write content based on:**
+
+- What the user is trying to do
+- What just happened
+- What they need to do next
+
+**Not based on:**
+
+- The UI element you're writing for
+- Internal system names
+- Implementation details
+
+:::
+
+## Reduce cognitive load
+
+Financial and technical tasks already demand attention. UX content should make tasks easier, not add work.
 
 ::: do
 
@@ -71,9 +111,18 @@ Keep messages concise and scannable; focus on one idea or action per message; br
 
 :::
 
-## Be Honest and Precise
+::: details More detail
 
-Avoid promises you can't guarantee; state system limitations clearly; be specific about timing, outcomes, and impact.
+- Keep messages concise and scannable
+- Focus on one idea or action per message
+- Break up complex information with headings or steps
+- Avoid unnecessary words or filler
+
+:::
+
+## Be honest and precise
+
+Users rely on our products to manage money and sensitive information. Over-reassuring or vague language undermines credibility.
 
 ::: do
 
@@ -87,9 +136,17 @@ Avoid promises you can't guarantee; state system limitations clearly; be specifi
 
 :::
 
-## Guide, Don't Lecture
+::: details More detail
 
-Avoid condescending language; don't over-explain obvious steps; explain the "why" only when it helps users succeed.
+- Avoid promises you can't guarantee
+- State system limitations clearly
+- Be specific about timing, outcomes, and impact
+
+:::
+
+## Guide, don't lecture
+
+UX content should support users, not instruct them as if they've made a mistake.
 
 ::: do
 
@@ -103,9 +160,27 @@ Avoid condescending language; don't over-explain obvious steps; explain the "why
 
 :::
 
-## Design for Accessibility and Scale
+::: details More detail
 
-Content must work for screen readers, localization and translation, and different levels of technical expertise. Avoid symbol-heavy or compressed language; use full words over shorthand; avoid relying on position ("above/below") to convey meaning.
+- Avoid condescending language
+- Don't over-explain obvious steps
+- Explain the "why" only when it helps users succeed
+
+:::
+
+## Design for accessibility and scale
+
+Content must work for:
+
+- Screen readers
+- Localization and translation
+- Different levels of technical expertise
+
+Additional guidance:
+
+- Avoid symbol-heavy or compressed language
+- Use full words over shorthand
+- Avoid relying on position ("above/below") to convey meaning
 
 ::: do
 
@@ -119,7 +194,7 @@ Content must work for screen readers, localization and translation, and differen
 
 :::
 
-## Take Responsibility Without Assigning Blame
+## Take responsibility without assigning blame
 
 We take responsibility for system failures without blaming the user or exposing internal complexity.
 
@@ -135,9 +210,19 @@ We take responsibility for system failures without blaming the user or exposing 
 
 :::
 
-## Prefer Facts Over Emotion in Transactional Moments
+::: details More detail
 
-Payment and billing experiences are not the place for personality or humor. Avoid jokes, emojis, or celebratory language; keep success messages calm and factual; maintain a steady tone even during errors or warnings.
+When something goes wrong, users want to know:
+
+- Whether it was their fault
+- Whether it will happen again
+- What they can do now
+
+:::
+
+## Prefer facts over emotion in transactional moments
+
+Payment and billing experiences are not the place for personality or humor.
 
 ::: do
 
@@ -151,7 +236,15 @@ Payment and billing experiences are not the place for personality or humor. Avoi
 
 :::
 
-## Use Inclusive Language
+::: details More detail
+
+- Avoid jokes, emojis, or celebratory language
+- Keep success messages calm and factual
+- Maintain a steady tone even during errors or warnings
+
+:::
+
+## Use inclusive language
 
 Write so every user feels addressed and respected. Use gender-neutral language, put people before conditions, and avoid terms with harmful or exclusionary associations.
 
@@ -173,6 +266,13 @@ Write so every user feels addressed and respected. Use gender-neutral language, 
 
 :::
 
-## When Principles Conflict
+## When principles conflict
 
-If multiple principles apply: 1) Prioritize clarity, 2) Then accuracy, 3) Then consistency, 4) Then tone. If uncertainty remains, escalate for review rather than introducing a new pattern.
+If you encounter a situation where multiple principles apply:
+
+1. Prioritize clarity
+2. Then accuracy
+3. Then consistency
+4. Then tone
+
+If uncertainty remains, escalate for review rather than introducing a new pattern.

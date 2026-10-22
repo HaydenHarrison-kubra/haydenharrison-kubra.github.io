@@ -5,6 +5,8 @@
 var CONTEXTS = /*__CONTEXTS__*/null;
 var MAX_LAYERS = 3000;
 var IGNORED_KEY = "ignored";
+var CONTEXT_KEY = "context";            // a layer type the designer set by hand
+var IGNORED_RULES_KEY = "ignoredRules"; // rules turned off for the whole file (stored on the document)
 
 figma.showUI(__html__, { width: 420, height: 680, themeColors: true });
 figma.skipInvisibleInstanceChildren = true;
@@ -43,7 +45,9 @@ function isLinkColor(color) {
 function anyMatch(res, s) { return !!s && res.some(function (r) { return r.test(s); }); }
 var textOnlyCfg = CONTEXTS.textOnlyButtons || {};
 var textOnlyVariants = patterns(textOnlyCfg.variantValues);
-var textButtonDef = contextDefs.filter(function (d) { return d.id === "text-button"; })[0] || null;
+function defById(id) { return contextDefs.filter(function (d) { return d.id === id; })[0] || null; }
+var textButtonDef = defById("text-button");
+var menuPlaceholderDef = defById("menu-placeholder");
 
 // ---------- context detection ----------
 function bestMatch(strings) {
@@ -126,12 +130,15 @@ function textOnlyReason(button) {
   return containers.length ? null : "no background or border";
 }
 
-// Priority: a control the text sits in (e.g. Button) > text style > renamed layer name > nearest other component.
+// Priority: a type set by hand > a control the text sits in (e.g. Button) > text style > renamed layer name > nearest other component.
 async function classify(node) {
+  var manual = node.getPluginData(CONTEXT_KEY);
+  var manualDef = manual ? (manual === "body" ? { id: "body", label: "Body text", parent: null } : defById(manual)) : null;
+  if (manualDef) return { id: manualDef.id, label: manualDef.label, parent: manualDef.parent, source: "set by you", manual: true };
   var own = node.autoRename ? null : bestMatch([node.name]);
   var styleName = await textStyleName(node);
   var style = styleName ? bestMatch([styleName]) : null;
-  var strong = null, weak = null;
+  var strong = null, weak = null, inMenu = false;
   var n = node.parent, depth = 0;
   while (n && n.type !== "PAGE" && n.type !== "DOCUMENT" && depth < 30) {
     if (n.type === "INSTANCE" || n.type === "COMPONENT" || n.type === "COMPONENT_SET") {
@@ -140,6 +147,7 @@ async function classify(node) {
         strong = { def: m, source: "component “" + n.name + "”" };
         var why = m.id === "button" && textButtonDef ? textOnlyReason(n) : null;
         if (why) strong = { def: textButtonDef, source: strong.source + ", " + why };
+        inMenu = m.id === "menu";
         break;
       }
       if (m && !weak) weak = { def: m, source: "component “" + n.name + "”" };
@@ -154,6 +162,10 @@ async function classify(node) {
     (style && { def: style, source: "text style “" + styleName + "”" }) ||
     (own && { def: own, source: "layer name" }) ||
     weak;
+  // A placeholder layer inside a dropdown follows the dropdown placeholder rules too.
+  if (pick && menuPlaceholderDef && inMenu && ((own && own.id === "placeholder") || (style && style.id === "placeholder"))) {
+    pick = { def: menuPlaceholderDef, source: (own && own.id === "placeholder" ? "layer name" : "text style “" + styleName + "”") + " inside " + strong.source };
+  }
   return pick ? { id: pick.def.id, label: pick.def.label, parent: pick.def.parent, source: pick.source } : { id: "body", label: "Body text", parent: null, source: "no matching component or style" };
 }
 
@@ -246,8 +258,10 @@ async function describe(node) {
     contextParent: ctx.parent,
     contextLabel: ctx.label,
     contextSource: ctx.source,
+    contextManual: !!ctx.manual,
     frame: topFrameName(node),
     links: ranges(node, "hyperlink", function (s) { return !!s.hyperlink; }),
+    bold: ranges(node, "fontName", function (s) { return /bold|semibold|black|heavy/i.test(s.fontName.style); }),
     underline: ranges(node, "textDecoration", function (s) { return s.textDecoration === "UNDERLINE"; }),
     upper: ranges(node, "textCase", function (s) { return s.textCase === "UPPER" || s.textCase === "SMALL_CAPS" || s.textCase === "SMALL_CAPS_FORCED"; }),
     titleCase: ranges(node, "textCase", function (s) { return s.textCase === "TITLE"; }),
@@ -347,6 +361,39 @@ async function setIgnored(nodeId, key, ignored) {
   figma.ui.postMessage({ type: "nodes-updated", items: fresh ? [fresh] : [] });
 }
 
+// Sets a layer's type by hand ("" goes back to automatic detection).
+async function setContext(nodeId, context) {
+  var node = await figma.getNodeByIdAsync(nodeId);
+  if (!node || node.type !== "TEXT") return;
+  try {
+    node.setPluginData(CONTEXT_KEY, context || "");
+  } catch (e) {
+    figma.notify("Can’t save the layer type in a file you can’t edit.");
+    return;
+  }
+  var fresh = await describe(node);
+  figma.ui.postMessage({ type: "nodes-updated", items: fresh ? [fresh] : [] });
+}
+
+function readIgnoredRules() {
+  try { return JSON.parse(figma.root.getPluginData(IGNORED_RULES_KEY) || "[]"); } catch (e) { return []; }
+}
+function setIgnoredRule(ruleId, ignored) {
+  var list = readIgnoredRules().filter(function (id) { return id !== ruleId; });
+  if (ignored) list.push(ruleId);
+  try {
+    figma.root.setPluginData(IGNORED_RULES_KEY, list.length ? JSON.stringify(list) : "");
+  } catch (e) {
+    figma.notify("Can’t turn rules off in a file you can’t edit.");
+    return;
+  }
+  figma.ui.postMessage({ type: "ignored-rules", rules: list });
+}
+
+function contextChoices() {
+  return [{ id: "body", label: "Body text" }].concat(contextDefs.map(function (d) { return { id: d.id, label: d.label }; }));
+}
+
 async function selectNode(nodeId) {
   var node = await figma.getNodeByIdAsync(nodeId);
   if (!node) { figma.notify("That layer no longer exists."); return; }
@@ -363,13 +410,17 @@ figma.ui.onmessage = async function (msg) {
     if (msg.type === "ready") {
       var cached = null;
       try { cached = await figma.clientStorage.getAsync("rules"); } catch (e) {}
-      figma.ui.postMessage({ type: "init", selection: figma.currentPage.selection.length, cachedRules: cached || null });
+      figma.ui.postMessage({ type: "init", selection: figma.currentPage.selection.length, cachedRules: cached || null, contexts: contextChoices(), ignoredRules: readIgnoredRules() });
     } else if (msg.type === "scan") {
       await scan(msg.scope, !!msg.includeHidden);
     } else if (msg.type === "apply-fixes") {
       await applyFixes(msg.fixes || []);
     } else if (msg.type === "ignore") {
       await setIgnored(msg.nodeId, msg.key, msg.ignored);
+    } else if (msg.type === "set-context") {
+      await setContext(msg.nodeId, msg.context);
+    } else if (msg.type === "ignore-rule") {
+      setIgnoredRule(msg.ruleId, !!msg.ignored);
     } else if (msg.type === "select") {
       await selectNode(msg.nodeId);
     } else if (msg.type === "cache-rules") {

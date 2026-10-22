@@ -98,7 +98,7 @@ The update appears a minute or two later. Check progress in the repo's **Actions
 
 The Changelog page and every page's "Updated" date are generated from git history. There's nothing to update by hand.
 
-- **Versions:** each push that changes guide content (`content/`) or plugin rules (`figma-plugin/rules/`, `figma-plugin/config/`) gets the next version, like 2.0.5, as a git tag. Pushes that only change site code or styling don't create a version. For a bigger release, change `version` in `changelog.config.json` to `"2.1"` (or `"3.0"`), and numbering continues at 2.1.0.
+- **Versions:** each push that changes guide content (`content/`) or the Figma plugin (`figma-plugin/rules/`, `figma-plugin/config/`, `figma-plugin/src/`, `figma-plugin/build.mjs`) gets the next version, like 2.0.5, as a git tag. Pushes that only change site code or styling don't create a version. For a bigger release, change `version` in `changelog.config.json` to `"2.1"` (or `"3.0"`), and numbering continues at 2.1.0.
 - **What each entry says:** the summary line of each commit in that push, so write commit messages for readers, like “Add guidance on loading-state button labels.” Generic messages from GitHub's web editor, like “Update forms.md,” become “Updated Forms.”
 - **Leaving something out:** put `[skip changelog]` in a commit message, for example for typo fixes or file moves that don't change meaning.
 - **Page dates:** each page shows the date and version of the last change to its file.

@@ -6,9 +6,9 @@ topics: ["Accessibility", "Payments"]
 
 Buttons initiate actions. In payment and billing flows, they often authorize transactions, confirm irreversible changes, or move users forward in critical processes. Button copy must be clear, action-driven, specific, consistent, and unambiguous about impact.
 
-## Use Clear, Action-Oriented Language
+## Use clear, action-oriented language
 
-Buttons should describe what will happen when selected, not what the user is doing. Generic CTAs increase uncertainty in financial flows.
+Buttons should describe what will happen when selected, not what the user is doing.
 
 ::: do
 
@@ -28,7 +28,13 @@ Buttons should describe what will happen when selected, not what the user is doi
 
 :::
 
-## Keep Button Text Concise
+::: details More detail
+
+The goal is to avoid vague or abstract labels, as generic CTAs increase uncertainty in financial flows.
+
+:::
+
+## Keep button text concise
 
 How long a label can be depends on the button style. Avoid punctuation unless required.
 
@@ -54,7 +60,9 @@ How long a label can be depends on the button style. Avoid punctuation unless re
 
 :::
 
-## Use Sentence Case
+## Use sentence case
+
+Buttons follow sentence case. Capitalize proper nouns only.
 
 ::: do
 
@@ -70,13 +78,30 @@ How long a label can be depends on the button style. Avoid punctuation unless re
 
 :::
 
-## Primary and Secondary Buttons
+## Primary button
 
-**Primary** represents the main action — must clearly state the primary outcome, never vague. **Secondary** is used for cancellation or navigation away: use "Cancel" or "Go back." If the primary action is "Cancel payment," the secondary should be "Go back" to prevent ambiguity.
+Represents the main action on the screen.
 
-## Destructive or Irreversible Actions
+- Must clearly state the primary outcome
+- Should never be vague
+- Should not require interpretation
 
-The label must clearly state the consequence; avoid generic confirmation labels.
+## Secondary button
+
+Used for cancellation or navigation away from the primary action. Use: **Cancel** or **Go back**.
+
+::: details More detail
+
+**Avoid mixing intent:** if the primary action is **Cancel payment**, do not use **Cancel** as the secondary button. Instead, if the primary button is **Cancel payment**, the secondary button should be **Go back**. This prevents ambiguity.
+
+:::
+
+## Destructive or irreversible actions
+
+When a button performs a destructive action:
+
+- The label must clearly state the consequence
+- Avoid generic confirmation labels
 
 ::: do
 
@@ -93,11 +118,11 @@ The label must clearly state the consequence; avoid generic confirmation labels.
 
 :::
 
-## Avoid "Yes" and "No" Buttons
+## Avoid "Yes" and "No" buttons
 
-Yes/No buttons are ambiguous and inaccessible when read out of context. Use buttons like **Confirm payment** and **Cancel payment**.
+Yes/No buttons are ambiguous and inaccessible when read out of context. Use buttons like **Confirm payment** and **Cancel payment** — this aligns with accessibility best practices and reduces cognitive load.
 
-## Accessibility Considerations
+## Accessibility considerations
 
 Buttons must be keyboard accessible, have clear accessible names, and make sense when read aloud independently — not relying on surrounding text.
 
@@ -116,10 +141,43 @@ Buttons must be keyboard accessible, have clear accessible names, and make sense
 
 :::
 
-## Avoid the Word "Click"
+## Avoid the word "Click"
 
-Do not use "click" in button copy — users may be on mobile or assistive devices, and the button already implies interaction.
+Do not use "click" in button copy — users may be on mobile or assistive devices, "click" is device-specific, and the button already implies interaction.
 
-## Tone, Hierarchy, and Length
+## Tone and voice
 
-Button copy should be direct, neutral, calm, confident — transactional, not conversational. Use consistent terminology for the same action across the product. Don't shorten buttons to fit layout at the expense of clarity.
+Button copy should be direct, neutral, calm, and confident. Buttons are transactional, not conversational.
+
+## Button hierarchy consistency
+
+Across the product:
+
+- Use consistent terminology for the same action
+- Do not vary between "Cancel," "Go back," and "Back" without reason
+- Do not introduce synonyms casually
+
+::: details More detail
+
+Consistency builds trust in financial systems.
+
+:::
+
+## Button copy length and layout
+
+Do not shorten buttons to fit layout at the expense of clarity.
+
+::: details More detail
+
+If the copy becomes too long: reevaluate the action, use a confirmation dialog, or adjust layout. Clarity overrides visual compactness.
+
+:::
+
+## Common mistakes to avoid
+
+- Using generic CTAs in financial flows
+- Hiding destructive action behind vague language
+- Mixing terminology across flows
+- Using "Yes/No"
+- Using punctuation for emphasis
+- Using marketing tone

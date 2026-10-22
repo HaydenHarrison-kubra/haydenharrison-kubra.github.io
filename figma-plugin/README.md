@@ -30,12 +30,16 @@ Changes you make to the plugin files show up the next time you run it. Rebuild f
 ### Using it
 
 - Select frames or layers and choose **Scan selection**, or choose **Scan page**.
-- Click a layer’s header to select and zoom to it on the canvas. The tag on the right shows what kind of text the plugin thinks it is (hover for why).
+- Click a layer’s header to select and zoom to it on the canvas.
+- The menu on the right of each layer shows what kind of text the plugin thinks it is (hover for why). If it’s wrong, pick the right type. That’s saved on the layer, so the next scan uses it too. Choose *Detect automatically* to undo.
 - **Fix** applies one suggestion. **Fix N safe** applies every fix that’s safe in bulk, such as spacing, spelling, punctuation, product names, and time formats. Undo with Cmd/Ctrl+Z.
 - **Ignore** hides an issue on that layer. It’s saved in the Figma file, so teammates won’t see it either. Turn on *Show ignored issues* in settings to restore one.
+- **Turn off in file** stops checking a rule anywhere in this Figma file. Turn it back on under *Rules turned off in this file* in settings.
 - **Copy approved text** copies the closest approved Standard Copy.
+- **Copy report** copies a summary of every issue, grouped by rule with layer names and guide links, for design reviews.
 - **Guide** opens the exact guideline.
 - Settings (the sliders icon) turns categories on or off and can include hidden layers.
+- If the style guide has new checks that your copy of the plugin can’t run, a note under the header says to update the plugin.
 
 ### Testing checklist
 
@@ -43,6 +47,9 @@ Changes you make to the plugin files show up the next time you run it. Rebuild f
 - [ ] Apply a fix on text with mixed styling (for example, a bold amount in a sentence). The styling should stay put.
 - [ ] Try **Fix N safe**, then undo.
 - [ ] Ignore an issue, close and reopen the plugin, and scan again. It should stay ignored.
+- [ ] Change a layer’s type in its menu. Its issues should update right away and stay that way after a rescan.
+- [ ] Use **Turn off in file** on an issue, then turn the rule back on in settings.
+- [ ] Use **Copy report** and paste it into a message.
 - [ ] Paste in an approved SMS disclosure with a real client name. It should pass. Change a word, and it should be flagged.
 - [ ] Open a Guide link.
 - [ ] Try it in dark mode.
@@ -57,7 +64,9 @@ Rules like “no ‘click’ in buttons” only run on the right kind of text. T
 2. the text style name (like `Heading/H2`),
 3. the layer name, if someone renamed it.
 
-The patterns live in `config/contexts.json`. Edit them to match the design library, then rebuild. Text that matches nothing is treated as body text.
+The patterns live in `config/contexts.json`. Edit them to match the design library, then rebuild. Text that matches nothing is treated as body text. A type set by hand in the plugin always wins.
+
+**Dropdown placeholders:** a placeholder layer inside a menu or dropdown component gets the dropdown placeholder rules too (for example, start with “Select”).
 
 **Text-only buttons:** a button counts as text-only (up to 5 words instead of 3) if one of its variant values is something like `Text`, `Tertiary`, `Ghost`, or `Link`, or if the button has no visible background or border. The layer tag says “Text-only button” and why. Adjust the variant names under `textOnlyButtons` in `config/contexts.json`.
 
@@ -75,7 +84,7 @@ The plugin downloads `rules.json` from the style guide site each time it runs, s
 - `rules/style-guide.mjs` — hard rules from the guide, each linked to the heading it enforces,
 - `rules/grammar.mjs` and `rules/data.mjs` — grammar checks and word lists.
 
-After changing the glossary, standard copy, or any rule file, push the site. The publish workflow rebuilds `rules.json` (and adds a changelog version) automatically, and designers get the new rules the next time they run the plugin. Changes to `src/engine.js` (how checks work) need a plugin update.
+After changing the glossary, standard copy, or any rule file, push the site. The publish workflow rebuilds `rules.json` (and adds a changelog version) automatically, and designers get the new rules the next time they run the plugin. Changes to `src/engine.js` (how checks work) need a plugin update. `rules.json` lists the checks and fixers it uses (`requires`), so an older plugin shows “Update the plugin” instead of quietly skipping them.
 
 ## Developing
 
@@ -83,12 +92,14 @@ From the repo root:
 
 ```
 node figma-plugin/build.mjs                 # builds rules.json, manifest.json, and dist/
-node --test figma-plugin/test/*.test.mjs    # engine tests + main-thread tests against a fake Figma document
+node --test figma-plugin/test/*.test.mjs    # engine tests, main-thread tests against a fake Figma document, and guide examples
 ```
 
-The build fails if a rule links to a heading that doesn’t exist in the guide, so links can’t silently break when headings change.
+The build fails if a rule links to a heading that doesn’t exist in the guide, so links can’t silently break when headings change. Heading matches ignore capitalization.
 
-- `src/code.js` — runs inside Figma: finds text layers, detects context, applies fixes, saves ignores.
+`test/guide.test.mjs` runs every Do example in the guide through the plugin. If a Do example gets an error or warning, the guide and the plugin disagree: fix the example or the rule. Known disagreements waiting on a guide fix are listed in `KNOWN` at the top of that file.
+
+- `src/code.js` — runs inside Figma: finds text layers, detects context, applies fixes, saves ignores, layer types, and rules turned off for the file.
 - `src/ui.html` — the plugin window.
 - `src/engine.js` — the checks. Shared by the plugin window and the tests.
 - `dist/` — generated. Don’t edit by hand.

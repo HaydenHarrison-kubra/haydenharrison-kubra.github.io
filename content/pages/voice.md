@@ -5,9 +5,13 @@ blurb: "The personality that stays constant everywhere."
 
 Voice is what stays the same, regardless of context.
 
-## Clear and Concise
+## Clear and concise
 
-We use plain, straightforward language that minimizes ambiguity and reduces cognitive load. Prefer concrete verbs over abstract phrases; explain technical concepts without oversimplifying or obscuring meaning; avoid unnecessary jargon, define terms when first introduced.
+We use plain, straightforward language that minimizes ambiguity and reduces cognitive load.
+
+- Prefer concrete verbs over abstract phrases.
+- Explain technical concepts without oversimplifying or obscuring meaning.
+- Avoid unnecessary jargon; define terms when first introduced.
 
 ::: do
 
@@ -23,7 +27,11 @@ We use plain, straightforward language that minimizes ambiguity and reduces cogn
 
 ## Trustworthy
 
-We handle financial and personal information, so our language must inspire confidence. Be precise and accurate; avoid vague reassurance (e.g., "Don't worry"); state what happened, why it happened (when known), and what happens next.
+We handle financial and personal information, so our language must inspire confidence.
+
+- Be precise and accurate.
+- Avoid vague reassurance (e.g., "Don't worry").
+- State what happened, why it happened (when known), and what happens next.
 
 ::: do
 
@@ -37,9 +45,13 @@ We handle financial and personal information, so our language must inspire confi
 
 :::
 
-## Human, Not Robotic
+## Human, not robotic
 
-Professional does not mean cold. We write like people speaking clearly to other people. Use natural sentence structure; prefer straightforward phrasing over legalistic language; use contractions selectively in consumer-facing experiences.
+Professional does not mean cold. We write like people speaking clearly to other people.
+
+- Use natural sentence structure.
+- Prefer straightforward phrasing over legalistic language.
+- Use contractions selectively in consumer-facing experiences.
 
 ::: do
 

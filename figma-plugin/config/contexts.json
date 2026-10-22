@@ -6,6 +6,7 @@
     "\"strong\" contexts are controls. If a text layer sits inside one (for example, a Button component), that wins over anything else.",
     "\"parent\" means a context also gets every rule for its parent (a text-only button follows all button rules, except the length limit).",
     "Text that matches nothing is treated as body text. After editing, run: node figma-plugin/build.mjs",
+    "A placeholder inside a menu or dropdown component is a \"menu-placeholder\". Designers can also set a layer's type by hand in the plugin; that always wins.",
     "\"ignore\" lists fonts and text styles that draw icons from words (like \"chevron-up\" or \"wallet\"). Text in them is skipped. Patterns are case-insensitive regular expressions matched against the font family and the text style name."
   ],
   "ignore": {
@@ -35,8 +36,10 @@
     { "id": "toggle", "label": "Toggle", "strong": true, "patterns": ["\\btoggle\\b", "\\bswitch\\b"] },
     { "id": "checkbox", "label": "Checkbox or radio", "strong": true, "patterns": ["\\bcheck ?box\\b", "\\bradio\\b"] },
     { "id": "tab", "label": "Tab", "strong": true, "patterns": ["\\btabs?\\b"] },
+    { "id": "menu-placeholder", "label": "Dropdown placeholder", "parent": "placeholder", "strong": true, "patterns": ["\\b(dropdown|select|menu) placeholder\\b"] },
     { "id": "menu", "label": "Menu or dropdown", "strong": true, "patterns": ["\\bmenu\\b", "\\bdropdown\\b", "\\bselect\\b", "\\bnav(igation)?\\b", "\\boption\\b"] },
     { "id": "placeholder", "label": "Placeholder", "strong": true, "patterns": ["\\bplaceholder\\b"] },
+    { "id": "rich-tooltip", "label": "Rich tooltip", "parent": "tooltip", "strong": true, "patterns": ["\\brich tooltip\\b", "\\bpopover\\b"] },
     { "id": "tooltip", "label": "Tooltip", "strong": true, "patterns": ["\\btooltip\\b", "\\bpopover\\b"] },
     { "id": "table-header", "label": "Table header", "strong": true, "patterns": ["\\btable ?header\\b", "\\bcolumn ?header\\b", "\\bheader ?cell\\b"] },
     { "id": "error", "label": "Error message", "patterns": ["\\berror\\b", "\\bdanger\\b", "\\bcritical\\b", "\\bvalidation\\b", "\\bdestructive\\b"] },

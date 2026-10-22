@@ -4,22 +4,34 @@ blurb: "Consent, opt-out, and tone for promotional content."
 topics: ["Accessibility", "Payments"]
 ---
 
-## Commercial Messages
+## Commercial messages
 
-Messages are considered commercial when they promote a product or feature, encourage additional usage, advertise services, or include marketing language. **Examples:** "Try our new payment feature," "Upgrade your account," promotional SMS campaigns. These must follow stricter compliance rules.
+Messages are considered commercial when they promote a product or feature, encourage additional usage, advertise services, or include marketing language. These must follow stricter compliance rules.
 
-## Transactional Messages (Non-Commercial)
+::: details More detail
 
-Not considered commercial when they relate directly to a user's activity or account. Must remain neutral, informational, and free of promotional content. **Examples:** payment confirmations, billing reminders, security alerts, account updates.
+**Examples:** "Try our new payment feature," "Upgrade your account," promotional SMS campaigns.
 
-## Unsubscribe / Opt-Out
+:::
 
-All commercial communications must include a clear and accessible unsubscribe mechanism.
+## Transactional messages (non-commercial)
+
+These are not considered commercial when they relate directly to a user's activity or account. These messages must remain neutral, informational, and free of promotional content.
+
+::: details More detail
+
+**Examples:** payment confirmations, billing reminders, security alerts, account updates.
+
+:::
+
+## Unsubscribe / opt-out
+
+All commercial communications must include a clear and accessible unsubscribe mechanism and language that explains how to opt out.
 
 ::: do
 
 - *You can unsubscribe at any time using the link below.*
-- *Reply STOP to unsubscribe.*
+- *Reply “STOP” to opt out.*
 
 :::
 
@@ -30,13 +42,13 @@ All commercial communications must include a clear and accessible unsubscribe me
 
 :::
 
-## Accessibility Considerations
+## Accessibility considerations
 
-Must be readable by screen readers, use clear and simple language, and avoid excessive formatting, symbols, all-caps, or decorative punctuation.
+Commercial communications must be readable by screen readers, use clear and simple language, avoid excessive formatting or symbols, and avoid all-caps or decorative punctuation.
 
-## Tone and Voice
+## Tone and voice
 
-Remain neutral, clear, professional. Avoid overly promotional tone, urgency or pressure tactics, and emotional or exaggerated language.
+Commercial communications must remain aligned with product voice: neutral, clear, professional. Avoid overly promotional tone, urgency or pressure tactics, and emotional or exaggerated language.
 
 ::: do
 
@@ -53,13 +65,13 @@ Remain neutral, clear, professional. Avoid overly promotional tone, urgency or p
 
 :::
 
-## Consent Requirements
+## Consent requirements
 
-Commercial messages must only be sent when the user has provided explicit or implied consent and the communication aligns with the consent given.
+Commercial messages must only be sent when the user has provided prior express written consent (account alerts need prior express consent) and the communication aligns with the consent given. Writers must avoid implying consent where it does not exist and avoid bundling consent into unrelated actions.
 
-## Consent Language
+## Consent language
 
-Must be clear, specific, and separate from other actions.
+Consent must be clear, specific, and separate from other actions.
 
 ::: do
 
@@ -75,7 +87,9 @@ Must be clear, specific, and separate from other actions.
 
 :::
 
-## Clarity and Transparency
+## Clarity and transparency
+
+Commercial messages must clearly communicate what is being offered, why the user is receiving the message, and what action (if any) is expected. Avoid vague or misleading language.
 
 ::: do
 
@@ -89,7 +103,9 @@ Must be clear, specific, and separate from other actions.
 
 :::
 
-## Identification Requirements
+## Identification requirements
+
+Commercial communications must clearly identify the sender and the organization. Do not obscure or generalize the sender.
 
 ::: do
 
@@ -103,11 +119,13 @@ Must be clear, specific, and separate from other actions.
 
 :::
 
-## SMS (Pay-by-Text and Alerts)
+## SMS (Pay-by-Text and alerts)
+
+SMS communications require additional care. Messages must be concise, clearly identify purpose, avoid unnecessary content, and include opt-out instructions.
 
 ::: do
 
-- *KUBRA: Your payment of $125.00 is due on March 15. Reply STOP to unsubscribe.*
+- *ABC Utility: Your payment of $125.00 is due on March 15. Reply “STOP” to opt out.*
 
 :::
 
@@ -118,7 +136,9 @@ Must be clear, specific, and separate from other actions.
 
 :::
 
-## Separation from Transactional Content
+## Separation from transactional content
+
+Do not mix transactional content and promotional content.
 
 ::: do
 

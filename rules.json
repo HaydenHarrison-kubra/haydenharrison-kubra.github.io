@@ -1,8 +1,53 @@
 {
  "schema": 1,
- "version": "06ca677d",
+ "version": "83f05b96",
  "updated": "2026-10-20",
  "siteUrl": "https://haydenharrison-kubra.github.io/",
+ "requires": {
+  "runners": [
+   "a-an",
+   "all-caps",
+   "balance",
+   "card-number",
+   "contractions-mixed",
+   "curly-quotes",
+   "format",
+   "link-text",
+   "money-cents",
+   "must-link",
+   "pattern",
+   "phone",
+   "sentence-case",
+   "sentence-start",
+   "serial-comma",
+   "single-sentence-period",
+   "term",
+   "word-count",
+   "word-map"
+  ],
+  "fixers": [
+   "allowlist",
+   "day-abbr",
+   "it-is",
+   "latin",
+   "lose",
+   "match-case",
+   "money-commas",
+   "money-words",
+   "month-abbr",
+   "noon",
+   "ordinal-word",
+   "percent",
+   "remove-hyphen",
+   "sign-in-verb",
+   "sign-in-word",
+   "split-verb",
+   "they",
+   "time-hm",
+   "unsuperscript",
+   "you-are"
+  ]
+ },
  "rules": [
   {
    "category": "style",
@@ -19,7 +64,7 @@
    "detail": "Users may be on mobile or assistive tech, and the button already implies the interaction.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/avoid-the-word-click",
-    "label": "Buttons and CTAs › Avoid the Word \"Click\""
+    "label": "Buttons and CTAs › Avoid the word \"Click\""
    }
   },
   {
@@ -37,7 +82,7 @@
    "detail": "Name the action and its object, like “Pay bill” or “Save changes.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/use-clear-action-oriented-language",
-    "label": "Buttons and CTAs › Use Clear, Action-Oriented Language"
+    "label": "Buttons and CTAs › Use clear, action-oriented language"
    }
   },
   {
@@ -55,7 +100,7 @@
    "detail": "They’re ambiguous out of context. Use explicit labels like “Confirm payment” and “Cancel payment.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/avoid-yes-and-no-buttons",
-    "label": "Buttons and CTAs › Avoid \"Yes\" and \"No\" Buttons"
+    "label": "Buttons and CTAs › Avoid \"Yes\" and \"No\" buttons"
    }
   },
   {
@@ -73,7 +118,7 @@
    "detail": "Destructive buttons must include the object, like “Delete payment method.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/destructive-or-irreversible-actions",
-    "label": "Buttons and CTAs › Destructive or Irreversible Actions"
+    "label": "Buttons and CTAs › Destructive or irreversible actions"
    }
   },
   {
@@ -92,7 +137,7 @@
    "detail": "Buttons with a background or border: aim for 1–2 words, 3 at most. Text-only buttons can use up to 5.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/keep-button-text-concise",
-    "label": "Buttons and CTAs › Keep Button Text Concise"
+    "label": "Buttons and CTAs › Keep button text concise"
    }
   },
   {
@@ -108,7 +153,7 @@
    "detail": "Text-only buttons can use up to 5 words when needed for clarity.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/keep-button-text-concise",
-    "label": "Buttons and CTAs › Keep Button Text Concise"
+    "label": "Buttons and CTAs › Keep button text concise"
    }
   },
   {
@@ -127,7 +172,7 @@
    "message": "Remove punctuation from button labels",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/keep-button-text-concise",
-    "label": "Buttons and CTAs › Keep Button Text Concise"
+    "label": "Buttons and CTAs › Keep button text concise"
    }
   },
   {
@@ -146,7 +191,7 @@
    "detail": "Use a short, action-driven label that says what happens next.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#empty-states/ctas-in-empty-states",
-    "label": "Empty States › CTAs in Empty States"
+    "label": "Empty States › CTAs in empty states"
    }
   },
   {
@@ -172,15 +217,15 @@
    "guideByContext": {
     "button": {
      "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/use-sentence-case",
-     "label": "Buttons and CTAs › Use Sentence Case"
+     "label": "Buttons and CTAs › Use sentence case"
     },
     "label": {
      "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
-     "label": "Forms › Field Labels"
+     "label": "Forms › Field labels"
     },
     "menu": {
      "url": "https://haydenharrison-kubra.github.io/#menus/field-label",
-     "label": "Menus › Field Label"
+     "label": "Menus › Field label"
     }
    }
   },
@@ -193,7 +238,7 @@
    "detail": "All caps reads as shouting and is announced awkwardly by screen readers. Acronyms are fine.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#formatting/all-caps",
-    "label": "Formatting › All Caps"
+    "label": "Formatting › All caps"
    }
   },
   {
@@ -206,7 +251,7 @@
    "detail": "The text style or Type settings use the Uppercase (or small caps) option. Use normal capitalization instead.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#formatting/all-caps",
-    "label": "Formatting › All Caps"
+    "label": "Formatting › All caps"
    }
   },
   {
@@ -253,6 +298,108 @@
   },
   {
    "category": "style",
+   "id": "heading-generic",
+   "severity": "suggestion",
+   "contexts": [
+    "heading",
+    "table-header"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:information|details|important information|more information|overview|general|miscellaneous|misc|other|table\\s*#?\\s*\\d+)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Generic heading",
+   "detail": "Say what the section is about, like “Payment details” or “AutoPay schedule.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#titles-and-headings/keywords-and-clarity",
+    "label": "Titles and Headings › Keywords and clarity"
+   }
+  },
+  {
+   "category": "style",
+   "id": "tooltip-length",
+   "type": "word-count",
+   "max": 4,
+   "severity": "suggestion",
+   "contexts": [
+    "tooltip"
+   ],
+   "exceptContexts": [
+    "rich-tooltip"
+   ],
+   "message": "Tooltip is longer than 4 words",
+   "detail": "Standard tooltips use 4 words or fewer. For more, use a rich tooltip (up to 5 lines) or inline text.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#tooltips/structure-and-length",
+    "label": "Tooltips › Structure and length"
+   }
+  },
+  {
+   "category": "style",
+   "id": "tooltip-link",
+   "type": "format",
+   "check": "links",
+   "severity": "warning",
+   "contexts": [
+    "tooltip"
+   ],
+   "message": "Don’t put links in tooltips",
+   "detail": "Tooltips can’t be reliably reached by keyboard or touch. Put the link in the page instead.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#tooltips/content-guidelines",
+    "label": "Tooltips › Content guidelines"
+   }
+  },
+  {
+   "category": "style",
+   "id": "tooltip-bold",
+   "type": "format",
+   "check": "bold",
+   "severity": "suggestion",
+   "contexts": [
+    "tooltip"
+   ],
+   "message": "Don’t format text in tooltips",
+   "detail": "Keep tooltip text plain.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#tooltips/content-guidelines",
+    "label": "Tooltips › Content guidelines"
+   }
+  },
+  {
+   "category": "style",
+   "id": "copyright-in-ui",
+   "severity": "suggestion",
+   "contexts": [
+    "button",
+    "text-button",
+    "link",
+    "error",
+    "success",
+    "banner",
+    "label",
+    "helper",
+    "tooltip",
+    "modal",
+    "heading",
+    "menu",
+    "tab",
+    "toggle",
+    "checkbox"
+   ],
+   "pattern": {
+    "source": "©|\\bcopyright\\b",
+    "flags": "gi"
+   },
+   "message": "Keep copyright notices out of UI copy",
+   "detail": "Copyright belongs in footers, legal pages, and documentation.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#copyright-and-trademarks/do-not-include-copyright-in-ui-copy",
+    "label": "Copyright and Trademarks › Do not include copyright in UI copy"
+   }
+  },
+  {
+   "category": "style",
    "id": "link-vague",
    "type": "link-text",
    "check": "vague",
@@ -274,7 +421,7 @@
    "detail": "Avoid “click here,” “learn more,” and “here.” Say where the link goes, like “View payment history.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#hyperlinks/link-text",
-    "label": "Hyperlinks › Link Text"
+    "label": "Hyperlinks › Link text"
    }
   },
   {
@@ -286,7 +433,7 @@
    "message": "Don’t start link text with “a,” “an,” “the,” or “our”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#hyperlinks/articles-and-formatting",
-    "label": "Hyperlinks › Articles and Formatting"
+    "label": "Hyperlinks › Articles and formatting"
    }
   },
   {
@@ -299,7 +446,7 @@
    "detail": "Unless it’s part of an official title.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#hyperlinks/articles-and-formatting",
-    "label": "Hyperlinks › Articles and Formatting"
+    "label": "Hyperlinks › Articles and formatting"
    }
   },
   {
@@ -317,7 +464,7 @@
    "detail": "It’s meaningless out of context. Describe the destination or action instead.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#hyperlinks/link-text",
-    "label": "Hyperlinks › Link Text"
+    "label": "Hyperlinks › Link text"
    }
   },
   {
@@ -398,7 +545,7 @@
    "detail": "They can confuse screen readers. If a quote is required, use curly quotes. Approved copy and quoted SMS keywords, like “STOP” and “HELP,” are fine.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#special-characters/quotation-marks",
-    "label": "Special Characters › Quotation Marks ( \" \" )"
+    "label": "Special Characters › Quotation marks ( \" \" )"
    }
   },
   {
@@ -410,10 +557,10 @@
     "flags": "g"
    },
    "message": "Avoid dashes in UI copy",
-   "detail": "Use a period or comma instead. En dashes in number ranges, like “1–2,” are fine.",
+   "detail": "Use a period or comma instead. For ranges in sentences, use “to” or “through.” En dashes are only for tables and charts.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#special-characters/hyphens-and-dashes",
-    "label": "Special Characters › Hyphens and Dashes"
+    "label": "Special Characters › Hyphens and dashes"
    }
   },
   {
@@ -463,7 +610,7 @@
    "detail": "Parenthetical plurals are only for input instructions, like “Upload file(s).”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#plurals/parenthetical-plurals-limited-intentional-use",
-    "label": "Plurals › Parenthetical Plurals (Limited, Intentional Use)"
+    "label": "Plurals › Parenthetical plurals (limited, intentional use)"
    }
   },
   {
@@ -479,7 +626,7 @@
    "detail": "Use them only in legal or formal documentation, and only when required.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#copyright-and-trademarks/trademark-symbols-and",
-    "label": "Copyright and Trademarks › Trademark Symbols (™ and ®)"
+    "label": "Copyright and Trademarks › Trademark symbols (™ and ®)"
    }
   },
   {
@@ -494,7 +641,7 @@
    "detail": "Keep a calm, factual tone, especially in financial flows.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/language-to-avoid-in-high-risk-flows",
-    "label": "Accessibility: High Risk › Language to Avoid in High-Risk Flows"
+    "label": "Accessibility: High Risk › Language to avoid in high-risk flows"
    }
   },
   {
@@ -509,7 +656,7 @@
    "detail": "Payment and billing experiences aren’t the place for emoji or celebratory language.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#content-principles/prefer-facts-over-emotion-in-transactional-moments",
-    "label": "Content Principles › Prefer Facts Over Emotion in Transactional Moments"
+    "label": "Content Principles › Prefer facts over emotion in transactional moments"
    }
   },
   {
@@ -524,12 +671,12 @@
    "detail": "Keep messages calm and factual.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#content-principles/prefer-facts-over-emotion-in-transactional-moments",
-    "label": "Content Principles › Prefer Facts Over Emotion in Transactional Moments"
+    "label": "Content Principles › Prefer facts over emotion in transactional moments"
    },
    "guideByContext": {
     "tooltip": {
-     "url": "https://haydenharrison-kubra.github.io/#tooltips/structure-length-and-punctuation",
-     "label": "Tooltips › Structure, Length, and Punctuation"
+     "url": "https://haydenharrison-kubra.github.io/#tooltips/punctuation",
+     "label": "Tooltips › Punctuation"
     }
    }
   },
@@ -545,7 +692,7 @@
    "detail": "It’s fine to recognize inconvenience, but skip apologies and emotional language.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#tone/empathy-without-apology",
-    "label": "Tone › Empathy Without Apology"
+    "label": "Tone › Empathy without apology"
    }
   },
   {
@@ -568,13 +715,13 @@
    "id": "minimizing",
    "severity": "suggestion",
    "pattern": {
-    "source": "\\b(?:just|simply)\\b",
+    "source": "\\b(?:just(?!\\s+(?:sent|received|updated|posted|signed|made|paid|now|added|changed|scheduled|completed|created|processed|submitted))|simply)\\b",
     "flags": "gi"
    },
    "message": "Avoid minimizing words like “just” and “simply”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/language-to-avoid-in-high-risk-flows",
-    "label": "Accessibility: High Risk › Language to Avoid in High-Risk Flows"
+    "label": "Accessibility: High Risk › Language to avoid in high-risk flows"
    }
   },
   {
@@ -582,11 +729,11 @@
    "id": "vague-timing",
    "severity": "suggestion",
    "pattern": {
-    "source": "\\b(?:soon|shortly|upcoming)\\b",
+    "source": "\\b(?:soon|shortly|upcoming|some ?time|from time to time|in a while|may take a while|at a later date|(?:(?:the|your) )?next billing cycle)\\b",
     "flags": "gi"
    },
    "message": "Say exactly when",
-   "detail": "Avoid relative timing like “soon” or “shortly.” Give a date or time frame.",
+   "detail": "Avoid relative timing like “soon,” “shortly,” or “next billing cycle.” Give a date or time frame.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#legal-content/timing",
     "label": "Legal Content › Timing"
@@ -603,7 +750,7 @@
    "message": "Avoid urgency and pressure tactics",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#commercial-communications/tone-and-voice",
-    "label": "Commercial Communications › Tone and Voice"
+    "label": "Commercial Communications › Tone and voice"
    }
   },
   {
@@ -611,14 +758,14 @@
    "id": "you-must",
    "severity": "suggestion",
    "pattern": {
-    "source": "\\byou must\\b",
+    "source": "\\byou must\\b(?!\\s+(?:accept|agree)\\b)",
     "flags": "gi"
    },
    "message": "Guide, don’t lecture",
    "detail": "Phrase it as an instruction, like “Select a payment method.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#content-principles/guide-don-t-lecture",
-    "label": "Content Principles › Guide, Don't Lecture"
+    "label": "Content Principles › Guide, don't lecture"
    }
   },
   {
@@ -660,7 +807,7 @@
    "detail": "Say what needs to be corrected, like “Enter a 9-digit routing number.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#message-types/error-severity-types",
-    "label": "Message Types › Error Severity Types"
+    "label": "Message Types › Error severity types"
    }
   },
   {
@@ -707,8 +854,8 @@
    "safeFix": true,
    "message": "Drop the period on single-sentence messages",
    "guide": {
-    "url": "https://haydenharrison-kubra.github.io/#message-types/structure-length-and-punctuation",
-    "label": "Message Types › Structure, Length, and Punctuation"
+    "url": "https://haydenharrison-kubra.github.io/#message-types/punctuation",
+    "label": "Message Types › Punctuation"
    },
    "guideByContext": {
     "banner": {
@@ -716,8 +863,8 @@
      "label": "Banners › Punctuation"
     },
     "tooltip": {
-     "url": "https://haydenharrison-kubra.github.io/#tooltips/structure-length-and-punctuation",
-     "label": "Tooltips › Structure, Length, and Punctuation"
+     "url": "https://haydenharrison-kubra.github.io/#tooltips/punctuation",
+     "label": "Tooltips › Punctuation"
     }
    }
   },
@@ -732,7 +879,7 @@
    "message": "Name the fee and the amount",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/4-fees-penalties-and-charges",
-    "label": "Accessibility: High Risk › 4. Fees, Penalties, and Charges"
+    "label": "Accessibility: High Risk › 4. Fees, penalties, and charges"
    }
   },
   {
@@ -747,7 +894,7 @@
    "detail": "Be calm and factual, and explain the next steps.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/6-account-lockouts-and-security-holds",
-    "label": "Accessibility: High Risk › 6. Account Lockouts and Security Holds"
+    "label": "Accessibility: High Risk › 6. Account lockouts and security holds"
    }
   },
   {
@@ -763,7 +910,7 @@
    "detail": "Say “verification code” unless the term is defined for that audience.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#accessibility-high-risk/1-authentication-and-verification-mfa-otp-identity-checks",
-    "label": "Accessibility: High Risk › 1. Authentication and Verification (MFA, OTP, Identity Checks)"
+    "label": "Accessibility: High Risk › 1. Authentication and verification (MFA, OTP, identity checks)"
    }
   },
   {
@@ -782,7 +929,7 @@
    "message": "Remove the colon from field labels",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
-    "label": "Forms › Field Labels"
+    "label": "Forms › Field labels"
    }
   },
   {
@@ -800,7 +947,7 @@
    "detail": "Labels name the data, like “Billing address,” not the action.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
-    "label": "Forms › Field Labels"
+    "label": "Forms › Field labels"
    }
   },
   {
@@ -817,7 +964,7 @@
    "message": "Leave articles and “your” out of field labels",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#forms/field-labels",
-    "label": "Forms › Field Labels"
+    "label": "Forms › Field labels"
    }
   },
   {
@@ -835,7 +982,25 @@
    "detail": "Mark optional fields instead, and note required selections at the form level.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#forms/required-vs-optional-fields",
-    "label": "Forms › Required vs. Optional Fields"
+    "label": "Forms › Required vs. optional fields"
+   }
+  },
+  {
+   "category": "style",
+   "id": "dropdown-placeholder",
+   "severity": "suggestion",
+   "contexts": [
+    "menu-placeholder"
+   ],
+   "pattern": {
+    "source": "^\\s*(?!select\\b)\\S[^\\n]*$",
+    "flags": "gi"
+   },
+   "message": "Start dropdown placeholders with “Select”",
+   "detail": "Like “Select a payment method.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#menus/placeholder-text",
+    "label": "Menus › Placeholder text"
    }
   },
   {
@@ -850,7 +1015,7 @@
    "detail": "Show the expected format or a valid example instead.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#menus/placeholder-text",
-    "label": "Menus › Placeholder Text"
+    "label": "Menus › Placeholder text"
    }
   },
   {
@@ -865,10 +1030,10 @@
     "flags": "gi"
    },
    "message": "Label the setting, not the action",
-   "detail": "Toggle labels name the state being enabled, like “Autopay.”",
+   "detail": "Toggle labels name the state being enabled, like “AutoPay” or “Paperless billing.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#forms/label-the-state-being-enabled-not-the-action",
-    "label": "Forms › Label the State Being Enabled, Not the Action"
+    "label": "Forms › Label the state being enabled, not the action"
    }
   },
   {
@@ -885,7 +1050,7 @@
    "message": "Say what the user is agreeing to",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#legal-content/checkbox-pattern-required",
-    "label": "Legal Content › Checkbox Pattern (Required)"
+    "label": "Legal Content › Checkbox pattern (required)"
    }
   },
   {
@@ -899,7 +1064,7 @@
    "message": "Consent language must say what users will receive",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#commercial-communications/consent-language",
-    "label": "Commercial Communications › Consent Language"
+    "label": "Commercial Communications › Consent language"
    }
   },
   {
@@ -913,7 +1078,7 @@
    "message": "Cut conversational filler",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#instructional-text/voice-and-tone",
-    "label": "Instructional Text › Voice and Tone"
+    "label": "Instructional Text › Voice and tone"
    }
   },
   {
@@ -942,7 +1107,7 @@
    "message": "Don’t introduce tables with “the following table”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#tables/introducing-tables",
-    "label": "Tables › Introducing Tables"
+    "label": "Tables › Introducing tables"
    }
   },
   {
@@ -950,10 +1115,12 @@
    "id": "noon",
    "severity": "warning",
    "pattern": {
-    "source": "\\b12(?::00)?\\s?[Pp]\\.?\\s?[Mm]\\.?(?![\\w])|\\b12 noon\\b",
+    "source": "\\b12(?::00)?\\s?[Pp]\\.?\\s?[Mm](\\.?)(?![\\w])|\\b12 noon\\b",
     "flags": "g"
    },
-   "fix": "noon",
+   "fix": {
+    "fn": "noon"
+   },
    "safeFix": true,
    "message": "Use “noon”",
    "guide": {
@@ -966,7 +1133,7 @@
    "id": "time-format",
    "severity": "warning",
    "pattern": {
-    "source": "\\b(\\d{1,2})(?::(\\d{2}))?\\s?([AaPp])\\.?\\s?[Mm]\\.?(?![\\w])",
+    "source": "\\b(\\d{1,2})(?::(\\d{2}))?\\s?([AaPp])\\.?\\s?[Mm](\\.?)(?![\\w])",
     "flags": "g"
    },
    "fix": {
@@ -1008,7 +1175,7 @@
    "message": "Use “to” between times",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-ranges",
-    "label": "Numbers, Dates, and Times › Time Ranges"
+    "label": "Numbers, Dates, and Times › Time ranges"
    }
   },
   {
@@ -1022,7 +1189,7 @@
    "message": "Include AM or PM on both times",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-ranges",
-    "label": "Numbers, Dates, and Times › Time Ranges"
+    "label": "Numbers, Dates, and Times › Time ranges"
    }
   },
   {
@@ -1030,7 +1197,7 @@
    "id": "time-zone",
    "severity": "suggestion",
    "pattern": {
-    "source": "\\b([ECMP])[SD]T\\b",
+    "source": "\\b([ECMP])[SD]T\\b(?!\\.?\\s*\\d)",
     "flags": "g"
    },
    "fix": "$1T",
@@ -1038,7 +1205,7 @@
    "detail": "Only specify standard or daylight time when accuracy requires it.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-zones",
-    "label": "Numbers, Dates, and Times › Time Zones"
+    "label": "Numbers, Dates, and Times › Time zones"
    }
   },
   {
@@ -1091,6 +1258,58 @@
   },
   {
    "category": "style",
+   "id": "date-year-comma",
+   "severity": "warning",
+   "pattern": {
+    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec) (\\d{1,2}), (\\d{4})(?= [a-z])",
+    "flags": "g"
+   },
+   "fix": "$1 $2, $3,",
+   "safeFix": true,
+   "message": "Add a comma after the year",
+   "detail": "Mid-sentence, a full date takes a comma after the year too: “March 15, 2026, at 5:00 PM ET.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/dates",
+    "label": "Numbers, Dates, and Times › Dates"
+   }
+  },
+  {
+   "category": "style",
+   "id": "numeric-date",
+   "severity": "suggestion",
+   "exceptContexts": [
+    "label",
+    "placeholder",
+    "table-header"
+   ],
+   "pattern": {
+    "source": "\\b\\d{1,2}\\/\\d{1,2}\\/(?:\\d{4}|\\d{2})\\b",
+    "flags": "g"
+   },
+   "message": "Write the month out",
+   "detail": "Use numeric dates like 03/15/2026 only in input fields and dense tables. In messages, write “March 15, 2026.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/dates",
+    "label": "Numbers, Dates, and Times › Dates"
+   }
+  },
+  {
+   "category": "style",
+   "id": "deadline-time-zone",
+   "severity": "suggestion",
+   "pattern": {
+    "source": "\\b(?:by|before|until|no later than)\\s+(?:\\d{1,2}:\\d{2}\\s?[AP]M|noon)\\b(?![^.!?\\n]*?\\b(?:[ECMP]T|[ECMP][SD]T|Eastern|Central|Mountain|Pacific|local time)\\b)",
+    "flags": "g"
+   },
+   "message": "Add a time zone to the deadline",
+   "detail": "Deadlines and cutoffs always need a time zone, like “by 5:00 PM ET.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/time-zones",
+    "label": "Numbers, Dates, and Times › Time zones"
+   }
+  },
+  {
+   "category": "style",
    "id": "month-abbreviation",
    "severity": "warning",
    "pattern": {
@@ -1104,7 +1323,7 @@
    "message": "Abbreviate months with three letters and no period",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/abbreviated-months-and-days",
-    "label": "Numbers, Dates, and Times › Abbreviated Months and Days"
+    "label": "Numbers, Dates, and Times › Abbreviated months and days"
    }
   },
   {
@@ -1122,7 +1341,7 @@
    "message": "Abbreviate days with three letters and no period",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/abbreviated-months-and-days",
-    "label": "Numbers, Dates, and Times › Abbreviated Months and Days"
+    "label": "Numbers, Dates, and Times › Abbreviated months and days"
    }
   },
   {
@@ -1133,7 +1352,7 @@
     "table-header"
    ],
    "pattern": {
-    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec) (\\d{1,2})\\s?[-–]\\s?(\\d{1,2})\\b",
+    "source": "\\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec) (\\d{1,2})\\s?[-–]\\s?(\\d{1,2})\\b(?!:|\\s?[AaPp]\\.?[Mm]\\b)",
     "flags": "g"
    },
    "fix": "$1 $2 through $1 $3",
@@ -1141,7 +1360,7 @@
    "detail": "In copy, use “through” and repeat the month. An en dash is fine in tables and charts.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/date-ranges",
-    "label": "Numbers, Dates, and Times › Date Ranges"
+    "label": "Numbers, Dates, and Times › Date ranges"
    }
   },
   {
@@ -1149,14 +1368,14 @@
    "id": "from-dash",
    "severity": "warning",
    "pattern": {
-    "source": "\\bfrom\\s+(?:\\S+\\s+)?\\$?\\d[\\d,.:]*\\s?[-–]\\s?\\$?\\d",
+    "source": "\\bfrom\\s+(?:\\S+\\s+)?\\$?\\d[\\d,.:]*\\s?[-–]\\s?\\$?\\d(?!\\d{2}[-.]\\d{4}|\\d{3}\\b)",
     "flags": "gi"
    },
    "message": "Don’t use “from” with a dash",
    "detail": "Write “from March 1 through March 31,” or use the dash alone in tables.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/date-ranges",
-    "label": "Numbers, Dates, and Times › Date Ranges"
+    "label": "Numbers, Dates, and Times › Date ranges"
    }
   },
   {
@@ -1174,7 +1393,7 @@
    "message": "Write ranges with “to”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/number-ranges",
-    "label": "Numbers, Dates, and Times › Number Ranges"
+    "label": "Numbers, Dates, and Times › Number ranges"
    }
   },
   {
@@ -1189,7 +1408,7 @@
    "detail": "Use exact dates for anything due, scheduled, or final. Relative dates are only for activity feeds.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/relative-dates-and-durations",
-    "label": "Numbers, Dates, and Times › Relative Dates and Durations"
+    "label": "Numbers, Dates, and Times › Relative dates and durations"
    }
   },
   {
@@ -1220,7 +1439,7 @@
     "fn": "percent"
    },
    "message": "Use a numeral and %",
-   "detail": "Spell out “percent” only at the start of a sentence.",
+   "detail": "Spell out the number and “percent” only at the start of a sentence.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/percentages",
     "label": "Numbers, Dates, and Times › Percentages"
@@ -1238,7 +1457,7 @@
     "fn": "ordinal-word"
    },
    "message": "Spell out first through ninth",
-   "detail": "Use numerals from 10th on. “The 1st of each month” is fine.",
+   "detail": "Use numerals from 10th on. Recurring days like “the 1st of each month” are fine. Dates never take “st” or “th.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/ordinals",
     "label": "Numbers, Dates, and Times › Ordinals"
@@ -1283,7 +1502,7 @@
    "detail": "Rewrite the sentence, like “You have 12 scheduled payments.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/numerals-and-words",
-    "label": "Numbers, Dates, and Times › Numerals and Words"
+    "label": "Numbers, Dates, and Times › Numerals and words"
    }
   },
   {
@@ -1301,7 +1520,7 @@
    "message": "Use commas in amounts of $1,000 or more",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/large-numbers",
-    "label": "Numbers, Dates, and Times › Large Numbers"
+    "label": "Numbers, Dates, and Times › Large numbers"
    }
   },
   {
@@ -1319,7 +1538,7 @@
    "detail": "Abbreviations like K and M are only for charts.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/large-numbers",
-    "label": "Numbers, Dates, and Times › Large Numbers"
+    "label": "Numbers, Dates, and Times › Large numbers"
    }
   },
   {
@@ -1343,7 +1562,7 @@
    "type": "money-cents",
    "severity": "suggestion",
    "message": "Show cents on transaction amounts",
-   "detail": "Use $125.00 for amounts due, payments, fees, refunds, and balances. Ranges like $10 to $25 are fine.",
+   "detail": "Use $125.00 for amounts due, payments, fees, refunds, and balances. Ranges, promotions (“$10 off”), and minimums (“$25 or more”) can use whole dollars.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#numbers-dates-and-times/money",
     "label": "Numbers, Dates, and Times › Money"
@@ -1418,8 +1637,12 @@
     "button"
    ],
    "pattern": {
-    "source": "\\b(?:click|tap)(?:\\s+on)?\\b(?!\\s+here)",
+    "source": "\\b(?:click|tap)\\b(?!\\s+here|-|\\s+(?:and|to)\\s+(?:drag|pay)\\b|\\s+(?:on\\s+)?your\\s+(?:card|phone|device)\\b)(?:\\s+on\\b)?",
     "flags": "gi"
+   },
+   "skipInToken": {
+    "source": "\\w-(?:click|tap)\\b",
+    "flags": "i"
    },
    "fix": {
     "fn": "match-case",
@@ -1429,7 +1652,7 @@
    "detail": "“Select” works for mouse, touch, keyboard, and assistive tech.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#instructional-text/interaction-verbs",
-    "label": "Instructional Text › Interaction Verbs"
+    "label": "Instructional Text › Interaction verbs"
    }
   },
   {
@@ -1448,7 +1671,7 @@
    "detail": "KUBRA uses “sign in,” not “log in.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#instructional-text/sign-in-and-sign-out",
-    "label": "Instructional Text › Sign In and Sign Out"
+    "label": "Instructional Text › Sign in and sign out"
    }
   },
   {
@@ -1462,15 +1685,18 @@
     "source": "\\b(?:(to|will|can|please|must|you can|you['’]ll|easily|quickly) )?(log-?in|log-?on|log-?out|log-?off|signin|signout)(s)?\\b( to\\b)?",
     "flags": "gi"
    },
+   "skipInToken": {
+    "source": "\\/|@|\\.[a-z]{2,}\\b",
+    "flags": "i"
+   },
    "fix": {
     "fn": "sign-in-word"
    },
-   "safeFix": true,
    "message": "Use “sign-in” (noun) or “sign in” (verb)",
    "detail": "KUBRA uses “sign in,” not “login.” Two words for the action, hyphenated for the noun.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#instructional-text/sign-in-and-sign-out",
-    "label": "Instructional Text › Sign In and Sign Out"
+    "label": "Instructional Text › Sign in and sign out"
    }
   },
   {
@@ -1484,6 +1710,10 @@
     "source": "\\b(log-?in|log-?on|log-?out|log-?off|signin|signout)\\b",
     "flags": "gi"
    },
+   "skipInToken": {
+    "source": "\\/|@|\\.[a-z]{2,}\\b",
+    "flags": "i"
+   },
    "fix": {
     "fn": "sign-in-word",
     "value": "verb"
@@ -1493,7 +1723,7 @@
    "detail": "Buttons are actions, so use the verb. KUBRA uses “sign in,” not “login.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#instructional-text/sign-in-and-sign-out",
-    "label": "Instructional Text › Sign In and Sign Out"
+    "label": "Instructional Text › Sign in and sign out"
    }
   },
   {
@@ -1510,7 +1740,7 @@
    "message": "Use “allowlist” or “blocklist”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#content-principles/use-inclusive-language",
-    "label": "Content Principles › Use Inclusive Language"
+    "label": "Content Principles › Use inclusive language"
    }
   },
   {
@@ -1528,7 +1758,7 @@
    "detail": "Use “they” and “their.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#content-principles/use-inclusive-language",
-    "label": "Content Principles › Use Inclusive Language"
+    "label": "Content Principles › Use inclusive language"
    }
   },
   {
@@ -1543,7 +1773,7 @@
    "detail": "Say “everyone” or “people with disabilities.”",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#content-principles/use-inclusive-language",
-    "label": "Content Principles › Use Inclusive Language"
+    "label": "Content Principles › Use inclusive language"
    }
   },
   {
@@ -1556,7 +1786,7 @@
    "detail": "With a country code, use +1 (xxx) xxx-xxxx.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#abbreviations-and-acronyms/phone-numbers",
-    "label": "Abbreviations and Acronyms › Phone Numbers"
+    "label": "Abbreviations and Acronyms › Phone numbers"
    }
   },
   {
@@ -1568,7 +1798,23 @@
    "detail": "Mask them, like “•••• 1234.” This includes real-looking placeholder examples.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#pci-compliance/sensitive-data-do-not-expose",
-    "label": "PCI Compliance › Sensitive Data (Do Not Expose)"
+    "label": "PCI Compliance › Sensitive data (do not expose)"
+   }
+  },
+  {
+   "category": "compliance",
+   "id": "card-data-free-text",
+   "severity": "error",
+   "pattern": {
+    "source": "\\b(?:(not|never|don['’]t|won['’]t)\\s+)?(?:send|email|e-mail|text|paste|share|reply with|message)\\s+(?:it\\s+to\\s+)?(?:us\\s+)?(?:your\\s+)?(?:full\\s+)?(?:credit\\s+|debit\\s+|bank\\s+)?(?:card|account|routing)\\s+(?:number|details|info(?:rmation)?)\\b",
+    "flags": "gi"
+   },
+   "skipIfGroup": 1,
+   "message": "Don’t ask for card or account details in free text",
+   "detail": "Collect payment details only in secure payment fields, never by text, email, chat, or a message box.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#pci-compliance/sensitive-data-do-not-expose",
+    "label": "PCI Compliance › Sensitive data (do not expose)"
    }
   },
   {
@@ -1582,7 +1828,7 @@
    "message": "Don’t show full Social Security numbers",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#pci-compliance/sensitive-data-do-not-expose",
-    "label": "PCI Compliance › Sensitive Data (Do Not Expose)"
+    "label": "PCI Compliance › Sensitive data (do not expose)"
    }
   },
   {
@@ -1604,7 +1850,7 @@
    "detail": "Terms of Use, Terms and Conditions, and Privacy Policy must always link to the document. Text counts as linked if it’s blue, has a Figma link, uses a link text style or color, or is underlined.",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#legal-content/linking-legal-documents",
-    "label": "Legal Content › Linking Legal Documents"
+    "label": "Legal Content › Linking legal documents"
    }
   },
   {
@@ -1626,7 +1872,7 @@
    "message": "Write “KUBRA” in all caps",
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#copyright-and-trademarks/always-use-official-names",
-    "label": "Copyright and Trademarks › Always Use Official Names"
+    "label": "Copyright and Trademarks › Always use official names"
    }
   },
   {
@@ -2404,6 +2650,11 @@
     "TD"
    ],
    "caseSensitive": true,
+   "allow": [
+    "TD Bank",
+    "TD Ameritrade",
+    "TD Canada Trust"
+   ],
    "severity": "warning",
    "message": "Avoid “TD” in consumer UI",
    "detail": "Descriptor; lowercase except at the start of a sentence. Avoid in consumer UI.",
@@ -2459,6 +2710,51 @@
     "url": "https://haydenharrison-kubra.github.io/#glossary/meter-id",
     "label": "Glossary › Meter ID"
    }
+  },
+  {
+   "category": "style",
+   "id": "glossary-autopay",
+   "type": "term",
+   "terms": [
+    "autopay",
+    "Autopay",
+    "AUTOPAY",
+    "auto-pay",
+    "Auto-pay",
+    "Auto-Pay",
+    "auto pay",
+    "Auto pay",
+    "Auto Pay"
+   ],
+   "caseSensitive": true,
+   "fix": "AutoPay",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Use “AutoPay”",
+   "detail": "Automatic recurring payments. Always write “AutoPay,” with a capital A and P, including mid-sentence. Add helper text if users may need clarification.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/autopay",
+    "label": "Glossary › AutoPay"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-autopay-case",
+   "type": "term",
+   "terms": [
+    "AutoPay"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "AutoPay",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “AutoPay” exactly",
+   "detail": "Automatic recurring payments. Always write “AutoPay,” with a capital A and P, including mid-sentence. Add helper text if users may need clarification.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/autopay",
+    "label": "Glossary › AutoPay"
+   }
   }
  ],
  "data": {
@@ -2479,6 +2775,77 @@
    "iOS",
    "iPhone",
    "Wi-Fi",
+   "Apple",
+   "Apple Pay",
+   "Google",
+   "Samsung",
+   "Samsung Pay",
+   "Microsoft",
+   "Amazon",
+   "Tap to Pay",
+   "United States",
+   "Canada",
+   "Mexico",
+   "Puerto Rico",
+   "Alabama",
+   "Alaska",
+   "Arizona",
+   "Arkansas",
+   "California",
+   "Colorado",
+   "Connecticut",
+   "Delaware",
+   "Florida",
+   "Georgia",
+   "Hawaii",
+   "Idaho",
+   "Illinois",
+   "Indiana",
+   "Iowa",
+   "Kansas",
+   "Kentucky",
+   "Louisiana",
+   "Maine",
+   "Maryland",
+   "Massachusetts",
+   "Michigan",
+   "Minnesota",
+   "Mississippi",
+   "Missouri",
+   "Montana",
+   "Nebraska",
+   "Nevada",
+   "New Hampshire",
+   "New Jersey",
+   "New Mexico",
+   "New York",
+   "North Carolina",
+   "North Dakota",
+   "Ohio",
+   "Oklahoma",
+   "Oregon",
+   "Pennsylvania",
+   "Rhode Island",
+   "South Carolina",
+   "South Dakota",
+   "Tennessee",
+   "Texas",
+   "Utah",
+   "Vermont",
+   "Virginia",
+   "Washington",
+   "West Virginia",
+   "Wisconsin",
+   "Wyoming",
+   "Alberta",
+   "British Columbia",
+   "Manitoba",
+   "New Brunswick",
+   "Newfoundland",
+   "Nova Scotia",
+   "Ontario",
+   "Quebec",
+   "Saskatchewan",
    "Monday",
    "Tuesday",
    "Wednesday",
@@ -2531,7 +2898,7 @@
    "Activity Alerts",
    "Payment Reminders",
    "PayPal",
-   "Apple Pay"
+   "AutoPay"
   ],
   "acronyms": [
    "ACH",

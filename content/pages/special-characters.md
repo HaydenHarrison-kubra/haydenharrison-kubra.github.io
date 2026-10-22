@@ -5,7 +5,7 @@ blurb: "Slashes, ampersands, quotation marks, and more."
 
 Special characters can negatively impact readability, accessibility, localization, and screen reader output. For that reason, they should be used sparingly and intentionally in UI copy.
 
-## Governing Principle
+## Governing principle
 
 If a word communicates clearly without a special character, do not use one.
 
@@ -19,7 +19,12 @@ Do not use slashes in UI copy. Slashes are difficult for screen readers and can 
 
 :::
 
-**Approved use:** dates (MM/DD/YYYY), file paths or URLs (when required).
+**Approved use:**
+
+- Dates: MM/DD/YYYY
+- File paths or URLs (when required)
+
+Use numeric dates like MM/DD/YYYY only in input fields and dense tables. In sentences, write the month out.
 
 ::: do
 
@@ -29,7 +34,10 @@ Do not use slashes in UI copy. Slashes are difficult for screen readers and can 
 
 ## Ampersands ( & )
 
-Limited use only. Ampersands are acceptable only when writing official business names (e.g., OG&E) or citing external sources or trademarks.
+Limited use only. Ampersands are acceptable only when:
+
+- Writing official business names (e.g., OG&E)
+- Citing external sources or trademarks
 
 ::: do
 
@@ -46,7 +54,7 @@ Limited use only. Ampersands are acceptable only when writing official business 
 
 Do not use ampersands to save space in UI copy.
 
-## Quotation Marks ( " " )
+## Quotation marks ( " " )
 
 Avoid quotation marks in UI copy. Quotation marks can confuse screen readers and users.
 
@@ -59,15 +67,22 @@ Avoid quotation marks in UI copy. Quotation marks can confuse screen readers and
 
 **Approved use:** system-required copy (e.g., Apple Face ID permission modals), referring to external or legal entity names when required, and SMS keywords in SMS compliance language (e.g., Reply “STOP” to opt out or “HELP” for help). Use curly quotes.
 
-## Hyphens and Dashes
+## Hyphens and dashes
 
-**Hyphens ( - )** — use in approved product names only; do not introduce new hyphenation for readability. **En dashes / em dashes** — avoid in UI copy; acceptable in documentation if necessary.
+**Hyphens ( - )** — use in compound modifiers before a noun (one-time payment, 6-digit code, sign-in page) and in approved product names. Don't add hyphens anywhere else.
+
+**En dashes ( – )** — in sentences, write ranges with "to" or "through," not a dash. En dashes are fine in tables and charts (Mar 1–31). Screen readers often skip dashes or read them as "minus," and a dash doesn't say whether the end of the range is included.
+
+**Em dashes ( — )** — avoid in UI copy; use a period or comma instead. Acceptable in documentation.
 
 ## Parentheses ( )
 
 Parentheses should be used sparingly and never as a substitute for clarity.
 
-**Approved use:** acronym introduction on first mention, optional clarifying information in documentation.
+**Approved use:**
+
+- Acronym introduction on first mention
+- Optional clarifying information in documentation
 
 ::: do
 
@@ -117,7 +132,7 @@ Use an ellipsis only for text that's been cut off and for in-progress states. Us
 
 :::
 
-## What to Avoid
+## What to avoid
 
 - Parenthetical plurals outside of input instructions
 - Slashes to imply choice
@@ -125,7 +140,7 @@ Use an ellipsis only for text that's been cut off and for in-progress states. Us
 - Quotation marks for emphasis
 - Special characters used decoratively
 
-## When in Doubt
+## When in doubt
 
 1. Ask whether the plural or character adds meaning
 1. Prefer full words over symbols

@@ -3,11 +3,19 @@ title: "Industry-specific Language"
 blurb: "Safe terms vs. terms that need context or definition."
 ---
 
-## User-Familiar Terms (Preferred)
+## User-familiar terms (preferred)
 
-Commonly understood by most users. **Examples:** card number, payment amount, billing address, due date, service fee. Require no explanation; standardized across the product.
+These are commonly understood by most users and should be used consistently. **Examples:** card number, payment amount, billing address, due date, service fee.
 
-## Financial Terminology
+::: details More detail
+
+These terms require no explanation, should be standardized across the product, and are preferred over internal alternatives.
+
+:::
+
+## Financial terminology
+
+Financial language must be precise, consistent, and unambiguous.
 
 ### Amounts
 
@@ -57,9 +65,15 @@ Commonly understood by most users. **Examples:** card number, payment amount, bi
 
 :::
 
-## Semi-Technical Terms (Use with Care)
+## Semi-technical terms (use with care)
 
-**Examples:** routing number, ACH (bank transfer), autopay, recurring payment. Add helper text if clarification is needed; avoid introducing multiple terms for the same concept.
+These are understood by some users but may require context. **Examples:** routing number, ACH (bank transfer), AutoPay, recurring payment.
+
+::: details More detail
+
+Use the term if necessary, add helper text if clarification is needed, and avoid introducing multiple terms for the same concept.
+
+:::
 
 ::: do
 
@@ -68,7 +82,9 @@ Commonly understood by most users. **Examples:** card number, payment amount, bi
 
 :::
 
-## Utility-Specific Language
+## Utility-specific language
+
+Because your products may interact with utilities: use terminology familiar to utility customers, and avoid internal provider language.
 
 ::: do
 
@@ -85,9 +101,9 @@ Commonly understood by most users. **Examples:** card number, payment amount, bi
 
 :::
 
-## Technical or Internal Terms (Avoid or Define)
+## Technical or internal terms (avoid or define)
 
-**Examples:** PAN (Primary Account Number), CNAME, transaction division (TD), tokenization. Avoid in consumer-facing UI when possible; define on first use if required.
+These include system-level terminology, internal product names, and backend or infrastructure language. **Examples:** PAN (Primary Account Number), CNAME, transaction division (TD), tokenization. Avoid these in consumer-facing UI when possible, replace with user-friendly alternatives, and if required, define on first use.
 
 ::: do
 
@@ -96,7 +112,9 @@ Commonly understood by most users. **Examples:** card number, payment amount, bi
 
 :::
 
-## Do Not Expose Internal Language
+## Do not expose internal language
+
+Avoid exposing internal or system terminology to users unless it is required for functionality, appears in external-facing documentation, or is defined clearly.
 
 ::: do Use Instead
 
@@ -109,5 +127,15 @@ Commonly understood by most users. **Examples:** card number, payment amount, bi
 - *PAN validation failed*
 - *TD configuration error*
 - *Tokenization mismatch*
+
+:::
+
+## Voice and tone considerations
+
+Industry language should remain neutral, clear, and non-technical (when possible).
+
+::: details More detail
+
+Avoid overly technical phrasing, jargon used for authority, and mixing simple and complex terms unnecessarily.
 
 :::

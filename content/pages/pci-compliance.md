@@ -4,9 +4,9 @@ blurb: "Handling sensitive payment data safely."
 topics: ["Accessibility", "Payments"]
 ---
 
-## Sensitive Data (Do Not Expose)
+## Sensitive data (do not expose)
 
-Must never be fully displayed or requested in plain text: full card number (PAN), CVV/security code, full bank account numbers, full routing numbers (outside secure input fields).
+The following information must never be fully displayed or requested in plain text: full card number (PAN), CVV/security code, full bank account numbers, full routing numbers (outside secure input fields), full Social Security numbers.
 
 ::: do
 
@@ -23,7 +23,9 @@ Must never be fully displayed or requested in plain text: full card number (PAN)
 
 :::
 
-## Third-Party Payment Providers
+## Third-party payment providers
+
+When referencing external payment providers, do not imply that your system stores card data if it does not, and use accurate, approved descriptions.
 
 ::: do
 
@@ -37,9 +39,9 @@ Must never be fully displayed or requested in plain text: full card number (PAN)
 
 :::
 
-## Input Field Guidance
+## Input field guidance
 
-Sensitive information must only be collected through secure, masked input fields and PCI-compliant components.
+Sensitive information must only be collected through secure, masked input fields and PCI-compliant components. Writers must not ask users to enter sensitive data in free-text fields or include instructions that bypass secure inputs.
 
 ::: do
 
@@ -55,7 +57,7 @@ Sensitive information must only be collected through secure, masked input fields
 
 :::
 
-## Accessibility Considerations
+## Accessibility considerations
 
 Masked data must remain understandable when read aloud.
 
@@ -67,11 +69,11 @@ Masked data must remain understandable when read aloud.
 
 ::: dont
 
-- *Read out masked symbols without context (e.g., "••••")*
+- *Read out masked symbols without context or rely on symbols alone (e.g., "••••")*
 
 :::
 
-## Error Messaging and PCI
+## Error messaging and PCI
 
 Error messages must never reveal sensitive data.
 
@@ -84,10 +86,13 @@ Error messages must never reveal sensitive data.
 ::: dont
 
 - *"Card number 4111 1111 1111 1234 is invalid"*
+- *Use messaging that echoes full user input*
 
 :::
 
-## Logging and Debugging Language
+## Logging and debugging language
+
+Writers must avoid including language that encourages users to share full payment details, copy and paste sensitive information, or send card data via email, chat, or support channels.
 
 ::: do
 
@@ -102,15 +107,17 @@ Error messages must never reveal sensitive data.
 
 :::
 
-## Screenshots and UI Content
+## Screenshots and UI content
 
-Assume users may take screenshots, share screens, or save confirmations. Sensitive data should never appear fully visible in confirmations, receipts, or summaries.
+Content must assume that users may take screenshots, share screens, or save confirmations. Sensitive data should never appear fully visible in confirmation screens, receipts, or transaction summaries.
 
-## Payment Confirmations
+## Payment confirmations
+
+Confirmation screens should include masked payment details, amount, date, and status.
 
 ::: do
 
-- *Payment of $125.00 completed on August 27, 2026 using card ending in 1234.*
+- *Payment of $125.00 completed on August 27, 2026, using card ending in 1234.*
 
 :::
 

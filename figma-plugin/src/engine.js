@@ -8,6 +8,7 @@
   var SCHEMA = 1;
   var SEVERITY_RANK = { error: 0, warning: 1, suggestion: 2 };
   var WORD_CHAR = /[A-Za-z0-9]/;
+  var MONTH_NAMES = "January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec";
 
   // ---------- helpers ----------
   function toRe(spec, addFlags) {
@@ -47,6 +48,14 @@
     return union ? inter / union : 0;
   }
   function overlaps(a, b) { return a.start < b.end && a.end > b.start; }
+  // Text before and after a regex match (fixers get the match only).
+  function before(m) { return m.input.slice(0, m.index); }
+  function after(m) { return m.input.slice(m.index + m[0].length); }
+  function atSentenceStart(m) { return /(?:^|[.!?]\s+)["“(]?\s*$/.test(before(m)); }
+  // A period swallowed by "p.m." that also ends the sentence has to stay.
+  function keptPeriod(m, dot) { return dot && /^(?:\s*$|\s+["“(]?[A-Z])/.test(after(m)) ? "." : ""; }
+  // Nouns that turn "log in" into the compound adjective "sign-in" ("the sign-in page").
+  var SIGN_IN_NOUNS = /^\s+(?:page|screen|form|button|link|details|information|info|credentials|attempts?|process|issues?|problems?|history|options?|methods?|code|email|name|flow|experience|help|requirements?|activity)\b/i;
 
   var FIXERS = {
     "time-ampm": function (m) { return m[1] + " " + m[2].toLowerCase() + ".m."; },
@@ -54,29 +63,36 @@
     "sign-in-verb": function (m) {
       var verb = { log: "sign", logs: "signs", logged: "signed", logging: "signing" }[m[1].toLowerCase()];
       var dir = { "in": "in", on: "in", into: "in to", onto: "in to", out: "out", off: "out" }[m[2].toLowerCase()];
+      if (m[1].toLowerCase() === "log" && dir.length <= 3 && SIGN_IN_NOUNS.test(after(m))) return matchCase(m[1], "sign") + "-" + dir;
       return matchCase(m[1], verb) + " " + (m[2].length > 1 && m[2] === m[2].toUpperCase() ? dir.toUpperCase() : dir);
     },
     // "login" is a verb after "to"/"can"/… or before "to", and in buttons; otherwise it's the noun "sign-in".
+    // "Add a login to your account" is still the noun.
     "sign-in-word": function (m, data, spec) {
       var asVerb = spec.value === "verb", lead = asVerb ? null : m[1], word = asVerb ? m[1] : m[2];
       var dir = /(in|on)$/i.test(word) ? "in" : "out";
-      if (asVerb || lead || m[4]) return (lead ? lead + " " : "") + matchCase(word, "sign " + dir) + (m[4] || "");
-      return matchCase(word, "sign-" + dir) + (m[3] || "");
+      var noun = !asVerb && !lead && /\b(?:a|an|the|your|my|our|this|that|each|new|one|every)\s+$/i.test(before(m));
+      if (!noun && (asVerb || lead || m[4])) return (lead ? lead + " " : "") + matchCase(word, "sign " + dir) + (m[4] || "");
+      return matchCase(word, "sign-" + dir) + (m[3] || "") + (m[4] || "");
     },
+    "noon": function (m) { return (atSentenceStart(m) ? "Noon" : "noon") + keptPeriod(m, m[1]); },
     "match-case": function (m, data, spec) { return matchCase(m[0], spec.value); },
     "it-is": function (m) { return (m[1].charAt(0) === "I" ? "It’s " : "it’s ") + m[2]; },
     "you-are": function (m) { return (m[1].charAt(0) === "Y" ? "You’re " : "you’re ") + m[2]; },
     "lose": function (m) { return matchCase(m[1], "lose") + " " + m[2]; },
     "remove-hyphen": function (m) { return m[0].replace("-", ""); },
-    "time-hm": function (m) { return m[1] + ":" + (m[2] || "00") + " " + m[3].toUpperCase() + "M"; },
+    "time-hm": function (m) { return m[1] + ":" + (m[2] || "00") + " " + m[3].toUpperCase() + "M" + keptPeriod(m, m[4]); },
     "month-abbr": function (m) { return /^sept?$/i.test(m[1]) ? "Sep" : m[1]; },
     "day-abbr": function (m) { return { Tues: "Tue", Thur: "Thu", Thurs: "Thu" }[m[1]] || m[1]; },
+    // Returning the match unchanged means "not an issue" (the engine drops it).
     "percent": function (m) {
       var words = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
       var n = words[m[1].toLowerCase()];
+      if (n != null && atSentenceStart(m)) return m[0]; // "Five percent of…" is right at the start of a sentence
       return (n != null ? n : m[1]) + "%";
     },
     "ordinal-word": function (m) {
+      if (new RegExp("\\b(?:" + MONTH_NAMES + ")\\.?\\s+$").test(before(m))) return m[0]; // a date: date-ordinal handles it
       var w = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"][+m[1]];
       return w || m[0];
     },
@@ -172,6 +188,7 @@
         if (m[0] === "") { re.lastIndex++; continue; }
         var start = m.index, end = start + m[0].length;
         if (rule.skipRe && rule.skipRe.test(tokenAround(text, start, end))) continue;
+        if (rule.skipIfGroup && m[rule.skipIfGroup]) continue; // e.g. a negation captured before the match
         out.push({ start: start, end: end, match: m[0], replacement: fixFor(rule, m, c) });
       }
       return out;
@@ -185,6 +202,11 @@
       if (typeof rule.fix === "string" && rule.fix) {
         for (var p = text.indexOf(rule.fix); p !== -1; p = text.indexOf(rule.fix, p + 1)) correct.push({ start: p, end: p + rule.fix.length });
       }
+      // Longer names that contain a flagged term and are fine, like "TD Bank".
+      var allowed = [];
+      (rule.allow || []).forEach(function (a) {
+        for (var q = text.indexOf(a); q !== -1; q = text.indexOf(a, q + 1)) allowed.push({ start: q, end: q + a.length });
+      });
       rule.terms.forEach(function (t) {
         var needle = rule.caseSensitive ? t : t.toLowerCase();
         var i = hay.indexOf(needle);
@@ -194,7 +216,7 @@
             var match = text.slice(i, end);
             var hit = { start: i, end: end };
             var skip = (rule.skipExact && match === rule.fix) || (rule.skipRe && rule.skipRe.test(tokenAround(text, i, end))) ||
-              correct.some(function (r) { return r.start <= hit.start && r.end >= hit.end; });
+              correct.concat(allowed).some(function (r) { return r.start <= hit.start && r.end >= hit.end; });
             if (!skip) out.push({ start: i, end: end, match: match, replacement: rule.fix != null ? rule.fix : null });
           }
           i = hay.indexOf(needle, i + 1);
@@ -357,7 +379,8 @@
       return out;
     },
 
-    // "$125" as a transaction amount should be "$125.00". Ranges ("$10 to $25"), "$1.2 million", and "$5K" are skipped.
+    // "$125" as a transaction amount should be "$125.00". Skipped: ranges ("$10 to $25"), "$1.2 million", "$5K",
+    // promotions ("$10 off", "Save $5/month"), and minimums or limits ("$25 or more", "up to $500").
     "money-cents": function (rule, text) {
       var out = [], re = /\$\d[\d,]*(?![\d,]*\.\d)(?![\d,]*\s?(?:million|billion|thousand|[KMB]\b))/g, m;
       while ((m = re.exec(text))) {
@@ -365,6 +388,8 @@
         if (text.charAt(end) === "." && /\d/.test(text.charAt(end + 1))) continue;
         var before = text.slice(0, start), after = text.slice(end);
         if (/(?:to|through|and|[-\u2013])\s*$/i.test(before) || /^\s*(?:to|through|and|[-\u2013])\s*\$/i.test(after)) continue;
+        if (/\b(?:save|saving|up to|over|under|at least|minimum(?: of)?|maximum(?: of)?|more than|less than|exceeds?|above|below)\s*$/i.test(before)) continue;
+        if (/^(?:\s*(?:or (?:more|less|higher|lower|above|below)|off|and up|minimum|maximum|limit)\b|\+|\s*\/\s*(?:mo|month|yr|year|week|day)\b|\s*(?:a|per|each)\s+(?:month|year|week|day)\b)/i.test(after)) continue;
         out.push({ start: start, end: end, match: m[0], replacement: m[0] + ".00" });
       }
       return out;

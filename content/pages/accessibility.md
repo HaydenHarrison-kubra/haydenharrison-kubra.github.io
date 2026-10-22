@@ -4,11 +4,11 @@ blurb: "Global accessibility rules and a pre-publish checklist."
 topics: ["Accessibility"]
 ---
 
-## Goals for Accessible Copy
+## Goals for accessible copy
 
 Accessible UI copy should be perceivable (users can find and understand the content, including with assistive tech), operable (users can complete tasks without relying on a single input type), understandable (instructions and errors are clear and actionable), and robust (content works across browsers, devices, and assistive tech). These map to WCAG's foundational principles.
 
-## Global Writing Rules That Improve Accessibility
+## Global writing rules that improve accessibility
 
 ### Use plain language without removing necessary precision
 
@@ -22,7 +22,7 @@ Avoid instructions like "See the field in red" or "Click the button on the right
 
 Avoid slashes for choices ("and/or") and quotation marks for emphasis. Prefer full words. See the Special Characters page for full guidance.
 
-## UI Patterns: What Writers Must Do
+## UI patterns: What writers must do
 
 ### 1. Labels and controls must be self-explanatory
 
@@ -75,7 +75,7 @@ If a user submits a form and there's an error: do not clear the entire form, kee
 
 WCAG 2.2 added new success criteria for accessible authentication and redundant entry. If your flows require re-entering data or rely on puzzles or memory-only steps, treat this as an accessibility risk area. Avoid "remember your answer from earlier" as the only path; provide alternatives and clear instructions (especially for MFA, OTP, verification links).
 
-## Component-Specific Copy Guidance
+## Component-specific copy guidance
 
 ### Buttons and links
 
@@ -89,11 +89,11 @@ Title states the decision or action. Body explains impact and what happens next.
 
 Don't hide essential instructions only in tooltips. Tooltips should clarify, not carry required content.
 
-## ARIA and Interaction Patterns
+## ARIA and interaction patterns
 
-Writers aren't responsible for Accessible Rich Internet Applications Suite (ARIA) implementation, but copy decisions affect it. When you see custom components (non-native dropdowns, tabs, accordions, complex tables), align with the ARIA Authoring Practices Guide patterns. Writers should flag interactive elements without labels, icon-only buttons without accessible names, and errors that appear visually but aren't announced in text.
+Writers aren't responsible for Accessible Rich Internet Applications (ARIA) implementation, but copy decisions affect it. When you see custom components (non-native dropdowns, tabs, accordions, complex tables), align with the ARIA Authoring Practices Guide patterns. Writers should flag interactive elements without labels, icon-only buttons without accessible names, and errors that appear visually but aren't announced in text.
 
-## Accessibility Checklist for Writers (Ship-Ready)
+## Accessibility checklist for writers (ship-ready)
 
 Before you publish UI copy, confirm:
 
