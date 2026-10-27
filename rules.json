@@ -1,7 +1,7 @@
 {
  "schema": 1,
- "version": "83f05b96",
- "updated": "2026-10-20",
+ "version": "cc4aa6a3",
+ "updated": "2026-10-22",
  "siteUrl": "https://haydenharrison-kubra.github.io/",
  "requires": {
   "runners": [
@@ -75,7 +75,7 @@
     "button"
    ],
    "pattern": {
-    "source": "^\\s*(?:Submit|Continue|OK|Okay|Done|Proceed|Go|Confirm)\\s*$",
+    "source": "^\\s*(?:OK|Okay|Proceed|Go|Confirm)\\s*$",
     "flags": "gi"
    },
    "message": "Generic button label",
@@ -83,6 +83,42 @@
    "guide": {
     "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/use-clear-action-oriented-language",
     "label": "Buttons and CTAs › Use clear, action-oriented language"
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-standard-label",
+   "severity": "suggestion",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Submit|Continue|Done)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Is it clear what happens next?",
+   "detail": "“Done,” “Continue,” and “Submit” are fine when the outcome is clear. If the button pays, saves, or changes something, name that action, like “Confirm payment.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/done-continue-and-submit",
+    "label": "Buttons and CTAs › Done, Continue, and Submit"
+   }
+  },
+  {
+   "category": "style",
+   "id": "button-quantity",
+   "severity": "suggestion",
+   "contexts": [
+    "button"
+   ],
+   "pattern": {
+    "source": "^\\s*(?:Add|Remove|Delete|Download|Export|Select|Pay|Cancel)\\s+(?:all\\s+)?(?:items|statements|bills|accounts|payments|files|invoices|payment methods)\\s*$",
+    "flags": "gi"
+   },
+   "message": "Say how many",
+   "detail": "When an action affects more than one item, include the number, like “Add 4 items.”",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#buttons-and-ctas/say-what-happens-next",
+    "label": "Buttons and CTAs › Say what happens next"
    }
   },
   {

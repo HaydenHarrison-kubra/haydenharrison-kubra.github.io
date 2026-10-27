@@ -26,10 +26,24 @@ export default [
   },
   {
     id: "button-generic", severity: "warning", contexts: ["button"],
-    pattern: /^\s*(?:Submit|Continue|OK|Okay|Done|Proceed|Go|Confirm)\s*$/gi,
+    pattern: /^\s*(?:OK|Okay|Proceed|Go|Confirm)\s*$/gi,
     message: "Generic button label",
     detail: "Name the action and its object, like “Pay bill” or “Save changes.”",
-    guide: ["buttons-and-ctas", "Use Clear, Action-Oriented Language"]
+    guide: ["buttons-and-ctas", "Use clear, action-oriented language"]
+  },
+  {
+    id: "button-standard-label", severity: "suggestion", contexts: ["button"],
+    pattern: /^\s*(?:Submit|Continue|Done)\s*$/gi,
+    message: "Is it clear what happens next?",
+    detail: "“Done,” “Continue,” and “Submit” are fine when the outcome is clear. If the button pays, saves, or changes something, name that action, like “Confirm payment.”",
+    guide: ["buttons-and-ctas", "Done, Continue, and Submit"]
+  },
+  {
+    id: "button-quantity", severity: "suggestion", contexts: ["button"],
+    pattern: /^\s*(?:Add|Remove|Delete|Download|Export|Select|Pay|Cancel)\s+(?:all\s+)?(?:items|statements|bills|accounts|payments|files|invoices|payment methods)\s*$/gi,
+    message: "Say how many",
+    detail: "When an action affects more than one item, include the number, like “Add 4 items.”",
+    guide: ["buttons-and-ctas", "Say what happens next"]
   },
   {
     id: "button-yes-no", severity: "warning", contexts: ["button"],

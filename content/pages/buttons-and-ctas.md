@@ -21,16 +21,63 @@ Buttons should describe what will happen when selected, not what the user is doi
 
 ::: dont
 
-- *Submit*
-- *Continue*
 - *OK*
-- *Done*
+- *Proceed*
+- *Go*
 
 :::
 
 ::: details More detail
 
 The goal is to avoid vague or abstract labels, as generic CTAs increase uncertainty in financial flows.
+
+:::
+
+### Done, Continue, and Submit
+
+These are standard labels. Use them when the outcome is clear from the screen:
+
+- **Done** closes a task the user has finished, like a confirmation screen.
+- **Continue** moves to the next step of a multi-step flow, before anything is paid or saved.
+- **Submit** sends a form, request, or application.
+
+When the button pays, saves, or changes something the user can't easily undo, name that action instead.
+
+::: do
+
+- *Done (on a payment confirmation screen)*
+- *Continue (in step 1 of a 3-step enrollment flow)*
+- *Submit (on a service request form)*
+
+:::
+
+::: dont
+
+- *Continue (when it makes the payment, use Confirm payment)*
+- *Submit (when it pays the bill, use Pay bill)*
+
+:::
+
+## Say what happens next
+
+When users may not know what happens after they select a button, the label should tell them.
+
+- **Name the next step, not a later one.** If users review a payment before it's made, the button says **Review payment**, not **Pay**.
+- **Include a quantity** when the action affects more than one item, so users know exactly what they're acting on.
+
+::: do
+
+- *Review payment (when the next screen is a review)*
+- *Add 4 items*
+- *Download 3 statements*
+
+:::
+
+::: dont
+
+- *Pay (when the next screen is a review)*
+- *Add items*
+- *Download*
 
 :::
 
@@ -137,7 +184,7 @@ Buttons must be keyboard accessible, have clear accessible names, and make sense
 
 - *Click here*
 - *Learn more*
-- *Continue*
+- *More*
 
 :::
 
@@ -176,6 +223,7 @@ If the copy becomes too long: reevaluate the action, use a confirmation dialog, 
 ## Common mistakes to avoid
 
 - Using generic CTAs in financial flows
+- Labels that don't say what happens next
 - Hiding destructive action behind vague language
 - Mixing terminology across flows
 - Using "Yes/No"

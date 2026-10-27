@@ -69,7 +69,12 @@ test("standard copy: edited SMS disclosures are errors", () => {
 
 test("buttons", () => {
   expectRule("Click to pay", "button", "button-click");
-  expectRule("Submit", "button", "button-generic");
+  expectRule("OK", "button", "button-generic");
+  expectRule("Continue", "button", "button-standard-label");
+  assert.equal(find("Continue", "button", "button-standard-label").severity, "suggestion");
+  assert.ok(!find("Continue", "button", "button-generic"));
+  expectRule("Add items", "button", "button-quantity");
+  assert.ok(!find("Add 4 items", "button", "button-quantity"));
   expectRule("Yes", "button", "button-yes-no");
   expectRule("Delete", "button", "button-missing-object");
   expectRule("Review and confirm your scheduled payment", "button", "button-length");
@@ -273,7 +278,7 @@ test("icon-font text is ignored", () => {
   expectClean("chevron-up", "body", { skip: [{ start: 0, end: 10 }] });
   expectClean("circle-user Pay bill", "button", { skip: [{ start: 0, end: 11 }] });
   expectFix("wallet Pay Bill", "button", "sentence-case", "wallet Pay bill", { skip: [{ start: 0, end: 6 }] });
-  expectRule("arrow-right Submit", "button", "button-generic", { skip: [{ start: 0, end: 11 }] });
+  expectRule("arrow-right Proceed", "button", "button-generic", { skip: [{ start: 0, end: 11 }] });
   assert.ok(!find("globe Pay bill", "button", "a-an", { skip: [{ start: 0, end: 5 }] }));
 });
 
@@ -368,8 +373,8 @@ test("punctuation and wording", () => {
 });
 
 test("ignored issues are marked, and categories can be turned off", () => {
-  const issue = find("Submit", "button", "button-generic");
-  const again = check("Submit", "button", { ignored: [issue.key] }).find((i) => i.ruleId === "button-generic");
+  const issue = find("Proceed", "button", "button-generic");
+  const again = check("Proceed", "button", { ignored: [issue.key] }).find((i) => i.ruleId === "button-generic");
   assert.equal(again.ignored, true);
   assert.ok(!engine.check(c, { text: "Pay the the bill", context: "body" }, { categories: { grammar: false } }).some((i) => i.ruleId === "repeated-word"));
 });
