@@ -41,6 +41,8 @@
   --shadow-md:0 8px 24px -8px rgba(16,35,48,.16),0 2px 4px rgba(16,35,48,.04);
   --hero-from:#03486a;
   --hero-to:#037eb4;
+  --logo-ink:#536372;
+  --logo-tag:#0093C9;
   color-scheme:light;
 }
 
@@ -72,6 +74,8 @@
   --shadow-md:0 10px 28px -10px rgba(0,0,0,.6);
   --hero-from:#05293b;
   --hero-to:#045a82;
+  --logo-ink:#d3dce2;
+  --logo-tag:#3aaadd;
   color-scheme:dark;
 }
 
@@ -104,6 +108,8 @@
     --shadow-md:0 10px 28px -10px rgba(0,0,0,.6);
     --hero-from:#05293b;
     --hero-to:#045a82;
+    --logo-ink:#d3dce2;
+    --logo-tag:#3aaadd;
     color-scheme:dark;
   }
 }
@@ -170,13 +176,7 @@ mark{background:var(--mark-bg);color:var(--mark-text);border-radius:3px;padding:
   color:var(--text);
   text-decoration:none;
 }
-.brand-word{
-  font-family:var(--font-head);
-  font-weight:800;
-  font-size:19px;
-  letter-spacing:.16em;
-  color:var(--brand-ink);
-}
+.brand-logo{display:block;flex:none;width:99px;height:30px;}
 .brand-divider{width:1px;height:22px;background:var(--border-strong);}
 .brand-title{font-family:var(--font-head);font-weight:600;font-size:13.5px;white-space:nowrap;}
 .brand-version{
@@ -763,7 +763,7 @@ mark{background:var(--mark-bg);color:var(--mark-text);border-radius:3px;padding:
 .site-footer a{color:var(--muted);}
 .site-footer a:hover{color:var(--brand-ink);}
 .footer-brand{display:flex;align-items:center;gap:10px;}
-.footer-brand b{font-family:var(--font-head);font-weight:800;letter-spacing:.14em;color:var(--brand-ink);}
+.footer-logo{display:block;flex:none;width:66px;height:20px;}
 .footer-links{display:flex;flex-wrap:wrap;gap:8px 20px;}
 
 /* ---------- Heading deep links ---------- */
@@ -1116,7 +1116,7 @@ mark.current{background:var(--kubra-orange);color:#fff;box-shadow:0 0 0 2px var(
 @media (max-width: 720px){
   .app-header{gap:10px;padding:3px 12px 0;}
   .brand-divider,.brand-title,.brand-version,.header-link{display:none;}
-  .brand-word{font-size:16px;}
+  .brand-logo{width:86px;height:26px;}
   .search-kbd{display:none;}
   .search input{padding-right:40px;}
   .main-inner{padding:24px 16px 48px;}

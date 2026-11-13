@@ -24,7 +24,8 @@ A searchable, static website built from the Confluence page **[Style Guide 2.0](
 - `content/overview.md` — the intro shown on the home page.
 - `content/sections.json` — sidebar sections, page order, and topic filters.
 - `content/glossary.json` and `content/standard-copy.json` — the Glossary and Standard Copy.
-- `index.html` — the page shell.
+- `index.html` — the page shell. It includes the KUBRA logo as an inline SVG symbol (used in the header and footer), with the gray parts set by `--logo-ink` so they lighten in dark mode.
+- `assets/kubra-logo.svg` — the official KUBRA logo file, unchanged. If the logo is updated, replace this file and the paths in the symbol at the top of `index.html`.
 - `styles.css` — all styling, including light/dark theme tokens.
 - `app.js` — loads and renders the Markdown, plus routing (`#page` or `#page/section`), search, filters, glossary, changelog, copy buttons, and theme toggle.
 - `vendor/marked.umd.js` — the Markdown renderer ([marked](https://github.com/markedjs/marked) v18.1.0, MIT), kept in the repo so the site doesn't depend on a CDN.
