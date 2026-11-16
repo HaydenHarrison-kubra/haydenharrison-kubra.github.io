@@ -130,15 +130,6 @@ body{
 a{color:var(--link);}
 button{font:inherit;color:inherit;}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px;}
-/* Skip link: hidden until focused with the keyboard. */
-.skip-link{
-  position:fixed;top:8px;left:8px;z-index:1000;
-  padding:10px 16px;border-radius:8px;
-  background:var(--surface, var(--bg));color:var(--text);
-  font-weight:600;text-decoration:none;box-shadow:var(--shadow-md);
-  transform:translateY(-200%);
-}
-.skip-link:focus{transform:none;}
 /* Headings focused after navigation shouldn't show a focus ring for mouse users. */
 .main-inner h1[tabindex="-1"]:focus{outline:none;}
 .not-found{margin-bottom:24px;}

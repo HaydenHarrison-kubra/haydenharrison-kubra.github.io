@@ -1195,10 +1195,6 @@
     els.menuBtn.addEventListener("click", function () { setSidebar(!els.sidebar.classList.contains("open")); });
     els.backdrop.addEventListener("click", closeMobileSidebar);
     document.addEventListener("click", onDocClick);
-    $("#skipLink").addEventListener("click", function (e) {
-      e.preventDefault(); // keep the current page in the URL
-      focusHeading();
-    });
 
     var debounce;
     els.searchInput.addEventListener("input", function () {
