@@ -169,13 +169,12 @@ Instructional text should be neutral, clear, supportive, and direct — function
 
 - *Let's get started*
 - *Just follow these steps*
-- *Please enter your details*
 
 :::
 
 ::: details More detail
 
-Second person ("you") is fine when it improves clarity, but avoid conversational filler, marketing language, or unnecessary politeness.
+Second person ("you") is fine when it improves clarity, and so is "please" (for example, "Please try again later"). Avoid conversational filler and marketing language.
 
 :::
 

@@ -56,6 +56,24 @@
     "source": "nouns"
   },
   {
+    "term": "EZ-PAY+",
+    "kind": "Product name",
+    "note": "Product name. Keep the hyphen, the capitals, and the plus sign, including mid-sentence.",
+    "source": "product-naming-reference"
+  },
+  {
+    "term": "MyHQ+",
+    "kind": "Product name",
+    "note": "Product name. Capital M, H, and Q, with the plus sign, including mid-sentence.",
+    "source": "product-naming-reference"
+  },
+  {
+    "term": "BizHQ+",
+    "kind": "Product name",
+    "note": "Product name. Capital B, H, and Q, with the plus sign, including mid-sentence.",
+    "source": "product-naming-reference"
+  },
+  {
     "term": "Terms of Use",
     "kind": "Legal document",
     "note": "Official legal document name. Capitalize it and always link it to the document.",
@@ -383,5 +401,23 @@
     "kind": "Preferred term",
     "note": "Generic UI concept; lowercase common noun.",
     "source": "nouns"
+  },
+  {
+    "term": "cancelled",
+    "kind": "Preferred term",
+    "note": "KUBRA uses the Canadian spelling, with a double l. The same goes for cancelling.",
+    "avoid": [
+      "canceled"
+    ],
+    "source": "modals-and-confirmation-dialogs"
+  },
+  {
+    "term": "cancelling",
+    "kind": "Preferred term",
+    "note": "KUBRA uses the Canadian spelling, with a double l. The same goes for cancelled.",
+    "avoid": [
+      "canceling"
+    ],
+    "source": "modals-and-confirmation-dialogs"
   }
 ]

@@ -327,7 +327,7 @@ Most inline errors follow one of these patterns:
 
 ::: do
 
-- *"Card number must be 16 digits"*
+- *"Enter a valid card number"*
 - *"Enter a valid email address"*
 
 :::
@@ -387,7 +387,7 @@ Avoid showing errors before the user interacts with the field, or while the user
 
 **Card information:**
 
-- *"Card number must be 16 digits"*
+- *"Enter a valid card number"*
 - *"Expiration date is invalid"*
 
 **Routing number:**

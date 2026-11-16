@@ -1,6 +1,7 @@
 ---
 title: "Formatting"
 blurb: "Bold, italics, underline, caps, monospace, and color."
+topics: ["Accessibility"]
 ---
 
 Formatting is how we add structure and emphasis without adding words. Like voice, our approach to formatting stays consistent regardless of context.
@@ -13,7 +14,7 @@ Every formatting choice must carry meaning. Formatting is a signal, not decorati
 
 ::: do
 
-- *"Your payment of **$1,250.00** is due **March 15**."*
+- *"Your payment of **$1,250.00** is due March 15."*
 
 :::
 

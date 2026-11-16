@@ -89,7 +89,7 @@ Error summaries should identify the field, briefly state the issue, and link to 
 
 ::: do
 
-- *Card number must be 16 digits.*
+- *Enter a valid card number.*
 - *Expiration date is required.*
 
 :::

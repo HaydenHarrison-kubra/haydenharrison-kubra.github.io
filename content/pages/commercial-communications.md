@@ -30,7 +30,7 @@ All commercial communications must include a clear and accessible unsubscribe me
 
 ::: do
 
-- *You can unsubscribe at any time using the link below.*
+- *You can unsubscribe at any time using the Unsubscribe link in this email.*
 - *Reply “STOP” to opt out.*
 
 :::

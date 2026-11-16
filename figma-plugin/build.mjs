@@ -32,7 +32,7 @@ const GLOSSARY = readJson("content/glossary.json");
 const STANDARD_COPY = readJson("content/standard-copy.json");
 
 // Same as slugify() in app.js, so links land on the right heading.
-const slugify = (s) => s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const slugify = (s) => s.toLowerCase().replace(/&/g, " and ").replace(/([a-z0-9])\+/g, "$1 plus ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function mdInlineToText(s) {
   return s

@@ -121,7 +121,7 @@ Some terms can function as both a product name (proper noun) and a general conce
 
 ## Integration with canonical copy
 
-Product names used in buttons, labels, errors, and messages must match the Product Naming Reference.
+Product names used in buttons, labels, errors, and messages must match this page and the [Glossary](#glossary).
 
 ::: do
 

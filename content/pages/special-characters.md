@@ -1,6 +1,7 @@
 ---
 title: "Special Characters"
 blurb: "Slashes, ampersands, quotation marks, and more."
+topics: ["Accessibility"]
 ---
 
 Special characters can negatively impact readability, accessibility, localization, and screen reader output. For that reason, they should be used sparingly and intentionally in UI copy.
@@ -82,6 +83,9 @@ Parentheses should be used sparingly and never as a substitute for clarity.
 **Approved use:**
 
 - Acronym introduction on first mention
+- Pairing a plain term with its abbreviation (Bank account (ACH))
+- Marking optional fields (Phone number (optional))
+- Phone numbers ((480) 111-1111)
 - Optional clarifying information in documentation
 
 ::: do

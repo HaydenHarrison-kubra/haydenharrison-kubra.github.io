@@ -1,6 +1,7 @@
 ---
 title: "Tone"
 blurb: "How voice adapts across informational, error, and legal contexts."
+topics: ["Errors & Messaging"]
 ---
 
 Tone changes depending on the user's situation, emotional state, and task.
@@ -61,19 +62,19 @@ Contractions help language feel natural but must be used carefully.
 - Writing legal, compliance, or PCI-related content
 - Mixing contracted and non-contracted forms in the same surface
 
-Contractions like can't, couldn't, and don't are fine in error messages.
-
 ::: do
 
-- *"You cannot cancel this payment after submission."*
+- *"You cannot cancel this payment after submission." (in a payment disclosure)*
 
 :::
 
 ::: dont
 
-- *"You can't cancel this payment after submission."*
+- *"You can't cancel this payment after submission." (in a payment disclosure)*
 
 :::
+
+Contractions like can't, couldn't, and don't are fine in error messages.
 
 ## Empathy without apology
 

@@ -91,7 +91,7 @@ Avoid exclamation points.
 - Keep language concrete and direct
 - Make icon tooltips actionable when appropriate
 
-*"Determines how often the data refreshes" · "Unique identifier assigned to this workspace"*
+*"How often data refreshes" · "This workspace's unique identifier"*
 
 :::
 

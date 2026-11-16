@@ -1,6 +1,7 @@
 ---
 title: "Industry-specific Language"
 blurb: "Safe terms vs. terms that need context or definition."
+topics: ["Payments"]
 ---
 
 ## User-familiar terms (preferred)
@@ -84,7 +85,7 @@ Use the term if necessary, add helper text if clarification is needed, and avoid
 
 ## Utility-specific language
 
-Because your products may interact with utilities: use terminology familiar to utility customers, and avoid internal provider language.
+Many KUBRA products serve utility customers, so use terminology familiar to utility customers, and avoid internal provider language.
 
 ::: do
 

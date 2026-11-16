@@ -93,7 +93,7 @@ The body should explain the consequences of the action, clarify scope (what is a
 
 ::: do
 
-- *Delete*
+- *Delete workspace*
 - *Cancel payment*
 - *Remove access*
 
@@ -121,7 +121,7 @@ This prevents users from wondering: "Am I cancelling this dialog or cancelling t
 
 **Body:** Deleting this workspace will permanently remove all associated data.
 
-**Primary:** Delete **Secondary:** Cancel
+**Primary:** Delete workspace **Secondary:** Cancel
 
 :::
 

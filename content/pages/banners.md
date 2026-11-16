@@ -67,7 +67,9 @@ Use a header only when additional detail is necessary, such as:
 
 ::: do
 
-- *"Maintenance in progress. Some features may be unavailable until 2:00 AM ET."*
+**Header:** Scheduled maintenance
+
+**Body:** Some features may be unavailable until 2:00 AM ET.
 
 :::
 
@@ -80,7 +82,7 @@ Avoid headers for simple, self-explanatory messages.
 ## Actions and links in banners
 
 - Include a CTA only if the user needs to act
-- Keep CTAs short (1–2 words)
+- Keep CTAs short: 1 to 2 words, 3 at most when needed for clarity (see [Buttons and CTAs](#buttons-and-ctas/keep-button-text-concise))
 - Use action-oriented verbs
 
 ::: do

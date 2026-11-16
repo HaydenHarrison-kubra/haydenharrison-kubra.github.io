@@ -150,7 +150,7 @@ Legal document names are proper nouns. Use the official name, capitalized as sho
 
 ::: do
 
-- *Read the Terms and Conditions*
+- *Read the Terms and Conditions (as a link on “Terms and Conditions”)*
 - *View Privacy Policy*
 - *See ABC Company’s Terms of Use (as a link)*
 
@@ -174,7 +174,7 @@ AutoPay and recurring billing require special care. Content must clearly state t
 
 ::: do
 
-- *AutoPay — Helper text: Payments will be automatically processed on your due date each month. You can turn off AutoPay anytime in Settings.*
+- *AutoPay — Helper text: Payments will be automatically processed on your due date each month. You can turn off AutoPay at any time in Settings.*
 
 :::
 

@@ -1,6 +1,7 @@
 ---
 title: "Empty States"
 blurb: "Onboarding, no-results, and system-limited states."
+topics: ["Errors & Messaging"]
 ---
 
 An empty state appears when a page, table, or section has no data to display. Empty states guide users when content is missing, unavailable, or not yet created. Across KUBRA products, empty states should be clear, instructive, and actionable. They should reduce uncertainty and help users understand what to do next.
@@ -103,7 +104,7 @@ Use when user action is expected.
 ## CTAs in empty states
 
 - Use clear, action-driven verbs
-- Keep CTAs short (1–2 words)
+- Keep CTAs short: 1 to 2 words, 3 at most when needed for clarity (see [Buttons and CTAs](#buttons-and-ctas/keep-button-text-concise))
 - Avoid vague CTAs like "OK" or "Learn more" unless contextually appropriate
 
 ::: do

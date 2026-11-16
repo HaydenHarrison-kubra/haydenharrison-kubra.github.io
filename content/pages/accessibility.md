@@ -79,7 +79,7 @@ WCAG 2.2 added new success criteria for accessible authentication and redundant 
 
 ### Buttons and links
 
-Use action + object ("Pay bill", "Save payment method"). Avoid "Click here" — it is contextless when read out of context. Link text should describe the destination ("Read the brand guidelines"), not an action cue.
+Use action + object ("Pay bill", "Save payment method"). Avoid "Click here" — it is contextless when read out of context. Link text should describe the destination ("Read brand guidelines"), not an action cue.
 
 ### Dialogs and confirmation
 

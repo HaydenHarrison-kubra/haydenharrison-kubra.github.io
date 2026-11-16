@@ -1,7 +1,7 @@
 {
  "schema": 1,
- "version": "cc4aa6a3",
- "updated": "2026-10-22",
+ "version": "3f28efda",
+ "updated": "2026-10-27",
  "siteUrl": "https://haydenharrison-kubra.github.io/",
  "requires": {
   "runners": [
@@ -1108,7 +1108,7 @@
    "id": "instruction-filler",
    "severity": "suggestion",
    "pattern": {
-    "source": "\\b(?:let['’]s get started|just follow these steps|please go ahead and)\\b|^\\s*please (?:enter|select|choose|provide)\\b",
+    "source": "\\b(?:let['’]s get started|just follow these steps|please go ahead and)\\b",
     "flags": "gi"
    },
    "message": "Cut conversational filler",
@@ -2364,6 +2364,63 @@
   },
   {
    "category": "style",
+   "id": "glossary-ez-pay-plus-case",
+   "type": "term",
+   "terms": [
+    "EZ-PAY+"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "EZ-PAY+",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “EZ-PAY+” exactly",
+   "detail": "Product name. Keep the hyphen, the capitals, and the plus sign, including mid-sentence.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/ez-pay-plus",
+    "label": "Glossary › EZ-PAY+"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-myhq-plus-case",
+   "type": "term",
+   "terms": [
+    "MyHQ+"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "MyHQ+",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “MyHQ+” exactly",
+   "detail": "Product name. Capital M, H, and Q, with the plus sign, including mid-sentence.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/myhq-plus",
+    "label": "Glossary › MyHQ+"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-bizhq-plus-case",
+   "type": "term",
+   "terms": [
+    "BizHQ+"
+   ],
+   "caseSensitive": false,
+   "skipExact": true,
+   "fix": "BizHQ+",
+   "safeFix": true,
+   "severity": "error",
+   "message": "Write “BizHQ+” exactly",
+   "detail": "Product name. Capital B, H, and Q, with the plus sign, including mid-sentence.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/bizhq-plus",
+    "label": "Glossary › BizHQ+"
+   }
+  },
+  {
+   "category": "style",
    "id": "glossary-terms-of-use",
    "type": "term",
    "terms": [
@@ -2791,6 +2848,38 @@
     "url": "https://haydenharrison-kubra.github.io/#glossary/autopay",
     "label": "Glossary › AutoPay"
    }
+  },
+  {
+   "category": "style",
+   "id": "glossary-cancelled",
+   "type": "term",
+   "terms": [
+    "canceled"
+   ],
+   "caseSensitive": false,
+   "severity": "suggestion",
+   "message": "Use “cancelled” instead",
+   "detail": "KUBRA uses the Canadian spelling, with a double l. The same goes for cancelling.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/cancelled",
+    "label": "Glossary › cancelled"
+   }
+  },
+  {
+   "category": "style",
+   "id": "glossary-cancelling",
+   "type": "term",
+   "terms": [
+    "canceling"
+   ],
+   "caseSensitive": false,
+   "severity": "suggestion",
+   "message": "Use “cancelling” instead",
+   "detail": "KUBRA uses the Canadian spelling, with a double l. The same goes for cancelled.",
+   "guide": {
+    "url": "https://haydenharrison-kubra.github.io/#glossary/cancelling",
+    "label": "Glossary › cancelling"
+   }
   }
  ],
  "data": {
@@ -2926,6 +3015,7 @@
    "IncidentWatch",
    "Image Library",
    "Payable Types",
+   "EZ-PAY+",
    "Terms of Use",
    "Terms and Conditions",
    "Privacy Policy",

@@ -34,8 +34,8 @@ Use this when you're unsure what to write:
 
 **Step 2 — Check existing patterns**
 
-- Canonical Copy Library
-- Terminology Registry
+- [Standard Copy](#standard-copy)
+- [Glossary](#glossary)
 - Similar UI components
 
 *If a pattern exists → reuse it.*

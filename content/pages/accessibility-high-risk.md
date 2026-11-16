@@ -118,7 +118,7 @@ A flow is considered high-risk when it involves money movement or authorization,
 
 **Refund confirmation:** "Your refund has been initiated." "Funds typically appear in your account within 3 to 5 business days."
 
-**Cancellation:** "This payment has been canceled and will not be processed."
+**Cancellation:** "This payment has been cancelled and will not be processed."
 
 ::: dont
 

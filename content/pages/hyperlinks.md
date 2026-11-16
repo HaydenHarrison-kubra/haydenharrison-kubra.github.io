@@ -20,7 +20,7 @@ Hyperlinks connect users to relevant internal or external resources.
 
 ::: do
 
-- *Read the brand guidelines for details*
+- *Read the brand guidelines for details (as a link on “brand guidelines”)*
 - *View payment history*
 
 :::
@@ -34,7 +34,7 @@ Hyperlinks connect users to relevant internal or external resources.
 
 ## Articles and formatting
 
-- Do not include preceding articles (a, an, the, our) in link text
+- Do not include preceding articles (a, an, the, our) in link text, unless the article is part of the name you're linking to
 - Do not include punctuation unless it is part of the official title
 
 ::: do
@@ -86,15 +86,15 @@ Hyperlinks connect users to relevant internal or external resources.
 
 ## When in doubt
 
-Prioritize clarity, scannability, and consistency across all structured content.
+Link the fewest words that tell users where they're going.
 
 ::: details More detail
 
-If you're unsure how to structure content:
+If you're unsure what to link:
 
-1. Start with a clear title
-1. Break content into logical sections using headings
-1. Use tables only when structure improves clarity
-1. Link meaningful, descriptive text
+1. Write the sentence first, without the link
+1. Link the words that name the destination or action
+1. Check that the link text makes sense on its own
+1. Make sure no other link on the page uses the same text for a different destination
 
 :::

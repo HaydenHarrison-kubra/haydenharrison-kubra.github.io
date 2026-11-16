@@ -444,7 +444,7 @@ export default [
   },
   {
     id: "instruction-filler", severity: "suggestion",
-    pattern: /\b(?:let['’]s get started|just follow these steps|please go ahead and)\b|^\s*please (?:enter|select|choose|provide)\b/gi,
+    pattern: /\b(?:let['’]s get started|just follow these steps|please go ahead and)\b/gi,
     message: "Cut conversational filler",
     guide: ["instructional-text", "Voice and Tone"]
   },
