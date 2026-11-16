@@ -4,7 +4,7 @@ blurb: "Brief, optional clarification — never required instruction."
 topics: ["Errors & Messaging"]
 ---
 
-A tooltip is a small, contextual overlay that provides additional information when a user hovers over or taps an element. Tooltips are used to clarify specific UI elements, not to deliver critical instructions or system messages. Tooltips should be brief, precise, and optional. Users must be able to complete tasks without relying on tooltips.
+A tooltip is a small, contextual overlay that provides additional information when a user hovers over, taps, or moves keyboard focus to an element. Tooltips are used to clarify specific UI elements, not to deliver critical instructions or system messages. Tooltips should be brief, precise, and optional. Users must be able to complete tasks without relying on tooltips. A tooltip must open on keyboard focus as well as hover, stay visible while the pointer is over it, and close when the user presses Esc.
 
 ## Purpose of a tooltip
 

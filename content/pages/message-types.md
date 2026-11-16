@@ -115,7 +115,7 @@ Success messages should be neutral, professional, calm, and factual. Avoid enthu
 
 ### Voice
 
-- Use active voice
+- Name what changed, then a past-tense verb (Settings saved)
 - Be specific about what changed
 - Avoid unnecessary auxiliary verbs when clarity is preserved
 
@@ -388,7 +388,7 @@ Avoid showing errors before the user interacts with the field, or while the user
 **Card information:**
 
 - *"Enter a valid card number"*
-- *"Expiration date is invalid"*
+- *"Enter the expiration date as MM/YY"*
 
 **Routing number:**
 

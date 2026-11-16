@@ -6,7 +6,9 @@ topics: ["Accessibility", "Payments"]
 
 ## Sensitive data (do not expose)
 
-The following information must never be fully displayed or requested in plain text: full card number (PAN), CVV/security code, full bank account numbers, full routing numbers (outside secure input fields), full Social Security numbers.
+The following information must never be fully displayed or requested in plain text: full card number (PAN), full bank account numbers, full Social Security numbers. Never display the CVV or security code at all, not even masked, and never store it after the payment is authorized.
+
+PCI DSS covers card data. Bank account numbers and Social Security numbers aren't card data, but mask them the same way. Routing numbers identify a bank, not a customer, so they can be shown in full.
 
 ::: do
 
@@ -46,7 +48,7 @@ Sensitive information must only be collected through secure, masked input fields
 ::: do
 
 - *Label: Card number*
-- *Placeholder: \*\*\*\* \*\*\*\* \*\*\*\* 1234 (or blank, depending on system)*
+- *Placeholder: none, so the empty field can't be mistaken for a saved card*
 
 :::
 
