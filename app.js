@@ -64,7 +64,9 @@
     query: "",
     pendingHighlight: null,
     exampleCount: 0,
-    glossKinds: []
+    glossKinds: [],
+    missingSlug: null,
+    hasRendered: false
   };
   var META = [];
   // Loaded from content/*.json and the generated changelog.json (see loadContent).
@@ -88,7 +90,7 @@
   }
 
   function slugify(s) {
-    return s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return s.toLowerCase().replace(/&/g, " and ").replace(/([a-z0-9])\+/g, "$1 plus ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
   function formatDate(iso) {
@@ -945,9 +947,11 @@
     else if (sec) renderSectionLanding(sec);
     else if (page && parent) renderLeafPage(page, parent);
     else renderOverview();
+    if (state.missingSlug && slug === "overview") renderNotFound();
 
     state.renderedSlug = slug;
     var title = page ? page.title : sec ? sec.name : EXTRA_ROUTES[slug] ? EXTRA_ROUTES[slug].title : null;
+    if (state.missingSlug && slug === "overview") title = "Page not found";
     document.title = (title ? title + " · " : "") + "KUBRA Content Style Guide";
     window.scrollTo(0, 0);
 
@@ -958,13 +962,27 @@
     }
   }
 
+  // A link to a page that doesn't exist shows the home page with a notice, instead of silently.
+  function renderNotFound() {
+    els.content.insertAdjacentHTML("afterbegin",
+      '<div class="content not-found"><div data-type="panel-note" role="alert"><p><strong>We couldn’t find that page.</strong> ' +
+      "The link may be out of date. Search the guide or browse the sections on this page.</p></div></div>");
+  }
+
+  // Move focus to the page heading so screen reader and keyboard users start at the new content.
+  function focusHeading() {
+    var h = $("h1", els.content) || els.content;
+    h.setAttribute("tabindex", "-1");
+    h.focus({ preventScroll: true });
+  }
+
   // ---------- Routing ----------
   function parseHash() {
     var raw = window.location.hash.replace(/^#/, "");
     var i = raw.indexOf("/");
     var slug = (i === -1 ? raw : raw.slice(0, i)) || "overview";
     var anchor = i === -1 ? "" : decodeURIComponent(raw.slice(i + 1));
-    if (!isRoute(slug)) return { slug: "overview", anchor: "" };
+    if (!isRoute(slug)) return { slug: "overview", anchor: "", missing: slug };
     return { slug: slug, anchor: anchor };
   }
 
@@ -979,10 +997,16 @@
   function onHashChange() {
     var r = parseHash();
     if (state.query) resetSearch();
+    var missing = r.missing || null;
+    if (missing !== state.missingSlug) state.forceRender = true;
+    state.missingSlug = missing;
     if (r.slug !== state.renderedSlug || state.forceRender) {
       state.forceRender = false;
       state.activeSlug = r.slug;
       renderActivePage();
+      // Not on first load, so the page doesn't steal focus from the browser's address bar.
+      if (state.hasRendered && !r.anchor && document.activeElement !== els.searchInput) focusHeading();
+      state.hasRendered = true;
     } else if (!r.anchor) {
       window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     }
@@ -1171,6 +1195,10 @@
     els.menuBtn.addEventListener("click", function () { setSidebar(!els.sidebar.classList.contains("open")); });
     els.backdrop.addEventListener("click", closeMobileSidebar);
     document.addEventListener("click", onDocClick);
+    $("#skipLink").addEventListener("click", function (e) {
+      e.preventDefault(); // keep the current page in the URL
+      focusHeading();
+    });
 
     var debounce;
     els.searchInput.addEventListener("input", function () {
